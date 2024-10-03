@@ -1,5 +1,4 @@
 import { CheckboxInput } from '@/components/checkbox/checkbox'
-import FormStepWrapper from '@/components/forms/form-step-wrapper'
 import { RadioGroupInput } from '@/components/radio-group/radio-group'
 import { SelectInput } from '@/components/select/select'
 import { Button } from '@/components/ui/button'
@@ -38,7 +37,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="mt-4 max-w-[350px] space-y-4">
+      <div className="mt-4 grid max-w-[350px] grid-cols-1 gap-4">
         <CheckboxInput
           id="agree"
           text={`С Перечнем вознаграждений ООО «А-Лизинг» за оказание услуг ознакомлен *`}
@@ -58,13 +57,6 @@ export default function Home() {
             },
           ]}
         />
-
-        <div className="grid grid-cols-4 gap-1">
-          <FormStepWrapper variant={'completed'} text="Данные ЮЛ" />
-          <FormStepWrapper variant={'completed'} text="Адрес" />
-          <FormStepWrapper variant={'progress'} text="Сведения о ЮЛ" />
-          <FormStepWrapper text="Документы" />
-        </div>
       </div>
     </main>
   )
