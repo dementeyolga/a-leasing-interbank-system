@@ -6,15 +6,19 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { initialDataIndividualEntrepreneur } from '@/data/initial-client-data'
-import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
+import {
+  individualEntrepreneurFormSchema,
+  type IndividuaEntrepreneurFormSchema as FormSchema,
+} from '@/lib/schemas'
 import { useFormContext } from 'react-hook-form'
+import { z } from 'zod'
 
 interface FormFieldWrapperProps {
   name: keyof FormSchema
   label: string
   type?: string
   placeholder?: string
+  disabled?: boolean
 }
 
 export default function FormInputWrapper({
@@ -22,6 +26,7 @@ export default function FormInputWrapper({
   label,
   type = 'text',
   placeholder,
+  disabled,
 }: FormFieldWrapperProps) {
   const { control } = useFormContext<FormSchema>()
 
@@ -31,10 +36,19 @@ export default function FormInputWrapper({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel
+            required={
+              !(
+                individualEntrepreneurFormSchema.shape[name] instanceof
+                z.ZodOptional
+              )
+            }
+          >
+            {label}
+          </FormLabel>
           <FormControl>
             <Input
-              disabled={initialDataIndividualEntrepreneur[name] !== ''}
+              disabled={disabled}
               type={type}
               placeholder={placeholder}
               {...field}

@@ -7,11 +7,21 @@ export type RadioGroupItems = { id: string; value: string; text: string }[]
 interface RadioGroupProps
   extends React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root> {
   items: RadioGroupItems
+  onValueChange?: (value: string) => void
 }
 
-export function RadioGroupInput({ items, disabled }: RadioGroupProps) {
+export function RadioGroupInput({
+  items,
+  disabled,
+  defaultValue,
+  onValueChange,
+}: RadioGroupProps) {
   return (
-    <RadioGroup defaultValue={items[0].value} className="flex gap-x-7">
+    <RadioGroup
+      onValueChange={onValueChange}
+      defaultValue={defaultValue}
+      className="flex gap-x-7"
+    >
       {items.map(({ value, id, text }) => (
         <div key={id} className="flex items-center space-x-2">
           <RadioGroupItem

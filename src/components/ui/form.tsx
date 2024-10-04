@@ -80,23 +80,29 @@ const FormItem = React.forwardRef<
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn('space-y-0', className)} {...props} />
+      <div ref={ref} className={cn('space-y-[6px]', className)} {...props} />
     </FormItemContext.Provider>
   )
 })
 FormItem.displayName = 'FormItem'
 
+interface CustomFormLabelProps
+  extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> {
+  required?: boolean
+}
+
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
-  const { error, formItemId } = useFormField()
+  CustomFormLabelProps
+>(({ className, required, ...props }, ref) => {
+  const { formItemId } = useFormField()
 
   return (
     <Label
       ref={ref}
-      className={cn(error && 'text-destructive', className)}
+      className={cn(className, 'font-medium')}
       htmlFor={formItemId}
+      required={required}
       {...props}
     />
   )
@@ -119,6 +125,7 @@ const FormControl = React.forwardRef<
           : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
+      className={cn(error && 'border-destructive')}
       {...props}
     />
   )
@@ -157,7 +164,7 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn('text-sm font-medium text-destructive', className)}
+      className={cn('text-sm text-destructive', className)}
       {...props}
     >
       {body}
