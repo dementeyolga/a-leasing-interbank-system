@@ -2,7 +2,7 @@ import FourStepForm from '@/components/forms/individual-enterpreneur-form/four-s
 
 export default function LegalEntityFormPage() {
   return (
-    <div className="px-5 py-10">
+    <div className="mx-auto max-w-[450px] px-5 py-10">
       <FourStepForm />
     </div>
   )
