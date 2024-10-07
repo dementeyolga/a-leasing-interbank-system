@@ -40,6 +40,7 @@ export const individualEntrepreneurFormSchema = z.object({
     .optional(),
   isResidentOfBelarus: z.string({ required_error: requiredMessage }).optional(),
   isTaxResidentOfUSA: z.string({ required_error: requiredMessage }).optional(),
+
   // Address information
   // Registration address
   registrationCountry: z.string({ required_error: requiredMessage }).optional(),
@@ -109,8 +110,54 @@ export const individualEntrepreneurFormSchema = z.object({
   ieCCEACode: z
     .string({ required_error: requiredMessage })
     .min(1, { message: requiredMessage }),
-  ieOtherActivity: z.string().min(1, { message: requiredMessage }).optional(),
+  ieOtherActivity: z.string().optional(),
   isPublicOfficial: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+
+  // Administrative and financial information
+  servicingBank: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  hasNetLossLast3Month: z.string().optional(),
+  hasRecordedCriminalProsecutions: z.string().optional(),
+  isParticipateInTrial: z.string().optional(),
+  isFinancialSanctionsAppliedLastYear: z.string().optional(),
+  isParticipateInBankruptEntities: z.string().optional(),
+  revenueLast12Month1: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month2: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month3: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month4: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month5: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month6: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month7: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month8: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month9: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month10: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month11: z
+    .string({ required_error: requiredMessage })
+    .min(1, { message: requiredMessage }),
+  revenueLast12Month12: z
     .string({ required_error: requiredMessage })
     .min(1, { message: requiredMessage }),
 })

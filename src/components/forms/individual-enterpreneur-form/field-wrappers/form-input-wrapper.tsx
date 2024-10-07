@@ -46,15 +46,17 @@ export default function FormInputWrapper({
           >
             {label}
           </FormLabel>
-          <FormControl>
-            <Input
-              disabled={disabled}
-              type={type}
-              placeholder={placeholder}
-              {...field}
-            />
-          </FormControl>
-          <FormMessage />
+          <div>
+            <FormControl>
+              <Input
+                disabled={disabled}
+                type={type}
+                placeholder={placeholder}
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </div>
         </FormItem>
       )}
     />

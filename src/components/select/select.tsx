@@ -15,15 +15,26 @@ import { ScrollArea } from '../ui/scroll-area'
 interface SelectInputProps {
   placeholder: string
   values: string[]
+  defaultValue?: string
+  onValueChange?: (value: string) => void
 }
 
 const chevronCn = 'h-7 w-7 text-foreground/30 shrink-0'
 
-export function SelectInput({ placeholder, values }: SelectInputProps) {
+export function SelectInput({
+  placeholder,
+  values,
+  defaultValue,
+  onValueChange,
+}: SelectInputProps) {
   const [open, setOpen] = useState(false)
 
   return (
-    <Select onOpenChange={setOpen}>
+    <Select
+      onOpenChange={setOpen}
+      onValueChange={onValueChange}
+      defaultValue={defaultValue}
+    >
       <SelectTrigger className={cn(open && 'border-blue')}>
         <SelectValue placeholder={placeholder} />
 

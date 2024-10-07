@@ -22,3 +22,22 @@ export function defineFormStepVariant(
     return 'unfilled'
   }
 }
+
+export function generateYesNoRadioItems(): {
+  id: string
+  value: string
+  text: string
+}[] {
+  return [
+    {
+      id: crypto.randomUUID(),
+      value: 'да',
+      text: 'да',
+    },
+    {
+      id: crypto.randomUUID(),
+      value: 'нет',
+      text: 'нет',
+    },
+  ]
+}

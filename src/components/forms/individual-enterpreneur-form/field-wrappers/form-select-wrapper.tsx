@@ -1,7 +1,4 @@
-import {
-  RadioGroupInput,
-  RadioGroupItems,
-} from '@/components/radio-group/radio-group'
+import { SelectInput } from '@/components/select/select'
 import {
   FormControl,
   FormField,
@@ -9,7 +6,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-
 import {
   individualEntrepreneurFormSchema,
   type IndividuaEntrepreneurFormSchema as FormSchema,
@@ -17,21 +13,21 @@ import {
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 
-interface FormFieldWrapperProps {
+interface FormSelectWrapperProps {
   name: keyof FormSchema
   label: string
-  items: RadioGroupItems
+  placeholder: string
+  values: string[]
   disabled?: boolean
-  extraOnChange?: (value: string) => void
 }
 
-export default function FormRadioWrapper({
+export default function FormSelectWrapper({
   name,
   label,
-  items,
+  placeholder,
+  values,
   disabled,
-  extraOnChange,
-}: FormFieldWrapperProps) {
+}: FormSelectWrapperProps) {
   const { control } = useFormContext<FormSchema>()
 
   return (
@@ -50,20 +46,19 @@ export default function FormRadioWrapper({
           >
             {label}
           </FormLabel>
-          <FormControl>
-            <RadioGroupInput
-              onValueChange={(value) => {
-                field.onChange(value)
-                if (extraOnChange) extraOnChange(value)
-                console.log('value has changed')
-              }}
-              defaultValue={field.value}
-              items={items}
-              disabled={disabled}
-              className="flex flex-col space-y-1"
-            ></RadioGroupInput>
-          </FormControl>
-          <FormMessage />
+          <div>
+            <FormControl>
+              <SelectInput
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={disabled}
+                placeholder={placeholder}
+                values={values}
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </div>
         </FormItem>
       )}
     />

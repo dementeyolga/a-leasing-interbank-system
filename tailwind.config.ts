@@ -88,6 +88,9 @@ const config: Config = {
           },
         ],
       },
+      backgroundImage: {
+        'dialog-triangle': 'url("/dialog-triangle-icon.svg")',
+      },
     },
   },
   plugins: [tailwindAnimate],

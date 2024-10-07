@@ -9,15 +9,16 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MoveLeft } from 'lucide-react'
 import Link from 'next/link'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FieldName, FormProvider, useForm } from 'react-hook-form'
 import { Button } from '../../ui/button'
-import FormFieldsWrapper from '../form-fields-wrapper'
 import FormHeading from '../form-heading'
 import FormSteps from '../form-steps'
 import FormWrapper from '../form-wrapper'
-import FormInputWrapper from './form-input-wrapper'
-import FormRadioWrapper from './form-radio-wrapper'
+import Step1 from './steps/step-1'
+import Step2 from './steps/step-2'
+import Step3 from './steps/step-3'
+import Step4 from './steps/step-4'
 
 const steps = [
   {
@@ -87,7 +88,26 @@ const steps = [
         'ieOtherActivity',
         'isPublicOfficial',
       ],
-      [''],
+      [
+        'servicingBank',
+        'hasNetLossLast3Month',
+        'hasRecordedCriminalProsecutions',
+        'isParticipateInTrial',
+        'isFinancialSanctionsAppliedLastYear',
+        'isParticipateInBankruptEntities',
+        'revenueLast12Month1',
+        'revenueLast12Month2',
+        'revenueLast12Month3',
+        'revenueLast12Month4',
+        'revenueLast12Month5',
+        'revenueLast12Month6',
+        'revenueLast12Month7',
+        'revenueLast12Month8',
+        'revenueLast12Month9',
+        'revenueLast12Month10',
+        'revenueLast12Month11',
+        'revenueLast12Month12',
+      ],
     ],
     getSubstepsQuantity() {
       return this.fields.length
@@ -105,6 +125,7 @@ const steps = [
 const stepNames = steps.map((step) => step.name)
 
 export default function FourStepForm() {
+  // Init react-hook-forms helpers
   const form = useForm<FormSchema>({
     resolver: zodResolver(individualEntrepreneurFormSchema),
     // TODO: Can fetch async default data:  defaultValues: async () => fetch('/api-endpoint');
@@ -125,6 +146,7 @@ export default function FourStepForm() {
     console.log('Form has errors')
   }
 
+  // Handle setting residence address values same as registration address
   const [sameAddress, setSameAddress] = useState(
     initialDataIndividualEntrepreneur.isResidenceAddressMatchRegistration,
   )
@@ -180,8 +202,9 @@ export default function FourStepForm() {
     }
   }
 
-  const [currentStep, setCurrentStep] = useState(0)
-  const [currentSubStep, setCurrentSubStep] = useState(0)
+  // Handle form steps change
+  const [currentStep, setCurrentStep] = useState(2)
+  const [currentSubStep, setCurrentSubStep] = useState(1)
   const [formSuccess, setFormSuccess] = useState(false)
 
   const isValidFormStep = async (): Promise<boolean> => {
@@ -240,346 +263,22 @@ export default function FourStepForm() {
               className="space-y-8"
             >
               {/* Step 1 - Personal data*/}
-              {currentStep === 0 && (
-                <div className="flex flex-col gap-y-[22px]">
-                  <FormHeading>
-                    Личные данные и документ, удостоверяющий личность
-                  </FormHeading>
-                  <fieldset className="flex flex-col gap-y-3">
-                    <FormInputWrapper name="surname" label="Фамилия" disabled />
-                    <FormInputWrapper name="name" label="Имя" disabled />
-                    <FormInputWrapper
-                      name="patronymic"
-                      label="Отчество"
-                      disabled
-                    />
-                    <FormInputWrapper
-                      name="formerSurname"
-                      label="Предыдущая фамилия, если менялась"
-                      disabled
-                    />
-                    <FormInputWrapper
-                      name="birthDate"
-                      label="Дата рождения"
-                      disabled
-                    />
-                    <FormInputWrapper
-                      name="phone"
-                      label="Мобильный телефон"
-                      disabled
-                    />
-                    <FormInputWrapper type="email" name="email" label="Email" />
-
-                    <FormRadioWrapper
-                      name="sex"
-                      label="Пол"
-                      items={[
-                        {
-                          id: crypto.randomUUID(),
-                          value: 'мужской',
-                          text: 'мужской',
-                        },
-                        {
-                          id: crypto.randomUUID(),
-                          value: 'женский',
-                          text: 'женский',
-                        },
-                      ]}
-                      disabled
-                    />
-
-                    <FormInputWrapper
-                      name="identityDocumentType"
-                      label="Тип документа"
-                    />
-                    <FormInputWrapper
-                      name="identityDocumentNumber"
-                      label="Серия и номер документа"
-                      disabled
-                    />
-                    <FormInputWrapper
-                      name="identificationNumber"
-                      label="Идентификационный номер"
-                      disabled
-                    />
-                    <FormInputWrapper
-                      name="identityDocumentIssueDate"
-                      label="Дата выдачи"
-                      disabled
-                    />
-                    <FormInputWrapper
-                      name="identityDocumentValidThrough"
-                      label="Срок действия"
-                      disabled
-                    />
-                    <FormInputWrapper
-                      name="identityDocumentIssuingAuthority"
-                      label="Орган, выдавший документ"
-                      disabled
-                    />
-
-                    <FormRadioWrapper
-                      name="isResidentOfBelarus"
-                      label="Вы резидент Республики Беларусь?"
-                      disabled
-                      items={[
-                        {
-                          id: crypto.randomUUID(),
-                          value: 'да',
-                          text: 'Да',
-                        },
-                        {
-                          id: crypto.randomUUID(),
-                          value: 'нет',
-                          text: 'Нет',
-                        },
-                      ]}
-                    />
-                    <FormRadioWrapper
-                      name="isTaxResidentOfUSA"
-                      label="Вы налоговый резидент США?"
-                      disabled
-                      items={[
-                        {
-                          id: crypto.randomUUID(),
-                          value: 'да',
-                          text: 'Да',
-                        },
-                        {
-                          id: crypto.randomUUID(),
-                          value: 'нет',
-                          text: 'Нет',
-                        },
-                      ]}
-                    />
-                  </fieldset>
-                </div>
-              )}
+              {currentStep === 0 && <Step1 />}
 
               {/* Step 2 - Address*/}
               {currentStep === 1 && (
-                <Fragment>
-                  {/* Substep 1 - Registration address */}
-                  {currentSubStep === 0 && (
-                    <FormWrapper>
-                      <FormHeading>
-                        Адрес регистрации (юридический адрес)
-                      </FormHeading>
-                      <FormFieldsWrapper>
-                        <FormInputWrapper
-                          name="registrationCountry"
-                          label="Страна"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="registrationSettlement"
-                          label="Населенный пункт"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="registrationStreetType"
-                          label="Тип улицы"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="registrationStreetName"
-                          label="Улица"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="registrationHouseNumber"
-                          label="Дом"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="registrationBuildingNumber"
-                          label="Строение/корпус (необязательно)"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="registrationApartmentNumber"
-                          label="Квартира (необязательно)"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="registrationPostalCode"
-                          label="Индекс"
-                          disabled
-                        />
-                      </FormFieldsWrapper>
-                    </FormWrapper>
-                  )}
-
-                  {/* Substep 2 - Residential address */}
-                  {currentSubStep === 1 && (
-                    <div className="flex flex-col gap-y-[22px]">
-                      <FormWrapper>
-                        <FormHeading>Адрес проживания</FormHeading>
-                        <FormFieldsWrapper>
-                          <FormRadioWrapper
-                            name="isResidenceAddressMatchRegistration"
-                            label="Адрес проживания совпадает с адресом регистрации?"
-                            items={[
-                              {
-                                id: crypto.randomUUID(),
-                                value: 'да',
-                                text: 'да',
-                              },
-                              {
-                                id: crypto.randomUUID(),
-                                value: 'нет',
-                                text: 'нет',
-                              },
-                            ]}
-                            extraOnChange={handleSameAddressChange}
-                          />
-
-                          <FormInputWrapper
-                            name="residenceCountry"
-                            label="Страна"
-                            disabled={sameAddress === 'да'}
-                          />
-                          <FormInputWrapper
-                            name="residenceSettlement"
-                            label="Населенный пункт"
-                            disabled={sameAddress === 'да'}
-                          />
-                          <FormInputWrapper
-                            name="residenceStreetType"
-                            label="Тип улицы"
-                            disabled={sameAddress === 'да'}
-                          />
-                          <FormInputWrapper
-                            name="residenceStreetName"
-                            label="Улица"
-                            disabled={sameAddress === 'да'}
-                          />
-                          <FormInputWrapper
-                            name="residenceHouseNumber"
-                            label="Дом"
-                            disabled={sameAddress === 'да'}
-                          />
-                          <FormInputWrapper
-                            name="residenceBuildingNumber"
-                            label="Строение/корпус (необязательно)"
-                            disabled={sameAddress === 'да'}
-                          />
-                          <FormInputWrapper
-                            name="residenceApartmentNumber"
-                            label="Квартира (необязательно)"
-                            disabled={sameAddress === 'да'}
-                          />
-                          <FormInputWrapper
-                            name="residencePostalCode"
-                            label="Индекс"
-                            disabled={sameAddress === 'да'}
-                          />
-                        </FormFieldsWrapper>
-                      </FormWrapper>
-                    </div>
-                  )}
-                </Fragment>
+                <Step2
+                  currentSubStep={currentSubStep}
+                  handleSameAddressChange={handleSameAddressChange}
+                  sameAddress={sameAddress}
+                />
               )}
 
               {/* Step 3 - Information about the sole proprietor */}
-              {currentStep === 2 && (
-                <Fragment>
-                  {/* Substep 1 - Information about the activities */}
-                  {currentSubStep === 0 && (
-                    <FormWrapper>
-                      <FormHeading>Сведения о деятельности ИП</FormHeading>
-                      <FormFieldsWrapper>
-                        <FormInputWrapper
-                          name="payerAccountingNumber"
-                          label="УНП"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="ieRegistrationNumber"
-                          label="Регистрационный номер"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="ieRegistrationDate"
-                          label="Дата регистрации"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="ieRegistrationAuthority"
-                          label="Наименование регистрирующего органа"
-                          disabled
-                        />
-                        <FormInputWrapper
-                          name="ieCoreActivity"
-                          label="Основной вид деятельности"
-                        />
-                        <FormInputWrapper name="ieCCEACode" label="Код ОКЭД" />
-                        <FormInputWrapper
-                          name="ieOtherActivity"
-                          label="Другие фактически осуществляемые виды деятельности"
-                        />
-                        <FormRadioWrapper
-                          name="isPublicOfficial"
-                          label="Являетесь ли публичным должностным лицом?"
-                          items={[
-                            {
-                              id: crypto.randomUUID(),
-                              value: 'да',
-                              text: 'да',
-                            },
-                            {
-                              id: crypto.randomUUID(),
-                              value: 'нет',
-                              text: 'нет',
-                            },
-                          ]}
-                        />
-                      </FormFieldsWrapper>
-                    </FormWrapper>
-                  )}
-
-                  {/* Substep 2 - Administrative and financial information */}
-                  {currentSubStep === 1 && (
-                    <div className="flex flex-col gap-y-[22px]">
-                      <FormWrapper>
-                        <FormHeading>
-                          Административно-финансовая информация
-                        </FormHeading>
-                        <FormFieldsWrapper>
-                          <p>Substep 2</p>
-                        </FormFieldsWrapper>
-                      </FormWrapper>
-                    </div>
-                  )}
-                </Fragment>
-              )}
+              {currentStep === 2 && <Step3 currentSubStep={currentSubStep} />}
 
               {/* Step 4 - Documents */}
-              {currentStep === 3 && (
-                <Fragment>
-                  {/* Substep 1 - Signing documents */}
-                  {currentSubStep === 0 && (
-                    <FormWrapper>
-                      <FormHeading>Подписание документов</FormHeading>
-                      <FormFieldsWrapper>
-                        <p>Substep 1</p>
-                      </FormFieldsWrapper>
-                    </FormWrapper>
-                  )}
-
-                  {/* Substep 2 - Getting code */}
-                  {currentSubStep === 1 && (
-                    <div className="flex flex-col gap-y-[22px]">
-                      <FormWrapper>
-                        <FormHeading>Подписание документов</FormHeading>
-                        <FormFieldsWrapper>
-                          <p>Substep 2</p>
-                        </FormFieldsWrapper>
-                      </FormWrapper>
-                    </div>
-                  )}
-                </Fragment>
-              )}
+              {currentStep === 3 && <Step4 currentSubStep={currentSubStep} />}
             </form>
 
             {/* Navigation buttons */}
