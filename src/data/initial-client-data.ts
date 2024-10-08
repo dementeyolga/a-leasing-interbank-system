@@ -1,7 +1,13 @@
-import { IndividuaEntrepreneurFormSchema } from '@/lib/schemas'
+import {
+  IndividuaEntrepreneurFormSchema,
+  LegalEntityFormSchema,
+  NaturalPersonFormSchema,
+} from '@/lib/schemas'
 
-export const initialDataNaturalPerson = {}
-export const initialDataLegalEntity = {}
+export const initialDataNaturalPerson: NaturalPersonFormSchema = {}
+
+export const initialDataLegalEntity: LegalEntityFormSchema = {}
+
 export const initialDataIndividualEntrepreneur: IndividuaEntrepreneurFormSchema =
   {
     // Personal data
