@@ -1,36 +1,31 @@
+import { CheckboxInput } from '@/components/checkbox/checkbox'
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
 import { useFormContext } from 'react-hook-form'
-import FormLabelWrapper from './form-label-wrapper'
 
-interface FormFieldWrapperProps {
-  name: keyof Omit<
+interface FormCheckboxWrapperProps {
+  name: keyof Pick<
     FormSchema,
     | 'consentApplicationFormForLeasing'
     | 'consentCreditReport'
     | 'consentAdvertisingAndNewsletter'
   >
   label: string
-  type?: string
-  placeholder?: string
   disabled?: boolean
-  tooltip?: string
+  extraOnChange?: (checked: boolean) => void
 }
 
-export default function FormInputWrapper({
+export default function FormCheckboxWrapper({
   name,
   label,
-  type = 'text',
-  placeholder,
   disabled,
-  tooltip,
-}: FormFieldWrapperProps) {
+  extraOnChange,
+}: FormCheckboxWrapperProps) {
   const { control } = useFormContext<FormSchema>()
 
   return (
@@ -39,13 +34,17 @@ export default function FormInputWrapper({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabelWrapper name={name} label={label} tooltip={tooltip} />
-          <div>
+          <div className="rounded-md bg-popover px-6 py-7">
             <FormControl>
-              <Input
+              <CheckboxInput
+                id={crypto.randomUUID()}
+                label={label}
                 disabled={disabled}
-                type={type}
-                placeholder={placeholder}
+                checked={field.value}
+                onCheckedChange={(value) => {
+                  field.onChange(value)
+                  if (extraOnChange) extraOnChange(value)
+                }}
                 {...field}
               />
             </FormControl>

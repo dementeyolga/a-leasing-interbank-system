@@ -1,7 +1,7 @@
 import PopoverWrapper from '@/components/popover/popover-wrapper'
 import { FormLabel } from '@/components/ui/form'
 import {
-  individualEntrepreneurFormSchema,
+  individuaEntrepreneurFormSchemaShape,
   type IndividuaEntrepreneurFormSchema as FormSchema,
 } from '@/lib/schemas'
 import { z } from 'zod'
@@ -20,7 +20,7 @@ export default function FormLabelWrapper({
   return (
     <FormLabel
       required={
-        !(individualEntrepreneurFormSchema.shape[name] instanceof z.ZodOptional)
+        !(individuaEntrepreneurFormSchemaShape[name] instanceof z.ZodOptional)
       }
     >
       {label}

@@ -9,7 +9,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MoveLeft } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FieldName, FormProvider, useForm } from 'react-hook-form'
 import { Button } from '../../ui/button'
 import FormHeading from '../form-heading'
@@ -92,9 +92,13 @@ const steps = [
         'servicingBank',
         'hasNetLossLast3Month',
         'hasRecordedCriminalProsecutions',
+        'hasRecordedCriminalProsecutionsReasons',
         'isParticipateInTrial',
+        'isParticipateInTrialReasons',
         'isFinancialSanctionsAppliedLastYear',
+        'isFinancialSanctionsAppliedLastYearReasons',
         'isParticipateInBankruptEntities',
+        'isParticipateInBankruptEntitiesReasons',
         'revenueLast12Month1',
         'revenueLast12Month2',
         'revenueLast12Month3',
@@ -115,7 +119,14 @@ const steps = [
   },
   {
     name: 'Документы',
-    fields: [[''], [''], ['']],
+    fields: [
+      [
+        'consentApplicationFormForLeasing',
+        'consentCreditReport',
+        'consentAdvertisingAndNewsletter',
+      ],
+      [''],
+    ],
     getSubstepsQuantity() {
       return this.fields.length
     },
@@ -135,7 +146,7 @@ export default function FourStepForm() {
     mode: 'onChange',
   })
 
-  const { trigger } = form
+  const { trigger, setValue, getValues } = form
 
   function onSubmit(values: FormSchema) {
     console.log('Submitted values:', JSON.stringify(values, null, 2))
@@ -146,65 +157,9 @@ export default function FourStepForm() {
     console.log('Form has errors')
   }
 
-  // Handle setting residence address values same as registration address
-  const [sameAddress, setSameAddress] = useState(
-    initialDataIndividualEntrepreneur.isResidenceAddressMatchRegistration,
-  )
-
-  const passRegistrationValuesToResidenceAddress = () => {
-    const registrationAddressValues = form.getValues([
-      'registrationCountry',
-      'registrationSettlement',
-      'registrationStreetType',
-      'registrationStreetName',
-      'registrationHouseNumber',
-      'registrationBuildingNumber',
-      'registrationApartmentNumber',
-      'registrationPostalCode',
-    ])
-
-    const residenceAddressFields: (
-      | 'residenceCountry'
-      | 'residenceSettlement'
-      | 'residenceStreetType'
-      | 'residenceStreetName'
-      | 'residenceHouseNumber'
-      | 'residenceBuildingNumber'
-      | 'residenceApartmentNumber'
-      | 'residencePostalCode'
-    )[] = [
-      'residenceCountry',
-      'residenceSettlement',
-      'residenceStreetType',
-      'residenceStreetName',
-      'residenceHouseNumber',
-      'residenceBuildingNumber',
-      'residenceApartmentNumber',
-      'residencePostalCode',
-    ]
-
-    residenceAddressFields.forEach((field, i) => {
-      form.setValue(field, registrationAddressValues[i], {
-        shouldValidate: true,
-      })
-    })
-  }
-
-  useEffect(() => {
-    if (sameAddress) passRegistrationValuesToResidenceAddress()
-  }, [])
-
-  const handleSameAddressChange = (value: string) => {
-    setSameAddress(value)
-
-    if (value === 'да') {
-      passRegistrationValuesToResidenceAddress()
-    }
-  }
-
   // Handle form steps change
-  const [currentStep, setCurrentStep] = useState(2)
-  const [currentSubStep, setCurrentSubStep] = useState(1)
+  const [currentStep, setCurrentStep] = useState(3)
+  const [currentSubStep, setCurrentSubStep] = useState(0)
   const [formSuccess, setFormSuccess] = useState(false)
 
   const isValidFormStep = async (): Promise<boolean> => {
@@ -269,16 +224,24 @@ export default function FourStepForm() {
               {currentStep === 1 && (
                 <Step2
                   currentSubStep={currentSubStep}
-                  handleSameAddressChange={handleSameAddressChange}
-                  sameAddress={sameAddress}
+                  setValue={setValue}
+                  getValues={getValues}
                 />
               )}
 
               {/* Step 3 - Information about the sole proprietor */}
-              {currentStep === 2 && <Step3 currentSubStep={currentSubStep} />}
+              {currentStep === 2 && (
+                <Step3 currentSubStep={currentSubStep} getValues={getValues} />
+              )}
 
               {/* Step 4 - Documents */}
-              {currentStep === 3 && <Step4 currentSubStep={currentSubStep} />}
+              {currentStep === 3 && (
+                <Step4
+                  currentSubStep={currentSubStep}
+                  getValues={getValues}
+                  setValue={setValue}
+                />
+              )}
             </form>
 
             {/* Navigation buttons */}

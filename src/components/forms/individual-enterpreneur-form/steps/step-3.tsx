@@ -1,6 +1,8 @@
 import { FormLabel } from '@/components/ui/form'
+import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
+import { UseFormGetValues } from 'react-hook-form'
 import FormFieldsWrapper from '../../form-fields-wrapper'
 import FormHeading from '../../form-heading'
 import FormWrapper from '../../form-wrapper'
@@ -10,9 +12,24 @@ import FormSelectWrapper from '../field-wrappers/form-select-wrapper'
 
 interface Step3Props {
   currentSubStep: number
+  getValues: UseFormGetValues<FormSchema>
 }
 
-export default function Step3({ currentSubStep }: Step3Props) {
+export default function Step3({ currentSubStep, getValues }: Step3Props) {
+  const [hasRecordedCriminalProsecutions, setHasRecordedCriminalProsecutions] =
+    useState<string>(() => getValues('hasRecordedCriminalProsecutions') || '')
+  const [isParticipateInTrial, setIsParticipateInTrial] = useState<string>(
+    () => getValues('isParticipateInTrial') || '',
+  )
+  const [
+    isFinancialSanctionsAppliedLastYear,
+    setIsFinancialSanctionsAppliedLastYear,
+  ] = useState<string>(
+    () => getValues('isFinancialSanctionsAppliedLastYear') || '',
+  )
+  const [isParticipateInBankruptEntities, setIsParticipateInBankruptEntities] =
+    useState<string>(() => getValues('isParticipateInBankruptEntities') || '')
+
   return (
     <Fragment>
       {/* Substep 1 - Information about the activities */}
@@ -53,6 +70,7 @@ export default function Step3({ currentSubStep }: Step3Props) {
               name="isPublicOfficial"
               label="Являетесь ли публичным должностным лицом?"
               items={generateYesNoRadioItems()}
+              tooltip="иностранные публичные должностные лица, должностные лица публичных международных организаций, лица, занимающие должности, включенные в определяемый Президентом РБ перечень государственных должностей Республики Беларусь, члены их семей и приближенные к ним лица"
             />
           </FormFieldsWrapper>
         </FormWrapper>
@@ -79,22 +97,70 @@ export default function Step3({ currentSubStep }: Step3Props) {
               name="hasRecordedCriminalProsecutions"
               label="Наличие случаев привлечения к уголовной ответсвенности"
               items={generateYesNoRadioItems()}
+              extraOnChange={(value) =>
+                setHasRecordedCriminalProsecutions(value)
+              }
             />
+            <>
+              {hasRecordedCriminalProsecutions === 'да' && (
+                <FormInputWrapper
+                  name="hasRecordedCriminalProsecutionsReasons"
+                  label="Укажите причины"
+                />
+              )}
+            </>
+
             <FormRadioWrapper
               name="isParticipateInTrial"
               label="Является ли ИП ответчиком, должником в хозяйственном, уголовном процессе, гражданском судопроизводстве либо лицом, в отношении которого ведется административный процесс?"
               items={generateYesNoRadioItems()}
+              extraOnChange={(value) => setIsParticipateInTrial(value)}
             />
+
+            <>
+              {isParticipateInTrial === 'да' && (
+                <FormInputWrapper
+                  name="isParticipateInTrialReasons"
+                  label="Укажите причины"
+                />
+              )}
+            </>
+
             <FormRadioWrapper
               name="isFinancialSanctionsAppliedLastYear"
               label="Применялись ли к ИП экономические (финансовые) санкции в течение календарного года?"
               items={generateYesNoRadioItems()}
+              extraOnChange={(value) =>
+                setIsFinancialSanctionsAppliedLastYear(value)
+              }
             />
+
+            <>
+              {isFinancialSanctionsAppliedLastYear === 'да' && (
+                <FormInputWrapper
+                  name="isFinancialSanctionsAppliedLastYearReasons"
+                  label="Укажите причины"
+                />
+              )}
+            </>
+
             <FormRadioWrapper
               name="isParticipateInBankruptEntities"
               label="Участие ИП в субъектах хозяйствования, находящихся в стадии ликвидации (банкротства)?"
               items={generateYesNoRadioItems()}
+              extraOnChange={(value) =>
+                setIsParticipateInBankruptEntities(value)
+              }
             />
+
+            <>
+              {isParticipateInBankruptEntities === 'да' && (
+                <FormInputWrapper
+                  name="isParticipateInBankruptEntitiesReasons"
+                  label="Укажите причины"
+                />
+              )}
+            </>
 
             <div>
               <FormLabel>Сведения о выручке за последние 12 месяцев:</FormLabel>

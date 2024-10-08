@@ -17,6 +17,7 @@ body {
     --background: 0 0% 100%;
     --foreground: 0 0% 20%;
     --blue: 206 100% 39%;
+    --white: 0 0% 100%;
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 20%;
@@ -40,6 +41,12 @@ body {
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
+    --success: 90 81% 94%;
+    --success-foreground: 93 27% 54%;
+
+    --warning: 55 86% 92%;
+    --warning-foreground: 45 58% 47%;
+
     --border: 0 0% 84%;
     --input: 0 0% 60%;
     --ring: 0 0% 80%;
@@ -53,6 +60,7 @@ body {
     --shadow: 2px 4px 12px 0 hsl(0 0% 0% / 0.14);
 
     --radius-lg: 6.25rem;
+    --radius-md: 1rem;
     --radius-sm: 0.75rem;
     --radius-xs: 0.1875rem;
     --radius-full: 9999px;

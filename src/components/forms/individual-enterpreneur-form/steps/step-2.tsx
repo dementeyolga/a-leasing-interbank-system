@@ -1,5 +1,7 @@
+import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
 import FormFieldsWrapper from '../../form-fields-wrapper'
 import FormHeading from '../../form-heading'
 import FormWrapper from '../../form-wrapper'
@@ -8,15 +10,71 @@ import FormRadioWrapper from '../field-wrappers/form-radio-wrapper'
 
 interface Step2Props {
   currentSubStep: number
-  handleSameAddressChange: (value: string) => void
-  sameAddress: string
+  setValue: UseFormSetValue<FormSchema>
+  getValues: UseFormGetValues<FormSchema>
 }
 
 export default function Step2({
   currentSubStep,
-  handleSameAddressChange,
-  sameAddress,
+  setValue,
+  getValues,
 }: Step2Props) {
+  // Handle setting residence address values same as registration address
+  const [sameAddress, setSameAddress] = useState(
+    getValues('isResidenceAddressMatchRegistration') || '',
+  )
+
+  const passRegistrationValuesToResidenceAddress = () => {
+    const registrationAddressValues = getValues([
+      'registrationCountry',
+      'registrationSettlement',
+      'registrationStreetType',
+      'registrationStreetName',
+      'registrationHouseNumber',
+      'registrationBuildingNumber',
+      'registrationApartmentNumber',
+      'registrationPostalCode',
+    ])
+
+    const residenceAddressFields: (
+      | 'residenceCountry'
+      | 'residenceSettlement'
+      | 'residenceStreetType'
+      | 'residenceStreetName'
+      | 'residenceHouseNumber'
+      | 'residenceBuildingNumber'
+      | 'residenceApartmentNumber'
+      | 'residencePostalCode'
+    )[] = [
+      'residenceCountry',
+      'residenceSettlement',
+      'residenceStreetType',
+      'residenceStreetName',
+      'residenceHouseNumber',
+      'residenceBuildingNumber',
+      'residenceApartmentNumber',
+      'residencePostalCode',
+    ]
+
+    residenceAddressFields.forEach((field, i) => {
+      setValue(field, registrationAddressValues[i], {
+        shouldValidate: true,
+      })
+    })
+  }
+
+  useEffect(() => {
+    if (sameAddress) passRegistrationValuesToResidenceAddress()
+  }, [])
+
+  const handleSameAddressChange = (value: string) => {
+    setSameAddress(value)
+
+    if (value === 'да') {
+      passRegistrationValuesToResidenceAddress()
+    }
+  }
+
   return (
     <Fragment>
       {/* Substep 1 - Registration address */}

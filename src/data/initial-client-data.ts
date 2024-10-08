@@ -58,9 +58,13 @@ export const initialDataIndividualEntrepreneur: IndividuaEntrepreneurFormSchema 
     servicingBank: '',
     hasNetLossLast3Month: 'нет',
     hasRecordedCriminalProsecutions: 'нет',
+    hasRecordedCriminalProsecutionsReasons: '',
     isParticipateInTrial: 'нет',
+    isParticipateInTrialReasons: '',
     isFinancialSanctionsAppliedLastYear: 'нет',
+    isFinancialSanctionsAppliedLastYearReasons: '',
     isParticipateInBankruptEntities: 'нет',
+    isParticipateInBankruptEntitiesReasons: '',
     revenueLast12Month1: '',
     revenueLast12Month2: '',
     revenueLast12Month3: '',
@@ -73,4 +77,9 @@ export const initialDataIndividualEntrepreneur: IndividuaEntrepreneurFormSchema 
     revenueLast12Month10: '',
     revenueLast12Month11: '',
     revenueLast12Month12: '',
+
+    // Signing docs
+    consentApplicationFormForLeasing: true,
+    consentCreditReport: false,
+    consentAdvertisingAndNewsletter: false,
   }

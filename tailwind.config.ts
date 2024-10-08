@@ -18,6 +18,7 @@ const config: Config = {
       background: 'hsl(var(--background))',
       foreground: 'hsl(var(--foreground))',
       blue: 'hsl(var(--blue))',
+      white: 'hsl(var(--white))',
       card: {
         DEFAULT: 'hsl(var(--card))',
         foreground: 'hsl(var(--card-foreground))',
@@ -47,6 +48,14 @@ const config: Config = {
         DEFAULT: 'hsl(var(--destructive))',
         foreground: 'hsl(var(--destructive-foreground))',
       },
+      success: {
+        DEFAULT: 'hsl(var(--success))',
+        foreground: 'hsl(var(--success-foreground))',
+      },
+      warning: {
+        DEFAULT: 'hsl(var(--warning))',
+        foreground: 'hsl(var(--warning-foreground))',
+      },
       border: 'hsl(var(--border))',
       input: 'hsl(var(--input))',
       ring: 'hsl(var(--ring))',
@@ -61,7 +70,7 @@ const config: Config = {
     borderRadius: {
       full: 'var(--radius-full)',
       lg: 'var(--radius-lg)',
-      md: 'calc(var(--radius-lg) / 2)',
+      md: 'var(--radius-md)',
       sm: 'var(--radius-sm)',
       xs: 'var(--radius-xs)',
     },

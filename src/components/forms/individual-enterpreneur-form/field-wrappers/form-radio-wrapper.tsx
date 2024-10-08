@@ -14,7 +14,12 @@ import { useFormContext } from 'react-hook-form'
 import FormLabelWrapper from './form-label-wrapper'
 
 interface FormFieldWrapperProps {
-  name: keyof FormSchema
+  name: keyof Omit<
+    FormSchema,
+    | 'consentApplicationFormForLeasing'
+    | 'consentCreditReport'
+    | 'consentAdvertisingAndNewsletter'
+  >
   label: string
   items: RadioGroupItems
   disabled?: boolean

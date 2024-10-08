@@ -3,22 +3,24 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import {
-  individualEntrepreneurFormSchema,
-  type IndividuaEntrepreneurFormSchema as FormSchema,
-} from '@/lib/schemas'
+import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
 import { useFormContext } from 'react-hook-form'
-import { z } from 'zod'
+import FormLabelWrapper from './form-label-wrapper'
 
 interface FormSelectWrapperProps {
-  name: keyof FormSchema
+  name: keyof Omit<
+    FormSchema,
+    | 'consentApplicationFormForLeasing'
+    | 'consentCreditReport'
+    | 'consentAdvertisingAndNewsletter'
+  >
   label: string
   placeholder: string
   values: string[]
   disabled?: boolean
+  tooltip?: string
 }
 
 export default function FormSelectWrapper({
@@ -27,6 +29,7 @@ export default function FormSelectWrapper({
   placeholder,
   values,
   disabled,
+  tooltip,
 }: FormSelectWrapperProps) {
   const { control } = useFormContext<FormSchema>()
 
@@ -36,16 +39,7 @@ export default function FormSelectWrapper({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel
-            required={
-              !(
-                individualEntrepreneurFormSchema.shape[name] instanceof
-                z.ZodOptional
-              )
-            }
-          >
-            {label}
-          </FormLabel>
+          <FormLabelWrapper name={name} label={label} tooltip={tooltip} />
           <div>
             <FormControl>
               <SelectInput
