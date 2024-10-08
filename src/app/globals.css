@@ -63,6 +63,7 @@ body {
     --radius-md: 1rem;
     --radius-sm: 0.75rem;
     --radius-xs: 0.1875rem;
+    --radius-otp: 0.5rem;
     --radius-full: 9999px;
   }
   .dark {

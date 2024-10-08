@@ -1,4 +1,5 @@
 import { CheckboxInput } from '@/components/checkbox/checkbox'
+import TimerWithLink from '@/components/countdown-timer/timer-with-link'
 import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { Fragment, useState } from 'react'
@@ -7,6 +8,7 @@ import FormFieldsWrapper from '../../form-fields-wrapper'
 import FormHeading from '../../form-heading'
 import FormWrapper from '../../form-wrapper'
 import FormCheckboxWrapper from '../field-wrappers/form-checkbox-wrapper'
+import FormOTPInputWrapper from '../field-wrappers/form-otp-input-wrapper'
 
 interface Step4Props {
   currentSubStep: number
@@ -115,7 +117,18 @@ export default function Step4({
           <FormWrapper>
             <FormHeading>Подписание документов</FormHeading>
             <FormFieldsWrapper>
-              <p>Substep 2</p>
+              <p className="text-center text-sm">
+                На ваш номер телефона <br />
+                +375 (44) 123-45-67
+                <br />
+                выслан смс-код подтверждения.
+                <br />
+                Введите код
+              </p>
+
+              <FormOTPInputWrapper name="signDocsOTP" />
+
+              <TimerWithLink />
             </FormFieldsWrapper>
           </FormWrapper>
         </div>

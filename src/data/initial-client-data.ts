@@ -82,4 +82,6 @@ export const initialDataIndividualEntrepreneur: IndividuaEntrepreneurFormSchema 
     consentApplicationFormForLeasing: true,
     consentCreditReport: false,
     consentAdvertisingAndNewsletter: false,
+
+    signDocsOTP: '',
   }

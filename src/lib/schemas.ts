@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 const requiredMessage = 'Обязательное поле'
 const wrongFormatMessage = 'Некорректный формат данных'
+const OTPLengthMessage = 'Код должен содержать 6 цифр'
 
 export const naturalPersonFormSchema = {}
 
@@ -153,6 +154,8 @@ export const individualEntrepreneurFormSchema = z
       message: requiredMessage,
     }),
     consentAdvertisingAndNewsletter: z.boolean().optional(),
+
+    signDocsOTP: z.string().min(6, { message: OTPLengthMessage }),
   })
   .superRefine((data, ctx) => {
     if (

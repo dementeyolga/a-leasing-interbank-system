@@ -12,9 +12,11 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { FieldName, FormProvider, useForm } from 'react-hook-form'
 import { Button } from '../../ui/button'
+import FormFieldsWrapper from '../form-fields-wrapper'
 import FormHeading from '../form-heading'
 import FormSteps from '../form-steps'
 import FormWrapper from '../form-wrapper'
+import FormCheckboxWrapper from './field-wrappers/form-checkbox-wrapper'
 import Step1 from './steps/step-1'
 import Step2 from './steps/step-2'
 import Step3 from './steps/step-3'
@@ -125,7 +127,7 @@ const steps = [
         'consentCreditReport',
         'consentAdvertisingAndNewsletter',
       ],
-      [''],
+      ['signDocsOTP'],
     ],
     getSubstepsQuantity() {
       return this.fields.length
@@ -158,7 +160,7 @@ export default function FourStepForm() {
   }
 
   // Handle form steps change
-  const [currentStep, setCurrentStep] = useState(3)
+  const [currentStep, setCurrentStep] = useState(0)
   const [currentSubStep, setCurrentSubStep] = useState(0)
   const [formSuccess, setFormSuccess] = useState(false)
 
@@ -198,6 +200,13 @@ export default function FourStepForm() {
       setCurrentStep((step) => step - 1)
       setCurrentSubStep(steps[currentStep - 1].getSubstepsQuantity() - 1)
     }
+  }
+
+  const isLastStep = () => {
+    return (
+      currentStep === steps.length - 1 &&
+      currentSubStep === steps[currentStep].getSubstepsQuantity() - 1
+    )
   }
 
   return (
@@ -242,38 +251,74 @@ export default function FourStepForm() {
                   setValue={setValue}
                 />
               )}
-            </form>
 
-            {/* Navigation buttons */}
-            <div className="flex flex-col items-center">
-              {currentStep < 2 && (
-                <Button variant={'secondary'} asChild>
-                  <Link href={'/wrong-data'}>Данные неверны</Link>
-                </Button>
-              )}
-              <Button onClick={handleNextStep}>Подтердить данные</Button>
-              {currentStep > 0 && (
+              {/* Navigation buttons */}
+              <div className="flex flex-col items-center">
+                {currentStep < 2 && (
+                  <Button variant={'secondary'} asChild>
+                    <Link href={'/wrong-data'}>Данные неверны</Link>
+                  </Button>
+                )}
                 <Button
-                  className="flex gap-1"
-                  variant={'secondary'}
-                  onClick={handlePrevStep}
+                  type={isLastStep() ? 'submit' : 'button'}
+                  onClick={handleNextStep}
                 >
-                  <MoveLeft strokeWidth={1} />
-                  Вернуться назад
+                  {currentStep < 3
+                    ? 'Подтердить данные'
+                    : 'Подписать документы'}
                 </Button>
-              )}
-            </div>
+                {currentStep > 0 && (
+                  <Button
+                    className="flex gap-1"
+                    variant={'secondary'}
+                    onClick={handlePrevStep}
+                  >
+                    <MoveLeft strokeWidth={1} />
+                    Вернуться назад
+                  </Button>
+                )}
+              </div>
+            </form>
           </section>
         </Form>
       ) : (
         <FormWrapper>
-          <FormHeading>
-            Спасибо! Ваша заявка направлена менеджеру. Как только ваши документы
-            будут рассмотрены, мы сразу свяжемся с вами
-          </FormHeading>
-          <Button>
-            <Link href={'http://client.a-leasing.by/'}>Сайт А-Лизинг</Link>
-          </Button>
+          <div className="space-y-1">
+            <FormHeading>Спасибо!</FormHeading>
+            <FormHeading>Ваша заявка направлена менеджеру.</FormHeading>
+            <FormHeading>
+              Как только ваши документы будут рассмотрены, мы сразу свяжемся с
+              вами
+            </FormHeading>
+          </div>
+
+          <FormFieldsWrapper>
+            <div className="flex flex-col gap-y-3">
+              <FormCheckboxWrapper
+                name="consentApplicationFormForLeasing"
+                label="Заявление-анкета на лизинг"
+                disabled={true}
+              />
+
+              <FormCheckboxWrapper
+                name="consentCreditReport"
+                label="Согласие на предоставление кредитного отчета"
+                disabled={true}
+              />
+
+              <FormCheckboxWrapper
+                name="consentAdvertisingAndNewsletter"
+                label="Согласие на рекламно-информационную рассылку об услугах А-Лизинг"
+                disabled={true}
+              />
+            </div>
+
+            <div className="mt-6 flex justify-center">
+              <Button>
+                <Link href={'http://client.a-leasing.by/'}>Сайт А-Лизинг</Link>
+              </Button>
+            </div>
+          </FormFieldsWrapper>
         </FormWrapper>
       )}
     </FormProvider>

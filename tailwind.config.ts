@@ -73,6 +73,7 @@ const config: Config = {
       md: 'var(--radius-md)',
       sm: 'var(--radius-sm)',
       xs: 'var(--radius-xs)',
+      otp: 'var(--radius-otp)',
     },
     boxShadow: {
       md: 'var(--shadow)',
@@ -99,6 +100,15 @@ const config: Config = {
       },
       backgroundImage: {
         'dialog-triangle': 'url("/dialog-triangle-icon.svg")',
+      },
+      keyframes: {
+        'caret-blink': {
+          '0%,70%,100%': { opacity: '1' },
+          '20%,50%': { opacity: '0' },
+        },
+      },
+      animation: {
+        'caret-blink': 'caret-blink 1.25s ease-out infinite',
       },
     },
   },
