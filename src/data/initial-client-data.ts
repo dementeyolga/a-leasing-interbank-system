@@ -4,7 +4,92 @@ import {
   NaturalPersonFormSchema,
 } from '@/lib/schemas'
 
-export const initialDataNaturalPerson: NaturalPersonFormSchema = {}
+export const initialDataNaturalPerson: NaturalPersonFormSchema = {
+  // Personal data
+  surname: 'Иванов',
+  name: 'Иван',
+  patronymic: 'Иванович',
+  formerSurname: '',
+  birthDate: '11.01.1989',
+  sex: 'мужской',
+  identityDocumentType: 'Паспорт РБ',
+  identityDocumentNumber: 'МР747474',
+  identificationNumber: '4545454545455',
+  identityDocumentIssueDate: '20.01.2024',
+  identityDocumentValidThrough: '20.01.2029',
+  identityDocumentIssuingAuthority: 'МОСКОВСКОЕ РУВД г. Минска',
+  isResidentOfBelarus: 'да',
+  isTaxResidentOfUSA: 'нет',
+
+  // Address information
+  // Registration address
+  registrationCountry: 'Руспублика Беларусь',
+  registrationSettlement: 'г. Минск',
+  registrationStreetType: 'пр.',
+  registrationStreetName: 'Дзержинского',
+  registrationHouseNumber: '34',
+  registrationBuildingNumber: '',
+  registrationApartmentNumber: '',
+  registrationPostalCode: '220112',
+
+  // Residence address
+  isResidenceAddressMatchRegistration: 'да',
+  residenceCountry: '',
+  residenceSettlement: '',
+  residenceStreetType: '',
+  residenceStreetName: '',
+  residenceHouseNumber: '',
+  residenceBuildingNumber: '',
+  residenceApartmentNumber: '',
+  residencePostalCode: '',
+
+  // Marital status and property ownership
+  maritalStatus: 'женат/замужем',
+  drivingExperience: '',
+  ownsProperty: 'нет',
+  typesOfProperty: '',
+  ownsCar: 'нет',
+  carBrand: '',
+  carManufactureYear: '',
+
+  // Place of work and income
+  jobType: 'Иное',
+  jobOrganization: 'ООО А-лизинг',
+  jobOrganizationAddress: 'г. Минск',
+  jobAccountingOrHRDeptPhone: '+375 44 444 44 44',
+  jobPosition: 'Директор',
+  jobStartDate: '30.0.2019',
+  isWorksUnderContract: 'нет',
+  contractEndDate: '',
+  mainIncomeSum: '2000',
+  spouseMainIncome: '',
+  partTimeWorkIncome: '',
+  contractArgeementIncome: '',
+  otherIncome: '',
+  hasAdditionalUnconfirmedIncome: 'да',
+  additionalIncomeSource: '',
+  additionalIncomeSum: '',
+  totalWorkExperience: '4',
+  educationType: 'высшее образование',
+  numberOfDependents: '',
+  loansPaymentAmount: '',
+  imstallmentsPaymentAmount: '',
+  writOfExecutionPaymentAmount: '',
+  alimonyPaymentAmount: '',
+
+  // Contacts
+  phone: '+375 44 444 44 44',
+  trustedPersonPhone: '+375 44 444 44 44',
+  additionalPhone: '',
+  email: '',
+
+  // Signing documents
+  consentApplicationFormForLeasing: true,
+  consentCreditReport: false,
+  consentAdvertisingAndNewsletter: false,
+
+  signDocsOTP: '',
+}
 
 export const initialDataLegalEntity: LegalEntityFormSchema = {
   fullName: 'Общество с ограниченной ответственностью “ааа ооо иии”',

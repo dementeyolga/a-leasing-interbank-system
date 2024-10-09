@@ -4,7 +4,98 @@ const requiredMessage = 'Обязательное поле'
 const wrongFormatMessage = 'Некорректный формат данных'
 const OTPLengthMessage = 'Код должен содержать 6 цифр'
 
-export const naturalPersonFormSchema = z.object({})
+export const naturalPersonFormSchema = z.object({
+  // Personal data
+  surname: z.string().optional(),
+  name: z.string().optional(),
+  patronymic: z.string().optional(),
+  formerSurname: z.string().optional(),
+  birthDate: z.string().optional(),
+  sex: z.string().optional(),
+  identityDocumentType: z.string().optional(),
+  identityDocumentNumber: z.string().optional(),
+  identificationNumber: z.string().optional(),
+  identityDocumentIssueDate: z.string().optional(),
+  identityDocumentValidThrough: z.string().optional(),
+  identityDocumentIssuingAuthority: z.string().optional(),
+  isResidentOfBelarus: z.string().optional(),
+  isTaxResidentOfUSA: z.string().optional(),
+
+  // Address information
+  // Registration address
+  registrationCountry: z.string().min(1, { message: requiredMessage }),
+  registrationSettlement: z.string().min(1, { message: requiredMessage }),
+  registrationStreetType: z.string().min(1, { message: requiredMessage }),
+  registrationStreetName: z.string().min(1, { message: requiredMessage }),
+  registrationHouseNumber: z.string().min(1, { message: requiredMessage }),
+  registrationBuildingNumber: z.string().optional(),
+  registrationApartmentNumber: z.string().optional(),
+  registrationPostalCode: z.string().min(1, { message: requiredMessage }),
+
+  // Residence address
+  isResidenceAddressMatchRegistration: z
+    .string()
+    .min(1, { message: requiredMessage }),
+  residenceCountry: z.string().min(1, { message: requiredMessage }),
+  residenceSettlement: z.string().min(1, { message: requiredMessage }),
+  residenceStreetType: z.string().min(1, { message: requiredMessage }),
+  residenceStreetName: z.string().min(1, { message: requiredMessage }),
+  residenceHouseNumber: z.string().min(1, { message: requiredMessage }),
+  residenceBuildingNumber: z.string().optional(),
+  residenceApartmentNumber: z.string().optional(),
+  residencePostalCode: z.string().min(1, { message: requiredMessage }),
+
+  // Marital status and property ownership
+  maritalStatus: z.string().min(1, { message: requiredMessage }),
+  drivingExperience: z.string().optional(),
+  ownsProperty: z.string().optional(),
+  typesOfProperty: z.string().optional(),
+  ownsCar: z.string().optional(),
+  carBrand: z.string().optional(),
+  carManufactureYear: z.string().optional(),
+
+  // Place of work and income
+  jobType: z.string().min(1, { message: requiredMessage }),
+  jobOrganization: z.string().min(1, { message: requiredMessage }),
+  jobOrganizationAddress: z.string().min(1, { message: requiredMessage }),
+  jobAccountingOrHRDeptPhone: z.string().min(1, { message: requiredMessage }),
+  jobPosition: z.string().min(1, { message: requiredMessage }),
+  jobStartDate: z.string().min(1, { message: requiredMessage }),
+  isWorksUnderContract: z.string().min(1, { message: requiredMessage }),
+  contractEndDate: z.string().optional(),
+  mainIncomeSum: z.string().min(1, { message: requiredMessage }),
+  spouseMainIncome: z.string().optional(),
+  partTimeWorkIncome: z.string().optional(),
+  contractArgeementIncome: z.string().optional(),
+  otherIncome: z.string().optional(),
+  hasAdditionalUnconfirmedIncome: z.string().optional(),
+  additionalIncomeSource: z.string().optional(),
+  additionalIncomeSum: z.string().optional(),
+  totalWorkExperience: z.string().min(1, { message: requiredMessage }),
+  educationType: z.string().min(1, { message: requiredMessage }),
+  numberOfDependents: z.string().min(1, { message: requiredMessage }),
+  loansPaymentAmount: z.string().optional(),
+  imstallmentsPaymentAmount: z.string().optional(),
+  writOfExecutionPaymentAmount: z.string().optional(),
+  alimonyPaymentAmount: z.string().optional(),
+
+  // Contacts
+  phone: z.string().min(1, { message: requiredMessage }),
+  trustedPersonPhone: z.string().min(1, { message: requiredMessage }),
+  additionalPhone: z.string().optional(),
+  email: z.string().email({ message: wrongFormatMessage }),
+
+  // Signing documents
+  consentApplicationFormForLeasing: z.boolean().refine((val) => val === true, {
+    message: requiredMessage,
+  }),
+  consentCreditReport: z.boolean().refine((val) => val === true, {
+    message: requiredMessage,
+  }),
+  consentAdvertisingAndNewsletter: z.boolean().optional(),
+
+  signDocsOTP: z.string().min(6, { message: OTPLengthMessage }),
+})
 
 export const legalEntityFormSchema = z
   .object({
