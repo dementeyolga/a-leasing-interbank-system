@@ -5,7 +5,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
+import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { useFormContext } from 'react-hook-form'
 
 interface FormCheckboxWrapperProps {

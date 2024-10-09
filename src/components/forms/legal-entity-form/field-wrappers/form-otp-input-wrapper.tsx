@@ -9,7 +9,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from '@/components/ui/input-otp'
-import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
+import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 import { useFormContext } from 'react-hook-form'
 
@@ -19,6 +19,7 @@ interface FormOTPInputWrapperProps {
     | 'consentApplicationFormForLeasing'
     | 'consentCreditReport'
     | 'consentAdvertisingAndNewsletter'
+    | 'beneficialOwners'
   >
 }
 

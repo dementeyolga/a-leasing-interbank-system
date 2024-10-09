@@ -1,8 +1,8 @@
 import PopoverWrapper from '@/components/popover/popover-wrapper'
 import { FormLabel } from '@/components/ui/form'
 import {
-  individuaEntrepreneurFormSchemaShape,
-  type IndividuaEntrepreneurFormSchema as FormSchema,
+  legalEntityFormSchemaShape,
+  type LegalEntityFormSchema as FormSchema,
 } from '@/lib/schemas'
 import { z } from 'zod'
 
@@ -19,17 +19,10 @@ export default function FormLabelWrapper({
 }: FormLabelWrapperInterface) {
   return (
     <FormLabel
-      required={
-        !(individuaEntrepreneurFormSchemaShape[name] instanceof z.ZodOptional)
-      }
+      required={!(legalEntityFormSchemaShape[name] instanceof z.ZodOptional)}
     >
       {label}
-      {tooltip && (
-        <PopoverWrapper>
-          Для ИП, которые ведут бухгалтерский учет и используют упрощенную
-          систему налогообложения
-        </PopoverWrapper>
-      )}
+      {tooltip && <PopoverWrapper>{tooltip}</PopoverWrapper>}
     </FormLabel>
   )
 }

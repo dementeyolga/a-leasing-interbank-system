@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 
-import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
+import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { useFormContext } from 'react-hook-form'
 import FormLabelWrapper from './form-label-wrapper'
 
@@ -19,6 +19,7 @@ interface FormFieldWrapperProps {
     | 'consentApplicationFormForLeasing'
     | 'consentCreditReport'
     | 'consentAdvertisingAndNewsletter'
+    | 'beneficialOwners'
   >
   label: string
   items: RadioGroupItems

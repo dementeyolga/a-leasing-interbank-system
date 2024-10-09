@@ -7,13 +7,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { cn } from '@/lib/utils'
+import { cn, toFirstUppercase } from '@/lib/utils'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area'
 
 interface SelectInputProps {
-  placeholder: string
+  placeholder?: string
   values: string[]
   defaultValue?: string
   onValueChange?: (value: string) => void
@@ -50,7 +50,7 @@ export function SelectInput({
         <ScrollArea type="auto">
           {values.map((value) => (
             <SelectItem key={value.toLowerCase()} value={value}>
-              {value}
+              {toFirstUppercase(value)}
             </SelectItem>
           ))}
         </ScrollArea>

@@ -41,3 +41,22 @@ export function generateYesNoRadioItems(): {
     },
   ]
 }
+
+export function generateSexRadioItems(): {
+  id: string
+  value: string
+  text: string
+}[] {
+  return [
+    {
+      id: crypto.randomUUID(),
+      value: 'мужской',
+      text: 'мужской',
+    },
+    {
+      id: crypto.randomUUID(),
+      value: 'женский',
+      text: 'женский',
+    },
+  ]
+}

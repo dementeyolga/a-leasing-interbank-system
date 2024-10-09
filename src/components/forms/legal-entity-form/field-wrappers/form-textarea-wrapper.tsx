@@ -1,15 +1,15 @@
-import { SelectInput } from '@/components/select/select'
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import { Textarea } from '@/components/ui/textarea'
 import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { useFormContext } from 'react-hook-form'
 import FormLabelWrapper from './form-label-wrapper'
 
-interface FormSelectWrapperProps {
+interface FormTextareaWrapperProps {
   name: keyof Omit<
     FormSchema,
     | 'consentApplicationFormForLeasing'
@@ -19,21 +19,17 @@ interface FormSelectWrapperProps {
   >
   label: string
   placeholder?: string
-  values: string[]
   disabled?: boolean
   tooltip?: string
-  extraOnChange?: (value: string) => void
 }
 
-export default function FormSelectWrapper({
+export default function FormTextareaWrapper({
   name,
   label,
-  placeholder,
-  values,
   disabled,
+  placeholder,
   tooltip,
-  extraOnChange,
-}: FormSelectWrapperProps) {
+}: FormTextareaWrapperProps) {
   const { control } = useFormContext<FormSchema>()
 
   return (
@@ -45,15 +41,9 @@ export default function FormSelectWrapper({
           <FormLabelWrapper name={name} label={label} tooltip={tooltip} />
           <div>
             <FormControl>
-              <SelectInput
-                onValueChange={(value) => {
-                  field.onChange(value)
-                  if (extraOnChange) extraOnChange(value)
-                }}
-                defaultValue={field.value}
+              <Textarea
                 disabled={disabled}
                 placeholder={placeholder}
-                values={values}
                 {...field}
               />
             </FormControl>

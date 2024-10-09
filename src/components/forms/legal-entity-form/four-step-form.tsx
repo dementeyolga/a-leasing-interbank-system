@@ -1,10 +1,10 @@
 'use client'
 
 import { Form } from '@/components/ui/form'
-import { initialDataIndividualEntrepreneur } from '@/data/initial-client-data'
+import { initialDataLegalEntity } from '@/data/initial-client-data'
 import {
-  type IndividuaEntrepreneurFormSchema as FormSchema,
-  individualEntrepreneurFormSchema,
+  type LegalEntityFormSchema as FormSchema,
+  legalEntityFormSchema,
 } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MoveLeft } from 'lucide-react'
@@ -17,32 +17,36 @@ import FormHeading from '../form-heading'
 import FormSteps from '../form-steps'
 import FormWrapper from '../form-wrapper'
 import FormCheckboxWrapper from './field-wrappers/form-checkbox-wrapper'
-import Step1 from './steps/step-1'
-import Step2 from './steps/step-2'
-import Step3 from './steps/step-3'
-import Step4 from './steps/step-4'
+import Step1 from './steps/step-1/step-1'
+import Step2 from './steps/step-2/step-2'
+import Step3 from './steps/step-3/step-3'
+import Step4 from './steps/step-4/step-4'
 
-const steps = [
+const steps: {
+  name: string
+  fields: (keyof FormSchema)[][]
+  getSubstepsQuantity(): number
+}[] = [
   {
-    name: 'Личные данные',
+    name: 'Данные ЮЛ',
+
     fields: [
       [
-        'surname',
-        'name',
-        'patronymic',
-        'formerSurname',
-        'birthDate',
-        'phone',
-        'email',
-        'sex',
-        'identityDocumentType',
-        'identityDocumentNumber',
-        'identificationNumber',
-        'identityDocumentIssueDate',
-        'identityDocumentValidThrough',
-        'identityDocumentIssuingAuthority',
-        'isResidentOfBelarus',
-        'isTaxResidentOfUSA',
+        'fullName',
+        'payerAccountingNumber',
+        'registrationNumber',
+        'registrationDate',
+        'registrationAuthority',
+        'coreActivity',
+        'CCEACode',
+        'otherActivity',
+        'dateOfActivityBeginning',
+        'licenceValidThrough',
+        'wasReorganized',
+        'reorganizationType',
+        'reorganizationDate',
+        'oldFullNameAndLegalForm',
+        'oldPayerAccountingNumber',
       ],
     ],
     getSubstepsQuantity() {
@@ -53,24 +57,25 @@ const steps = [
     name: 'Адрес',
     fields: [
       [
-        'registrationSettlement',
-        'registrationStreetType',
-        'registrationStreetName',
-        'registrationHouseNumber',
-        'registrationBuildingNumber',
-        'registrationApartmentNumber',
-        'registrationPostalCode',
+        'legalCountry',
+        'legalSettlement',
+        'legalStreetType',
+        'legalStreetName',
+        'legalHouseNumber',
+        'legalBuildingNumber',
+        'legalOfficeNumber',
+        'legalPostalCode',
       ],
       [
-        'isResidenceAddressMatchRegistration',
-        'residenceCountry',
-        'residenceSettlement',
-        'residenceStreetType',
-        'residenceStreetName',
-        'residenceHouseNumber',
-        'residenceBuildingNumber',
-        'residenceApartmentNumber',
-        'residencePostalCode',
+        'isActualAddressMatchLegal',
+        'actualCountry',
+        'actualSettlement',
+        'actualStreetType',
+        'actualStreetName',
+        'actualHouseNumber',
+        'actualBuildingNumber',
+        'actualOfficeNumber',
+        'actualPostalCode',
       ],
     ],
     getSubstepsQuantity() {
@@ -78,23 +83,156 @@ const steps = [
     },
   },
   {
-    name: 'Сведения об ИП',
+    name: 'Сведения о ЮЛ',
     fields: [
       [
-        'payerAccountingNumber',
+        'organizationManagementType',
+        'managerPosition',
+        'managerSurname',
+        'managerName',
+        'managerPatronymic',
+        'managerSex',
+        'managerCitizenship',
+        'managerBirthdate',
+        'managerBirthPlace',
+        'managerIdentityDocumentType',
+        'managerIdentityDocumentNumber',
+        'managerIdentificationNumber',
+        'managerIdentityDocumentIssueDate',
+        'managerIdentityDocumentValidThrough',
+        'managerIdentityDocumentIssuingAuthority',
+        'managerPhone',
+        'managerRegistrationCountry',
+        'managerRegistrationSettlement',
+        'managerRegistrationStreetType',
+        'managerRegistrationStreetName',
+        'managerRegistrationHouseNumber',
+        'managerRegistrationBuildingNumber',
+        'managerRegistrationApartmentNumber',
+
+        'ieName',
+        'iePayerAccountingNumber',
         'ieRegistrationNumber',
         'ieRegistrationDate',
         'ieRegistrationAuthority',
-        'ieCoreActivity',
-        'ieCCEACode',
-        'ieOtherActivity',
-        'isPublicOfficial',
+        'ieLocation',
+        'ieManagerPosition',
+        'ieManagerSurname',
+        'ieManagerName',
+        'ieManagerPatronymic',
+        'ieManagerSex',
+        'ieManagerCitizenship',
+        'ieManagerBirthdate',
+        'ieManagerBirthPlace',
+        'ieManagerIdentityDocumentType',
+        'ieManagerIdentityDocumentNumber',
+        'ieManagerIdentificationNumber',
+        'ieManagerIdentityDocumentIssueDate',
+        'ieManagerIdentityDocumentValidThrough',
+        'ieManagerIdentityDocumentIssuingAuthority',
+        'ieManagerPhone',
+        'ieManagerRegistrationCountry',
+        'ieManagerRegistrationRegion',
+        'ieManagerRegistrationSettlement',
+        'ieManagerRegistrationStreetType',
+        'ieManagerRegistrationStreetName',
+        'ieManagerRegistrationHouseNumber',
+        'ieManagerRegistrationBuildingNumber',
+        'ieManagerRegistrationApartmentNumber',
+
+        'leName',
+        'lePayerAccountingNumber',
+        'leRegistrationNumber',
+        'leRegistrationDate',
+        'leRegistrationAuthority',
+        'leLocation',
+        'leManagerPosition',
+        'leManagerSurname',
+        'leManagerName',
+        'leManagerPatronymic',
+        'leManagerSex',
+        'leManagerCitizenship',
+        'leManagerBirthdate',
+        'leManagerBirthPlace',
+        'leManagerIdentityDocumentType',
+        'leManagerIdentityDocumentNumber',
+        'leManagerIdentificationNumber',
+        'leManagerIdentityDocumentIssueDate',
+        'leManagerIdentityDocumentValidThrough',
+        'leManagerIdentityDocumentIssuingAuthority',
+        'leManagerPhone',
+        'leManagerRegistrationCountry',
+        'leManagerRegistrationRegion',
+        'leManagerRegistrationSettlement',
+        'leManagerRegistrationStreetType',
+        'leManagerRegistrationStreetName',
+        'leManagerRegistrationHouseNumber',
+        'leManagerRegistrationBuildingNumber',
+        'leManagerRegistrationApartmentNumber',
+
+        'leAccountantPosition',
+        'leAccountantSurname',
+        'leAccountantName',
+        'leAccountantPatronymic',
+        'leAccountantSex',
+        'leAccountantCitizenship',
+        'leAccountantBirthdate',
+        'leAccountantBirthPlace',
+        'leAccountantIdentityDocumentType',
+        'leAccountantIdentityDocumentNumber',
+        'leAccountantIdentificationNumber',
+        'leAccountantIdentityDocumentIssueDate',
+        'leAccountantIdentityDocumentValidThrough',
+        'leAccountantIdentityDocumentIssuingAuthority',
+        'leAccountantPhone',
+        'leAccountantRegistrationCountry',
+        'leAccountantRegistrationRegion',
+        'leAccountantRegistrationSettlement',
+        'leAccountantRegistrationStreetType',
+        'leAccountantRegistrationStreetName',
+        'leAccountantRegistrationHouseNumber',
+        'leAccountantRegistrationBuildingNumber',
+        'leAccountantRegistrationApartmentNumber',
       ],
+      [
+        'accountingManagementType',
+
+        'accountingManagerPosition',
+        'accountingManagerSurname',
+        'accountingManagerName',
+        'accountingManagerPatronymic',
+        'accountingManagerSex',
+        'accountingManagerCitizenship',
+        'accountingManagerBirthdate',
+        'accountingManagerBirthPlace',
+        'accountingManagerIdentityDocumentType',
+        'accountingManagerIdentityDocumentNumber',
+        'accountingManagerIdentificationNumber',
+        'accountingManagerIdentityDocumentIssueDate',
+        'accountingManagerIdentityDocumentValidThrough',
+        'accountingManagerIdentityDocumentIssuingAuthority',
+        'accountingManagerPhone',
+        'accountingManagerRegistrationCountry',
+        'accountingManagerRegistrationRegion',
+        'accountingManagerRegistrationSettlement',
+        'accountingManagerRegistrationStreetType',
+        'accountingManagerRegistrationStreetName',
+        'accountingManagerRegistrationHouseNumber',
+        'accountingManagerRegistrationBuildingNumber',
+        'accountingManagerRegistrationApartmentNumber',
+
+        'accountingManagementCompanyName',
+        'accountingManagementCompanyPayerAccountingNumber',
+      ],
+      ['beneficialOwners', 'participantsInformation'],
       [
         'servicingBank',
         'hasNetLossLast3Month',
-        'hasRecordedCriminalProsecutions',
-        'hasRecordedCriminalProsecutionsReasons',
+        'netLossLast3MonthSum',
+        'hasNetLossLastQuarterlyDate',
+        'netLossLastQuarterlyDateSum',
+        'hasCasesManagersCriminalResponsibility',
+        'hasCasesManagersCriminalResponsibilityReasons',
         'isParticipateInTrial',
         'isParticipateInTrialReasons',
         'isFinancialSanctionsAppliedLastYear',
@@ -140,10 +278,10 @@ const stepNames = steps.map((step) => step.name)
 export default function FourStepForm() {
   // Init react-hook-forms helpers
   const form = useForm<FormSchema>({
-    resolver: zodResolver(individualEntrepreneurFormSchema),
+    resolver: zodResolver(legalEntityFormSchema),
     // TODO: Can fetch async default data:  defaultValues: async () => fetch('/api-endpoint');
     defaultValues: {
-      ...initialDataIndividualEntrepreneur,
+      ...initialDataLegalEntity,
     },
     mode: 'onChange',
   })
@@ -227,7 +365,7 @@ export default function FourStepForm() {
               className="space-y-8"
             >
               {/* Step 1 - Personal data*/}
-              {currentStep === 0 && <Step1 />}
+              {currentStep === 0 && <Step1 getValues={getValues} />}
 
               {/* Step 2 - Address*/}
               {currentStep === 1 && (
@@ -235,6 +373,8 @@ export default function FourStepForm() {
                   currentSubStep={currentSubStep}
                   setValue={setValue}
                   getValues={getValues}
+                  legalAddressFields={steps[1].fields[0]}
+                  actualAddressFields={steps[1].fields[1]}
                 />
               )}
 

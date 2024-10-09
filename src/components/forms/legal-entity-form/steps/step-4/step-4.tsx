@@ -1,14 +1,14 @@
 import { CheckboxInput } from '@/components/checkbox/checkbox'
 import TimerWithLink from '@/components/countdown-timer/timer-with-link'
-import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
+import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { Fragment, useState } from 'react'
 import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
-import FormFieldsWrapper from '../../form-fields-wrapper'
-import FormHeading from '../../form-heading'
-import FormWrapper from '../../form-wrapper'
-import FormCheckboxWrapper from '../field-wrappers/form-checkbox-wrapper'
-import FormOTPInputWrapper from '../field-wrappers/form-otp-input-wrapper'
+import FormFieldsWrapper from '../../../form-fields-wrapper'
+import FormHeading from '../../../form-heading'
+import FormWrapper from '../../../form-wrapper'
+import FormCheckboxWrapper from '../../field-wrappers/form-checkbox-wrapper'
+import FormOTPInputWrapper from '../../field-wrappers/form-otp-input-wrapper'
 
 interface Step4Props {
   currentSubStep: number
