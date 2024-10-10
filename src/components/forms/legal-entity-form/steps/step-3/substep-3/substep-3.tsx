@@ -11,9 +11,7 @@ import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../../field-wrappers/form-radio-wrapper'
 import FormTextareaWrapper from '../../../field-wrappers/form-textarea-wrapper'
 
-interface Substep3Props {}
-
-export default function Substep3({}: Substep3Props) {
+export default function Substep3() {
   const { control } = useFormContext<FormSchema>()
   const { fields, append } = useFieldArray<FormSchema>({
     name: 'beneficialOwners',
