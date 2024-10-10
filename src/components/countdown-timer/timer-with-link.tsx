@@ -34,13 +34,11 @@ export default function CountdownTimer() {
   }
 
   return (
-    <div className="text-center text-xxs">
+    <div className="text-center text-sm text-secondary">
       {!showLink ? (
-        <p className="font-medium" aria-live="polite">
-          Повторная отправка доступна через {formatTime(timeLeft)}
-        </p>
+        <p>Повторная отправка доступна через {formatTime(timeLeft)}</p>
       ) : (
-        <p className="cursor-pointer font-medium underline" onClick={reset}>
+        <p className="cursor-pointer underline" onClick={reset}>
           Выслать код повторно
         </p>
       )}

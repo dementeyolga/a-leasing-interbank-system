@@ -5,10 +5,11 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from '@/components/ui/input-otp'
+import { ControllerRenderProps } from 'react-hook-form'
 
-export function OTPInput() {
+export function OTPInputWrapper(props: ControllerRenderProps) {
   return (
-    <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
+    <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...props}>
       <InputOTPGroup>
         <InputOTPSlot index={0} />
         <InputOTPSlot index={1} />

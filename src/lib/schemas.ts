@@ -179,7 +179,6 @@ export const legalEntityFormSchema = z
     managerIdentityDocumentIssuingAuthority: z.string().optional(),
     managerPhone: z.string().optional(),
     managerRegistrationCountry: z.string().min(1, { message: requiredMessage }),
-    managerRegistrationRegion: z.string().min(1, { message: requiredMessage }),
     managerRegistrationSettlement: z
       .string()
       .min(1, { message: requiredMessage }),
@@ -387,12 +386,24 @@ export const legalEntityFormSchema = z
             .optional(),
           beneficialOwnerPhone: z.string().optional(),
           beneficialOwnerIsPublicOfficial: z.string().optional(),
-          beneficialOwnerRegistrationCountry: z.string().optional(),
-          beneficialOwnerRegistrationRegion: z.string().optional(),
-          beneficialOwnerRegistrationSettlement: z.string().optional(),
-          beneficialOwnerRegistrationStreetType: z.string().optional(),
-          beneficialOwnerRegistrationStreetName: z.string().optional(),
-          beneficialOwnerRegistrationHouseNumber: z.string().optional(),
+          beneficialOwnerRegistrationCountry: z
+            .string()
+            .min(1, { message: requiredMessage }),
+          beneficialOwnerRegistrationRegion: z
+            .string()
+            .min(1, { message: requiredMessage }),
+          beneficialOwnerRegistrationSettlement: z
+            .string()
+            .min(1, { message: requiredMessage }),
+          beneficialOwnerRegistrationStreetType: z
+            .string()
+            .min(1, { message: requiredMessage }),
+          beneficialOwnerRegistrationStreetName: z
+            .string()
+            .min(1, { message: requiredMessage }),
+          beneficialOwnerRegistrationHouseNumber: z
+            .string()
+            .min(1, { message: requiredMessage }),
           beneficialOwnerRegistrationBuildingNumber: z.string().optional(),
           beneficialOwnerRegistrationApartmentNumber: z.string().optional(),
         }),

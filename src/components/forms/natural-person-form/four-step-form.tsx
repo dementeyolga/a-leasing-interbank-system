@@ -165,8 +165,8 @@ export default function FourStepForm() {
   }
 
   // Handle form steps change
-  const [currentStep, setCurrentStep] = useState(0)
-  const [currentSubStep, setCurrentSubStep] = useState(0)
+  const [currentStep, setCurrentStep] = useState(3)
+  const [currentSubStep, setCurrentSubStep] = useState(1)
   const [formSuccess, setFormSuccess] = useState(false)
 
   const isValidFormStep = async (): Promise<boolean> => {
