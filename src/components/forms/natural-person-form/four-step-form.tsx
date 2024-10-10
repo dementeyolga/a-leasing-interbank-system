@@ -114,7 +114,7 @@ const steps: {
         'educationType',
         'numberOfDependents',
         'loansPaymentAmount',
-        'imstallmentsPaymentAmount',
+        'installmentsPaymentAmount',
         'writOfExecutionPaymentAmount',
         'alimonyPaymentAmount',
       ],
@@ -153,7 +153,7 @@ export default function FourStepForm() {
     mode: 'onChange',
   })
 
-  const { trigger, setValue, getValues } = form
+  const { trigger, setValue, getValues, handleSubmit } = form
 
   function onSubmit(values: FormSchema) {
     console.log('Submitted values:', JSON.stringify(values, null, 2))
@@ -165,8 +165,8 @@ export default function FourStepForm() {
   }
 
   // Handle form steps change
-  const [currentStep, setCurrentStep] = useState(2)
-  const [currentSubStep, setCurrentSubStep] = useState(2)
+  const [currentStep, setCurrentStep] = useState(0)
+  const [currentSubStep, setCurrentSubStep] = useState(0)
   const [formSuccess, setFormSuccess] = useState(false)
 
   const isValidFormStep = async (): Promise<boolean> => {
@@ -228,7 +228,7 @@ export default function FourStepForm() {
 
             {/* Form */}
             <form
-              onSubmit={form.handleSubmit(onSubmit, onError)}
+              onSubmit={handleSubmit(onSubmit, onError)}
               className="space-y-8"
             >
               {/* Step 1 - Personal data*/}
@@ -247,7 +247,11 @@ export default function FourStepForm() {
 
               {/* Step 3 - Information about the sole proprietor */}
               {currentStep === 2 && (
-                <Step3 currentSubStep={currentSubStep} getValues={getValues} />
+                <Step3
+                  currentSubStep={currentSubStep}
+                  getValues={getValues}
+                  setValue={setValue}
+                />
               )}
 
               {/* Step 4 - Documents */}
@@ -266,14 +270,18 @@ export default function FourStepForm() {
                     <Link href={'/wrong-data'}>Данные неверны</Link>
                   </Button>
                 )}
+
                 <Button
-                  type={isLastStep() ? 'submit' : 'button'}
-                  onClick={handleNextStep}
+                  type={'button'}
+                  onClick={
+                    !isLastStep()
+                      ? handleNextStep
+                      : handleSubmit(onSubmit, onError)
+                  }
                 >
-                  {currentStep < 3
-                    ? 'Подтердить данные'
-                    : 'Подписать документы'}
+                  {!isLastStep() ? 'Подтердить данные' : 'Подписать документы'}
                 </Button>
+
                 {currentStep > 0 && (
                   <Button
                     className="flex gap-1"
@@ -305,18 +313,21 @@ export default function FourStepForm() {
                 name="consentApplicationFormForLeasing"
                 label="Заявление-анкета на лизинг"
                 disabled={true}
+                icon={<img src="/download-icon.svg" />}
               />
 
               <FormCheckboxWrapper
                 name="consentCreditReport"
                 label="Согласие на предоставление кредитного отчета"
                 disabled={true}
+                icon={<img src="/download-icon.svg" />}
               />
 
               <FormCheckboxWrapper
                 name="consentAdvertisingAndNewsletter"
                 label="Согласие на рекламно-информационную рассылку об услугах А-Лизинг"
                 disabled={true}
+                icon={<img src="/download-icon.svg" />}
               />
             </div>
 

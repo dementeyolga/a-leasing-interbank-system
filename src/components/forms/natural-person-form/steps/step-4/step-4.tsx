@@ -1,6 +1,6 @@
 import { CheckboxInput } from '@/components/checkbox/checkbox'
 import TimerWithLink from '@/components/countdown-timer/timer-with-link'
-import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
+import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { Fragment, useState } from 'react'
 import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
@@ -27,7 +27,7 @@ export default function Step4({
 
   const setAllChecked = () => {
     setValue('consentCreditReport', true, {
-      shouldValidate: true,
+      // shouldValidate: true,
     })
     setConsentCreditReport(true)
     setValue('consentAdvertisingAndNewsletter', true, { shouldValidate: true })
@@ -83,18 +83,21 @@ export default function Step4({
               <FormCheckboxWrapper
                 name="consentApplicationFormForLeasing"
                 label="Заявление-анкета на лизинг"
+                icon={<img src="/watch-icon.svg" />}
                 disabled={true}
               />
 
               <FormCheckboxWrapper
                 name="consentCreditReport"
                 label="Согласие на предоставление кредитного отчета"
+                icon={<img src="/watch-icon.svg" />}
                 extraOnChange={(checked) => setConsentCreditReport(checked)}
               />
 
               <FormCheckboxWrapper
                 name="consentAdvertisingAndNewsletter"
                 label="Согласие на рекламно-информационную рассылку об услугах А-Лизинг"
+                icon={<img src="/watch-icon.svg" />}
               />
 
               <div className="px-6">

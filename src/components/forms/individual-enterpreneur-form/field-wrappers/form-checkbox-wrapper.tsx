@@ -6,6 +6,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
+import Link from 'next/link'
 import { useFormContext } from 'react-hook-form'
 
 interface FormCheckboxWrapperProps {
@@ -17,6 +18,7 @@ interface FormCheckboxWrapperProps {
   >
   label: string
   disabled?: boolean
+  icon?: JSX.Element
   extraOnChange?: (checked: boolean) => void
 }
 
@@ -24,6 +26,7 @@ export default function FormCheckboxWrapper({
   name,
   label,
   disabled,
+  icon,
   extraOnChange,
 }: FormCheckboxWrapperProps) {
   const { control } = useFormContext<FormSchema>()
@@ -36,17 +39,24 @@ export default function FormCheckboxWrapper({
         <FormItem>
           <div className="rounded-md bg-popover px-6 py-7">
             <FormControl>
-              <CheckboxInput
-                id={crypto.randomUUID()}
-                label={label}
-                disabled={disabled}
-                checked={field.value}
-                onCheckedChange={(value) => {
-                  field.onChange(value)
-                  if (extraOnChange) extraOnChange(value)
-                }}
-                {...field}
-              />
+              <div className="flex items-center justify-between">
+                <CheckboxInput
+                  id={crypto.randomUUID()}
+                  label={label}
+                  disabled={disabled}
+                  checked={field.value}
+                  onCheckedChange={(value) => {
+                    field.onChange(value)
+                    if (extraOnChange) extraOnChange(value)
+                  }}
+                  {...field}
+                />
+                {icon && (
+                  <Link className="shrink-0" href={'/'}>
+                    {icon}
+                  </Link>
+                )}
+              </div>
             </FormControl>
             <FormMessage />
           </div>

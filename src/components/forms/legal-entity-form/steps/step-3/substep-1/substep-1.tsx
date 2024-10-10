@@ -2,7 +2,7 @@ import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
 import FormHeading from '@/components/forms/form-heading'
 import FormWrapper from '@/components/forms/form-wrapper'
 import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
-import { generateSexRadioItems, generateYesNoRadioItems } from '@/lib/utils'
+import { generateSexRadioItems } from '@/lib/utils'
 import { useState } from 'react'
 import { UseFormGetValues } from 'react-hook-form'
 import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
@@ -20,7 +20,7 @@ export default function Substep1({ getValues }: Substep1Props) {
 
   return (
     <FormWrapper>
-      <FormFieldsWrapper>
+      <FormWrapper>
         <FormSelectWrapper
           name="organizationManagementType"
           label="Кто управляет организацией"
@@ -35,12 +35,12 @@ export default function Substep1({ getValues }: Substep1Props) {
         <>
           {/* Case 1: Natural person */}
           {organizationManagementType === 'физическое лицо' && (
-            <>
+            <FormWrapper>
               <FormHeading tooltip="ином лице, уполномоченном в соответсвии с учредительными документами действовать от имени клиента-организации">
                 Сведения о руководителе организации
               </FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="managerPosition"
                   label="Занимаемая должность"
@@ -93,11 +93,11 @@ export default function Substep1({ getValues }: Substep1Props) {
                   name="managerPhone"
                   label="Мобильный телефон"
                 />
-              </>
+              </FormFieldsWrapper>
 
               <FormHeading>Адрес регистрации</FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="managerRegistrationCountry"
                   label="Страна"
@@ -130,16 +130,16 @@ export default function Substep1({ getValues }: Substep1Props) {
                   name="managerRegistrationApartmentNumber"
                   label="Квартира"
                 />
-              </>
-            </>
+              </FormFieldsWrapper>
+            </FormWrapper>
           )}
 
           {/* Case 2: IndividualInterpreneur */}
           {organizationManagementType === 'индивидуальный предприниматель' && (
-            <>
+            <FormWrapper>
               <FormHeading>Сведения об ИП</FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="ieName"
                   label="Наименование организации"
@@ -158,13 +158,13 @@ export default function Substep1({ getValues }: Substep1Props) {
                   label="Наименование регистрирующего органа"
                 />
                 <FormInputWrapper name="ieLocation" label="Место нахождения" />
-              </>
+              </FormFieldsWrapper>
 
               <FormHeading tooltip="ином лице, уполномоченном в соответсвии с учредительными документами действовать от имени клиента-организации">
                 Сведения о руководителе организации
               </FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="ieManagerPosition"
                   label="Занимаемая должность"
@@ -175,7 +175,7 @@ export default function Substep1({ getValues }: Substep1Props) {
                 <FormRadioWrapper
                   name="ieManagerSex"
                   label="Пол"
-                  items={generateYesNoRadioItems()}
+                  items={generateSexRadioItems()}
                 />
                 <FormInputWrapper
                   name="ieManagerCitizenship"
@@ -217,11 +217,11 @@ export default function Substep1({ getValues }: Substep1Props) {
                   name="ieManagerPhone"
                   label="Мобильный телефон"
                 />
-              </>
+              </FormFieldsWrapper>
 
               <FormHeading>Адрес регистрации руководителя</FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="ieManagerRegistrationCountry"
                   label="Страна"
@@ -254,16 +254,16 @@ export default function Substep1({ getValues }: Substep1Props) {
                   name="ieManagerRegistrationApartmentNumber"
                   label="Квартира"
                 />
-              </>
-            </>
+              </FormFieldsWrapper>
+            </FormWrapper>
           )}
 
           {/* Case 3:  Legal entity*/}
           {organizationManagementType === 'юридическое лицо' && (
-            <>
+            <FormWrapper>
               <FormHeading>Сведения о ЮЛ</FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="leName"
                   label="Наименование организации"
@@ -282,13 +282,13 @@ export default function Substep1({ getValues }: Substep1Props) {
                   label="Наименование регистрирующего органа"
                 />
                 <FormInputWrapper name="leLocation" label="Место нахождения" />
-              </>
+              </FormFieldsWrapper>
 
               <FormHeading tooltip="ином лице, уполномоченном в соответсвии с учредительными документами действовать от имени клиента-организации">
                 Сведения о руководителе управляющей компании
               </FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="leManagerPosition"
                   label="Занимаемая должность"
@@ -299,7 +299,7 @@ export default function Substep1({ getValues }: Substep1Props) {
                 <FormRadioWrapper
                   name="leManagerSex"
                   label="Пол"
-                  items={generateYesNoRadioItems()}
+                  items={generateSexRadioItems()}
                 />
                 <FormInputWrapper
                   name="leManagerCitizenship"
@@ -341,13 +341,13 @@ export default function Substep1({ getValues }: Substep1Props) {
                   name="leManagerPhone"
                   label="Мобильный телефон"
                 />
-              </>
+              </FormFieldsWrapper>
 
               <FormHeading>
                 Адрес регистрации руководителя управляющей компании
               </FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="leManagerRegistrationCountry"
                   label="Страна"
@@ -380,14 +380,14 @@ export default function Substep1({ getValues }: Substep1Props) {
                   name="leManagerRegistrationApartmentNumber"
                   label="Квартира"
                 />
-              </>
+              </FormFieldsWrapper>
 
               <FormHeading>
                 Сведения о лице, осуществляющем руководство бухгалтерским учетом
                 в управляющей компании
               </FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="leAccountantPosition"
                   label="Занимаемая должность"
@@ -401,7 +401,7 @@ export default function Substep1({ getValues }: Substep1Props) {
                 <FormRadioWrapper
                   name="leAccountantSex"
                   label="Пол"
-                  items={generateYesNoRadioItems()}
+                  items={generateSexRadioItems()}
                 />
                 <FormInputWrapper
                   name="leAccountantCitizenship"
@@ -443,13 +443,13 @@ export default function Substep1({ getValues }: Substep1Props) {
                   name="leAccountantPhone"
                   label="Мобильный телефон"
                 />
-              </>
+              </FormFieldsWrapper>
 
               <FormHeading>
                 Адрес регистрации бухгалтера управляющей компании
               </FormHeading>
 
-              <>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="leAccountantRegistrationCountry"
                   label="Страна"
@@ -482,11 +482,11 @@ export default function Substep1({ getValues }: Substep1Props) {
                   name="leAccountantRegistrationApartmentNumber"
                   label="Квартира"
                 />
-              </>
-            </>
+              </FormFieldsWrapper>
+            </FormWrapper>
           )}
         </>
-      </FormFieldsWrapper>
+      </FormWrapper>
     </FormWrapper>
   )
 }

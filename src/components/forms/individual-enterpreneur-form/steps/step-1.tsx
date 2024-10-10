@@ -18,7 +18,6 @@ export default function Step1() {
         <FormInputWrapper
           name="formerSurname"
           label="Предыдущая фамилия, если менялась"
-          disabled
         />
         <FormInputWrapper name="birthDate" label="Дата рождения" disabled />
         <FormInputWrapper name="phone" label="Мобильный телефон" disabled />
@@ -61,7 +60,6 @@ export default function Step1() {
         <FormInputWrapper
           name="identityDocumentValidThrough"
           label="Срок действия"
-          disabled
         />
         <FormInputWrapper
           name="identityDocumentIssuingAuthority"

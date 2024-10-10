@@ -84,17 +84,20 @@ export default function Step4({
                 name="consentApplicationFormForLeasing"
                 label="Заявление-анкета на лизинг"
                 disabled={true}
+                icon={<img src="/watch-icon.svg" />}
               />
 
               <FormCheckboxWrapper
                 name="consentCreditReport"
                 label="Согласие на предоставление кредитного отчета"
+                icon={<img src="/watch-icon.svg" />}
                 extraOnChange={(checked) => setConsentCreditReport(checked)}
               />
 
               <FormCheckboxWrapper
                 name="consentAdvertisingAndNewsletter"
                 label="Согласие на рекламно-информационную рассылку об услугах А-Лизинг"
+                icon={<img src="/watch-icon.svg" />}
               />
 
               <div className="px-6">

@@ -109,12 +109,12 @@ export default function Step2({
             />
             <FormInputWrapper
               name="registrationBuildingNumber"
-              label="Строение/корпус (необязательно)"
+              label="Строение/корпус"
               disabled
             />
             <FormInputWrapper
               name="registrationApartmentNumber"
-              label="Квартира (необязательно)"
+              label="Квартира"
               disabled
             />
             <FormInputWrapper
@@ -166,12 +166,12 @@ export default function Step2({
               />
               <FormInputWrapper
                 name="residenceBuildingNumber"
-                label="Строение/корпус (необязательно)"
+                label="Строение/корпус"
                 disabled={sameAddress === 'да'}
               />
               <FormInputWrapper
                 name="residenceApartmentNumber"
-                label="Квартира (необязательно)"
+                label="Квартира"
                 disabled={sameAddress === 'да'}
               />
               <FormInputWrapper

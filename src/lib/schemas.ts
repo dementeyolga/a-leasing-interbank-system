@@ -24,14 +24,14 @@ export const naturalPersonFormSchema = z
 
     // Address information
     // Registration address
-    registrationCountry: z.string().min(1, { message: requiredMessage }),
-    registrationSettlement: z.string().min(1, { message: requiredMessage }),
-    registrationStreetType: z.string().min(1, { message: requiredMessage }),
-    registrationStreetName: z.string().min(1, { message: requiredMessage }),
-    registrationHouseNumber: z.string().min(1, { message: requiredMessage }),
+    registrationCountry: z.string().optional(),
+    registrationSettlement: z.string().optional(),
+    registrationStreetType: z.string().optional(),
+    registrationStreetName: z.string().optional(),
+    registrationHouseNumber: z.string().optional(),
     registrationBuildingNumber: z.string().optional(),
     registrationApartmentNumber: z.string().optional(),
-    registrationPostalCode: z.string().min(1, { message: requiredMessage }),
+    registrationPostalCode: z.string().optional(),
 
     // Residence address
     isResidenceAddressMatchRegistration: z
@@ -50,10 +50,19 @@ export const naturalPersonFormSchema = z
     maritalStatus: z.string().min(1, { message: requiredMessage }),
     drivingExperience: z.string().optional(),
     ownsProperty: z.string().optional(),
-    typesOfProperty: z.string().optional(),
+    typesOfProperty: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .or(z.literal(null)),
     ownsCar: z.string().optional(),
-    carBrand: z.string().optional(),
-    carManufactureYear: z.string().optional(),
+    carBrand: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .or(z.literal(null)),
+    carManufactureYear: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .or(z.literal(null)),
 
     // Place of work and income
     jobType: z.string().min(1, { message: requiredMessage }),
@@ -62,7 +71,7 @@ export const naturalPersonFormSchema = z
     jobAccountingOrHRDeptPhone: z.string().min(1, { message: requiredMessage }),
     jobPosition: z.string().min(1, { message: requiredMessage }),
     jobStartDate: z.string().min(1, { message: requiredMessage }),
-    isWorksUnderContract: z.string().min(1, { message: requiredMessage }),
+    isWorksUnderContract: z.string().optional(),
     contractEndDate: z.string().optional(),
     mainIncomeSum: z.string().min(1, { message: requiredMessage }),
     spouseMainIncome: z.string().optional(),
@@ -74,14 +83,14 @@ export const naturalPersonFormSchema = z
     additionalIncomeSum: z.string().optional(),
     totalWorkExperience: z.string().min(1, { message: requiredMessage }),
     educationType: z.string().min(1, { message: requiredMessage }),
-    numberOfDependents: z.string().min(1, { message: requiredMessage }),
+    numberOfDependents: z.string().optional(),
     loansPaymentAmount: z.string().optional(),
     installmentsPaymentAmount: z.string().optional(),
     writOfExecutionPaymentAmount: z.string().optional(),
     alimonyPaymentAmount: z.string().optional(),
 
     // Contacts
-    phone: z.string().min(1, { message: requiredMessage }),
+    phone: z.string().optional(),
     trustedPersonPhone: z.string().min(1, { message: requiredMessage }),
     additionalPhone: z.string().optional(),
     email: z
@@ -96,15 +105,13 @@ export const naturalPersonFormSchema = z
       .refine((val) => val === true, {
         message: requiredMessage,
       }),
-    consentCreditReport: z.boolean().refine((val) => val === true, {
-      message: requiredMessage,
-    }),
+    consentCreditReport: z.boolean().optional(),
     consentAdvertisingAndNewsletter: z.boolean().optional(),
 
     signDocsOTP: z.string().min(6, { message: OTPLengthMessage }),
   })
   .superRefine((data, ctx) => {
-    if (data.trustedPersonPhone.length < 3) {
+    if (data.trustedPersonPhone.length < 1) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: `No duplicates allowed.`,
@@ -171,22 +178,30 @@ export const legalEntityFormSchema = z
     managerIdentityDocumentValidThrough: z.string().optional(),
     managerIdentityDocumentIssuingAuthority: z.string().optional(),
     managerPhone: z.string().optional(),
-    managerRegistrationCountry: z.string().optional(),
-    managerRegistrationRegion: z.string().optional(),
-    managerRegistrationSettlement: z.string().optional(),
-    managerRegistrationStreetType: z.string().optional(),
-    managerRegistrationStreetName: z.string().optional(),
-    managerRegistrationHouseNumber: z.string().optional(),
+    managerRegistrationCountry: z.string().min(1, { message: requiredMessage }),
+    managerRegistrationRegion: z.string().min(1, { message: requiredMessage }),
+    managerRegistrationSettlement: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    managerRegistrationStreetType: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    managerRegistrationStreetName: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    managerRegistrationHouseNumber: z
+      .string()
+      .min(1, { message: requiredMessage }),
     managerRegistrationBuildingNumber: z.string().optional(),
     managerRegistrationApartmentNumber: z.string().optional(),
 
     // 2. case is Inddividual Enterpreneur
-    ieName: z.string().optional(),
-    iePayerAccountingNumber: z.string().optional(),
-    ieRegistrationNumber: z.string().optional(),
-    ieRegistrationDate: z.string().optional(),
+    ieName: z.string().min(1, { message: requiredMessage }),
+    iePayerAccountingNumber: z.string().min(1, { message: requiredMessage }),
+    ieRegistrationNumber: z.string().min(1, { message: requiredMessage }),
+    ieRegistrationDate: z.string().min(1, { message: requiredMessage }),
     ieRegistrationAuthority: z.string().optional(),
-    ieLocation: z.string().optional(),
+    ieLocation: z.string().min(1, { message: requiredMessage }),
     ieManagerPosition: z.string().optional(),
     ieManagerSurname: z.string().optional(),
     ieManagerName: z.string().optional(),
@@ -202,22 +217,34 @@ export const legalEntityFormSchema = z
     ieManagerIdentityDocumentValidThrough: z.string().optional(),
     ieManagerIdentityDocumentIssuingAuthority: z.string().optional(),
     ieManagerPhone: z.string().optional(),
-    ieManagerRegistrationCountry: z.string().optional(),
-    ieManagerRegistrationRegion: z.string().optional(),
-    ieManagerRegistrationSettlement: z.string().optional(),
-    ieManagerRegistrationStreetType: z.string().optional(),
-    ieManagerRegistrationStreetName: z.string().optional(),
-    ieManagerRegistrationHouseNumber: z.string().optional(),
+    ieManagerRegistrationCountry: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    ieManagerRegistrationRegion: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    ieManagerRegistrationSettlement: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    ieManagerRegistrationStreetType: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    ieManagerRegistrationStreetName: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    ieManagerRegistrationHouseNumber: z
+      .string()
+      .min(1, { message: requiredMessage }),
     ieManagerRegistrationBuildingNumber: z.string().optional(),
     ieManagerRegistrationApartmentNumber: z.string().optional(),
 
     // 2. case is Legal Entity
-    leName: z.string().optional(),
-    lePayerAccountingNumber: z.string().optional(),
-    leRegistrationNumber: z.string().optional(),
-    leRegistrationDate: z.string().optional(),
+    leName: z.string().min(1, { message: requiredMessage }),
+    lePayerAccountingNumber: z.string().min(1, { message: requiredMessage }),
+    leRegistrationNumber: z.string().min(1, { message: requiredMessage }),
+    leRegistrationDate: z.string().min(1, { message: requiredMessage }),
     leRegistrationAuthority: z.string().optional(),
-    leLocation: z.string().optional(),
+    leLocation: z.string().min(1, { message: requiredMessage }),
     leManagerPosition: z.string().optional(),
     leManagerSurname: z.string().optional(),
     leManagerName: z.string().optional(),
@@ -233,12 +260,24 @@ export const legalEntityFormSchema = z
     leManagerIdentityDocumentValidThrough: z.string().optional(),
     leManagerIdentityDocumentIssuingAuthority: z.string().optional(),
     leManagerPhone: z.string().optional(),
-    leManagerRegistrationCountry: z.string().optional(),
-    leManagerRegistrationRegion: z.string().optional(),
-    leManagerRegistrationSettlement: z.string().optional(),
-    leManagerRegistrationStreetType: z.string().optional(),
-    leManagerRegistrationStreetName: z.string().optional(),
-    leManagerRegistrationHouseNumber: z.string().optional(),
+    leManagerRegistrationCountry: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leManagerRegistrationRegion: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leManagerRegistrationSettlement: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leManagerRegistrationStreetType: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leManagerRegistrationStreetName: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leManagerRegistrationHouseNumber: z
+      .string()
+      .min(1, { message: requiredMessage }),
     leManagerRegistrationBuildingNumber: z.string().optional(),
     leManagerRegistrationApartmentNumber: z.string().optional(),
     // Accountant
@@ -257,12 +296,24 @@ export const legalEntityFormSchema = z
     leAccountantIdentityDocumentValidThrough: z.string().optional(),
     leAccountantIdentityDocumentIssuingAuthority: z.string().optional(),
     leAccountantPhone: z.string().optional(),
-    leAccountantRegistrationCountry: z.string().optional(),
-    leAccountantRegistrationRegion: z.string().optional(),
-    leAccountantRegistrationSettlement: z.string().optional(),
-    leAccountantRegistrationStreetType: z.string().optional(),
-    leAccountantRegistrationStreetName: z.string().optional(),
-    leAccountantRegistrationHouseNumber: z.string().optional(),
+    leAccountantRegistrationCountry: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leAccountantRegistrationRegion: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leAccountantRegistrationSettlement: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leAccountantRegistrationStreetType: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leAccountantRegistrationStreetName: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    leAccountantRegistrationHouseNumber: z
+      .string()
+      .min(1, { message: requiredMessage }),
     leAccountantRegistrationBuildingNumber: z.string().optional(),
     leAccountantRegistrationApartmentNumber: z.string().optional(),
 
@@ -285,12 +336,24 @@ export const legalEntityFormSchema = z
     accountingManagerIdentityDocumentValidThrough: z.string().optional(),
     accountingManagerIdentityDocumentIssuingAuthority: z.string().optional(),
     accountingManagerPhone: z.string().optional(),
-    accountingManagerRegistrationCountry: z.string().optional(),
-    accountingManagerRegistrationRegion: z.string().optional(),
-    accountingManagerRegistrationSettlement: z.string().optional(),
-    accountingManagerRegistrationStreetType: z.string().optional(),
-    accountingManagerRegistrationStreetName: z.string().optional(),
-    accountingManagerRegistrationHouseNumber: z.string().optional(),
+    accountingManagerRegistrationCountry: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    accountingManagerRegistrationRegion: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    accountingManagerRegistrationSettlement: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    accountingManagerRegistrationStreetType: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    accountingManagerRegistrationStreetName: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    accountingManagerRegistrationHouseNumber: z
+      .string()
+      .min(1, { message: requiredMessage }),
     accountingManagerRegistrationBuildingNumber: z.string().optional(),
     accountingManagerRegistrationApartmentNumber: z.string().optional(),
 
@@ -419,9 +482,7 @@ export const individualEntrepreneurFormSchema = z
     registrationPostalCode: z.string().optional(),
 
     // Residence address
-    isResidenceAddressMatchRegistration: z
-      .string()
-      .min(1, { message: requiredMessage }),
+    isResidenceAddressMatchRegistration: z.string().optional(),
     residenceCountry: z.string().min(1, { message: requiredMessage }),
     residenceSettlement: z.string().min(1, { message: requiredMessage }),
     residenceStreetType: z.string().min(1, { message: requiredMessage }),
@@ -440,7 +501,7 @@ export const individualEntrepreneurFormSchema = z
     ieCoreActivity: z.string().min(1, { message: requiredMessage }),
     ieCCEACode: z.string().min(1, { message: requiredMessage }),
     ieOtherActivity: z.string().optional(),
-    isPublicOfficial: z.string().min(1, { message: requiredMessage }),
+    isPublicOfficial: z.string().optional(),
 
     // Administrative and financial information
     servicingBank: z.string().min(1, { message: requiredMessage }),
@@ -467,14 +528,8 @@ export const individualEntrepreneurFormSchema = z
     revenueLast12Month12: z.string().min(1, { message: requiredMessage }),
 
     // Signing documents
-    consentApplicationFormForLeasing: z
-      .boolean()
-      .refine((val) => val === true, {
-        message: requiredMessage,
-      }),
-    consentCreditReport: z.boolean().refine((val) => val === true, {
-      message: requiredMessage,
-    }),
+    consentApplicationFormForLeasing: z.boolean().optional(),
+    consentCreditReport: z.boolean().optional(),
     consentAdvertisingAndNewsletter: z.boolean().optional(),
 
     signDocsOTP: z.string().min(6, { message: OTPLengthMessage }),

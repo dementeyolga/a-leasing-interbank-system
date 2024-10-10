@@ -24,12 +24,7 @@ export default function FormLabelWrapper({
       }
     >
       {label}
-      {tooltip && (
-        <PopoverWrapper>
-          Для ИП, которые ведут бухгалтерский учет и используют упрощенную
-          систему налогообложения
-        </PopoverWrapper>
-      )}
+      {tooltip && <PopoverWrapper>{tooltip}</PopoverWrapper>}
     </FormLabel>
   )
 }

@@ -13,7 +13,7 @@ export default function Substep3() {
         <FormInputWrapper name="phone" label="Мобильный телефон" />
         <FormInputWrapper
           name="trustedPersonPhone"
-          label="Телефон для экстенной связи (доверенное лицо)"
+          label="Телефон для экстренной связи (доверенное лицо)"
         />
         <FormInputWrapper
           name="additionalPhone"
