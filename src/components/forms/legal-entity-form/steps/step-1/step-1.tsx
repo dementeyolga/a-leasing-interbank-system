@@ -64,7 +64,7 @@ export default function Step1({ getValues }: Step1Props) {
 
         <FormRadioWrapper
           name="wasReorganized"
-          label="Былы ли реорганизация?"
+          label="Была ли реорганизация?"
           items={generateYesNoRadioItems()}
           extraOnChange={(value) => setWasReorganized(value)}
         />
