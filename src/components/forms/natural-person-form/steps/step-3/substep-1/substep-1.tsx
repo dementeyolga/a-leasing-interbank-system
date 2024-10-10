@@ -23,7 +23,7 @@ export default function Substep1({ getValues, setValue }: Substep1Props) {
   const handleOwnsPropertyChange = (value: string) => {
     setOwnsProperty(value)
     if (value === 'нет') {
-      setValue('typesOfProperty', null)
+      setValue('typesOfProperty', undefined)
     } else if (value === 'да') {
       setValue('typesOfProperty', '')
     }
@@ -32,8 +32,8 @@ export default function Substep1({ getValues, setValue }: Substep1Props) {
   const handleOwnsCarChange = (value: string) => {
     setOwnsCar(value)
     if (value === 'нет') {
-      setValue('carBrand', null)
-      setValue('carManufactureYear', null)
+      setValue('carBrand', undefined)
+      setValue('carManufactureYear', undefined)
     } else if (value === 'да') {
       setValue('carBrand', '')
       setValue('carManufactureYear', '')

@@ -53,16 +53,16 @@ export const naturalPersonFormSchema = z
     typesOfProperty: z
       .string()
       .min(1, { message: requiredMessage })
-      .or(z.literal(null)),
+      .or(z.literal(undefined)),
     ownsCar: z.string().optional(),
     carBrand: z
       .string()
       .min(1, { message: requiredMessage })
-      .or(z.literal(null)),
+      .or(z.literal(undefined)),
     carManufactureYear: z
       .string()
       .min(1, { message: requiredMessage })
-      .or(z.literal(null)),
+      .or(z.literal(undefined)),
 
     // Place of work and income
     jobType: z.string().min(1, { message: requiredMessage }),

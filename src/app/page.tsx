@@ -40,7 +40,7 @@ export default function Home() {
       <div className="mt-4 grid max-w-[350px] grid-cols-1 gap-4">
         <CheckboxInput
           id="agree"
-          text={`С Перечнем вознаграждений ООО «А-Лизинг» за оказание услуг ознакомлен *`}
+          label={`С Перечнем вознаграждений ООО «А-Лизинг» за оказание услуг ознакомлен *`}
         />
 
         <RadioGroupInput

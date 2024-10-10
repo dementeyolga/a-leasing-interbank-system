@@ -47,10 +47,10 @@ export const initialDataNaturalPerson: NaturalPersonFormSchema = {
   maritalStatus: 'женат/замужем',
   drivingExperience: '',
   ownsProperty: 'нет',
-  typesOfProperty: null,
+  typesOfProperty: undefined,
   ownsCar: 'нет',
-  carBrand: null,
-  carManufactureYear: null,
+  carBrand: undefined,
+  carManufactureYear: undefined,
 
   // Place of work and income
   jobType: 'иное',

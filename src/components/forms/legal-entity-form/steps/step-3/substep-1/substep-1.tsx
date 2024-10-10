@@ -103,10 +103,6 @@ export default function Substep1({ getValues }: Substep1Props) {
                   label="Страна"
                 />
                 <FormInputWrapper
-                  name="managerRegistrationRegion"
-                  label="Область"
-                />
-                <FormInputWrapper
                   name="managerRegistrationSettlement"
                   label="Населенный пункт"
                 />
