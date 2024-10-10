@@ -100,11 +100,7 @@ export const naturalPersonFormSchema = z
       .optional(),
 
     // Signing documents
-    consentApplicationFormForLeasing: z
-      .boolean()
-      .refine((val) => val === true, {
-        message: requiredMessage,
-      }),
+    consentApplicationFormForLeasing: z.boolean().optional(),
     consentCreditReport: z.boolean().optional(),
     consentAdvertisingAndNewsletter: z.boolean().optional(),
 
@@ -380,14 +376,8 @@ export const legalEntityFormSchema = z
     revenueLast12Month12: z.string().min(1, { message: requiredMessage }),
 
     // Signing documents
-    consentApplicationFormForLeasing: z
-      .boolean()
-      .refine((val) => val === true, {
-        message: requiredMessage,
-      }),
-    consentCreditReport: z.boolean().refine((val) => val === true, {
-      message: requiredMessage,
-    }),
+    consentApplicationFormForLeasing: z.boolean().optional(),
+    consentCreditReport: z.boolean().optional(),
     consentAdvertisingAndNewsletter: z.boolean().optional(),
 
     signDocsOTP: z.string().min(6, { message: OTPLengthMessage }),
