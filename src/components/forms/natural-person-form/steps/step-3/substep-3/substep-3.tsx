@@ -10,7 +10,7 @@ export default function Substep3() {
       <FormHeading>Контакты для связи</FormHeading>
 
       <FormFieldsWrapper>
-        <FormInputWrapper name="phone" label="Мобильный телефон" />
+        <FormInputWrapper name="phone" label="Мобильный телефон" disabled />
         <FormInputWrapper
           name="trustedPersonPhone"
           label="Телефон для экстренной связи (доверенное лицо)"
