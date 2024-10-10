@@ -1,22 +1,9 @@
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
-import { useFormContext } from 'react-hook-form'
-import FormLabelWrapper from './form-label-wrapper'
+import { FieldPath } from 'react-hook-form'
+import InputField from '../../fields/input-field'
 
 interface FormFieldWrapperProps {
-  name: keyof Omit<
-    FormSchema,
-    | 'consentApplicationFormForLeasing'
-    | 'consentCreditReport'
-    | 'consentAdvertisingAndNewsletter'
-    | 'beneficialOwners'
-  >
+  name: FieldPath<FormSchema>
   label: string
   type?: string
   placeholder?: string
@@ -32,28 +19,14 @@ export default function FormInputWrapper({
   disabled,
   tooltip,
 }: FormFieldWrapperProps) {
-  const { control } = useFormContext<FormSchema>()
-
   return (
-    <FormField
-      control={control}
+    <InputField<FormSchema>
       name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabelWrapper name={name} label={label} tooltip={tooltip} />
-          <div>
-            <FormControl>
-              <Input
-                disabled={disabled}
-                type={type}
-                placeholder={placeholder}
-                {...field}
-              />
-            </FormControl>
-            <FormMessage />
-          </div>
-        </FormItem>
-      )}
+      label={label}
+      type={type}
+      placeholder={placeholder}
+      disabled={disabled}
+      tooltip={tooltip}
     />
   )
 }

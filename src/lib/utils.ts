@@ -1,6 +1,7 @@
 import { FormStepVariants } from '@/components/ui/form-step'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { z } from 'zod'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -59,4 +60,23 @@ export function generateSexRadioItems(): {
       text: 'женский',
     },
   ]
+}
+
+export function isFieldRequired(name: string, resolver: unknown): boolean {
+  if (!resolver || typeof resolver !== 'function') return false
+
+  try {
+    resolver({ [name]: undefined })
+    return false
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return error.issues.some(
+        (issue) =>
+          issue.path.join('.') === name &&
+          issue.code === 'invalid_type' &&
+          issue.received === 'undefined',
+      )
+    }
+    return false
+  }
 }

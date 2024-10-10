@@ -25,82 +25,66 @@ export default function Substep3() {
         {fields.map((field, index, arr) => (
           <FormFieldsWrapper key={field.id}>
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerSurname`}
               label="Фамилия"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerName`}
               label="Имя"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerPatronymic`}
               label="Отчество"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerRole`}
               label="Роль (учредитель, участник, член, иное лицо)"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerFraction`}
               label="Доля % в УФ"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerCitizenship`}
               label="Гражданство"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerBirthdate`}
               label="Дата рождения"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerBirthPlace`}
               label="Место рождения"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerIdentityDocumentType`}
               label="Тип документа"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerIdentityDocumentNumber`}
               label="Серия и номер документа"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerIdentificationNumber`}
               label="Идентификационный номер"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerIdentityDocumentIssueDate`}
               label="Дата выдачи"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerIdentityDocumentValidThrough`}
               label="Срок действия"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerIdentityDocumentIssuingAuthority`}
               label="Орган выдавший документ"
             />
             <FormInputWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerPhone`}
               label="Мобильный телефон"
             />
             <FormRadioWrapper
-              // @ts-expect-error: fix later
               name={`beneficialOwners.${index}.beneficialOwnerIsPublicOfficial`}
               label="Является ли данное лицо публичным должностным лицом?"
               items={generateYesNoRadioItems()}
@@ -111,42 +95,34 @@ export default function Substep3() {
 
             <>
               <FormInputWrapper
-                // @ts-expect-error: fix later
                 name={`beneficialOwners.${index}.beneficialOwnerRegistrationCountry`}
                 label="Страна"
               />
               <FormInputWrapper
-                // @ts-expect-error: fix later
                 name={`beneficialOwners.${index}.beneficialOwnerRegistrationRegion`}
                 label="Область"
               />
               <FormInputWrapper
-                // @ts-expect-error: fix later
                 name={`beneficialOwners.${index}.beneficialOwnerRegistrationSettlement`}
                 label="Населенный пункт"
               />
               <FormInputWrapper
-                // @ts-expect-error: fix later
                 name={`beneficialOwners.${index}.beneficialOwnerRegistrationStreetType`}
                 label="Тип улицы"
               />
               <FormInputWrapper
-                // @ts-expect-error: fix later
                 name={`beneficialOwners.${index}.beneficialOwnerRegistrationStreetName`}
                 label="Улица"
               />
               <FormInputWrapper
-                // @ts-expect-error: fix later
                 name={`beneficialOwners.${index}.beneficialOwnerRegistrationHouseNumber`}
                 label="Дом"
               />
               <FormInputWrapper
-                // @ts-expect-error: fix later
                 name={`beneficialOwners.${index}.beneficialOwnerRegistrationBuildingNumber`}
                 label="Строение/корпус"
               />
               <FormInputWrapper
-                // @ts-expect-error: fix later
                 name={`beneficialOwners.${index}.beneficialOwnerRegistrationApartmentNumber`}
                 label="Квартира"
               />
