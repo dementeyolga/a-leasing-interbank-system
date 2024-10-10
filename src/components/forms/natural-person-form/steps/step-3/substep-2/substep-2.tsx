@@ -1,8 +1,8 @@
 import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
 import FormHeading from '@/components/forms/form-heading'
 import FormWrapper from '@/components/forms/form-wrapper'
-import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
-import { generateSexRadioItems } from '@/lib/utils'
+import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
+import { generateYesNoRadioItems } from '@/lib/utils'
 import { useState } from 'react'
 import { UseFormGetValues } from 'react-hook-form'
 import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
@@ -14,142 +14,128 @@ interface Substep2Props {
 }
 
 export default function Substep2({ getValues }: Substep2Props) {
-  const [accountingManagementType, setAccountingManagementType] = useState(
-    () => getValues('accountingManagementType') || '',
+  const [isWorksUnderContract, setIsWorksUnderContract] = useState(
+    () => getValues('isWorksUnderContract') || '',
   )
+  const [hasAdditionalUnconfirmedIncome, setHasAdditionalUnconfirmedIncome] =
+    useState(() => getValues('hasAdditionalUnconfirmedIncome') || '')
 
   return (
     <FormWrapper>
-      <FormHeading tooltip="ином лице, уполномоченном в соответсвии с учредительными документами действовать от имени клиента-организации">
-        Сведения о лице, осуществляющем руководство бухгалтерским учетом
-      </FormHeading>
+      <FormHeading>Место работы и доход</FormHeading>
 
       <FormFieldsWrapper>
         <FormSelectWrapper
-          name="accountingManagementType"
-          label="Кто управляет организацией"
-          values={['физическое лицо', 'юридическое лицо/ИП']}
-          extraOnChange={(value) => setAccountingManagementType(value)}
+          name="jobType"
+          label="Тип должности"
+          values={['иное', 'рабочий', 'специалист', 'руководитель']}
         />
 
+        <FormInputWrapper
+          name="jobOrganization"
+          label="Место работы (наименование организации)"
+        />
+        <FormInputWrapper
+          name="jobOrganizationAddress"
+          label="Адрес организации"
+        />
+        <FormInputWrapper
+          name="jobAccountingOrHRDeptPhone"
+          label="Рабочий номер телефона (отдел кадров или бухгалтерия)"
+        />
+        <FormInputWrapper name="jobPosition" label="Должность" />
+        <FormInputWrapper name="jobStartDate" label="Дата начала работы" />
+
+        <FormRadioWrapper
+          name="isWorksUnderContract"
+          label="Работаете по контракту (трудовому договору)?"
+          items={generateYesNoRadioItems()}
+          extraOnChange={(value) => setIsWorksUnderContract(value)}
+        />
         <>
-          {/* Case 1: Natural person */}
-          {accountingManagementType === 'физическое лицо' && (
-            <>
-              <>
-                <FormInputWrapper
-                  name="accountingManagerPosition"
-                  label="Занимаемая должность"
-                />
-                <FormInputWrapper
-                  name="accountingManagerSurname"
-                  label="Фамилия"
-                />
-                <FormInputWrapper name="accountingManagerName" label="Имя" />
-                <FormInputWrapper
-                  name="accountingManagerPatronymic"
-                  label="Отчество"
-                />
-                <FormRadioWrapper
-                  name="accountingManagerSex"
-                  label="Пол"
-                  items={generateSexRadioItems()}
-                />
-                <FormInputWrapper
-                  name="accountingManagerCitizenship"
-                  label="Гражданство"
-                />
-                <FormInputWrapper
-                  name="accountingManagerBirthdate"
-                  label="Дата рождения"
-                />
-                <FormInputWrapper
-                  name="accountingManagerBirthPlace"
-                  label="Место рождения"
-                />
-                <FormInputWrapper
-                  name="accountingManagerIdentityDocumentType"
-                  label="Тип документа"
-                />
-                <FormInputWrapper
-                  name="accountingManagerIdentityDocumentNumber"
-                  label="Серия и номер документа"
-                />
-                <FormInputWrapper
-                  name="accountingManagerIdentificationNumber"
-                  label="Идентификационный номер"
-                />
-                <FormInputWrapper
-                  name="accountingManagerIdentityDocumentIssueDate"
-                  label="Дата выдачи"
-                />
-                <FormInputWrapper
-                  name="accountingManagerIdentityDocumentValidThrough"
-                  label="Срок действия"
-                />
-                <FormInputWrapper
-                  name="accountingManagerIdentityDocumentIssuingAuthority"
-                  label="Орган, выдавший документ"
-                />
-                <FormInputWrapper
-                  name="accountingManagerPhone"
-                  label="Мобильный телефон"
-                />
-              </>
-
-              <FormHeading>Адрес регистрации</FormHeading>
-
-              <>
-                <FormInputWrapper
-                  name="accountingManagerRegistrationCountry"
-                  label="Страна"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationRegion"
-                  label="Область"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationSettlement"
-                  label="Населенный пункт"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationStreetType"
-                  label="Тип улицы"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationStreetName"
-                  label="Улица"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationHouseNumber"
-                  label="Дом"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationBuildingNumber"
-                  label="Строение/корпус"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationApartmentNumber"
-                  label="Квартира"
-                />
-              </>
-            </>
+          {isWorksUnderContract === 'да' && (
+            <FormInputWrapper
+              name="contractEndDate"
+              label="Дата окончания контракта (трудового договора)"
+            />
           )}
+        </>
 
-          {/* Case 2: IE or LE */}
-          {accountingManagementType === 'юридическое лицо/ИП' && (
+        <FormInputWrapper
+          name="mainIncomeSum"
+          label="Сумма основного дохода, бел. руб."
+        />
+        <FormInputWrapper
+          name="spouseMainIncome"
+          label="Доход супруга по месту основной работы, бел. руб."
+        />
+        <FormInputWrapper
+          name="partTimeWorkIncome"
+          label="Доход по месту работы по совместительству, бел. руб."
+        />
+        <FormInputWrapper
+          name="contractArgeementIncome"
+          label="Доход по договорам подряда, бел. руб."
+        />
+        <FormInputWrapper name="otherIncome" label="Пенсия/иное, бел. руб." />
+
+        <FormRadioWrapper
+          name="hasAdditionalUnconfirmedIncome"
+          label="Наличие дополнительного неподтвержденного дохода"
+          items={generateYesNoRadioItems()}
+          extraOnChange={(value) => setHasAdditionalUnconfirmedIncome(value)}
+        />
+        <>
+          {hasAdditionalUnconfirmedIncome === 'да' && (
             <>
               <FormInputWrapper
-                name="accountingManagementCompanyName"
-                label="Наименование организации"
+                name="additionalIncomeSource"
+                label="Источник дополнительного дохода"
               />
               <FormInputWrapper
-                name="accountingManagementCompanyPayerAccountingNumber"
-                label="УНП"
+                name="additionalIncomeSum"
+                label="Сумма дополнительного дохода, бел. руб."
               />
             </>
           )}
         </>
+
+        <FormInputWrapper
+          name="totalWorkExperience"
+          label="Общий стаж работы, лет"
+        />
+
+        <FormSelectWrapper
+          name="educationType"
+          label="Ваше образование"
+          values={[
+            'общее среднее образование',
+            'профессионально-техническое образование',
+            'среднее специальное образование',
+            'высшее образование',
+          ]}
+        />
+
+        <FormInputWrapper
+          name="numberOfDependents"
+          label="Количество иждивенцев"
+        />
+        <FormInputWrapper
+          name="loansPaymentAmount"
+          label="Сумма платежей по кредитам, бел. руб."
+        />
+        <FormInputWrapper
+          name="installmentsPaymentAmount"
+          label="Сумма платежей по рассрочкам, бел. руб."
+        />
+        <FormInputWrapper
+          name="writOfExecutionPaymentAmount"
+          label="Сумма платежей по исполнительным листам, бел. руб."
+        />
+        <FormInputWrapper
+          name="alimonyPaymentAmount"
+          label="Сумма платежей по алиментам, бел. руб."
+        />
       </FormFieldsWrapper>
     </FormWrapper>
   )

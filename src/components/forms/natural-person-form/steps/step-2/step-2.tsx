@@ -1,39 +1,39 @@
-import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
+import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
+import FormHeading from '@/components/forms/form-heading'
+import FormWrapper from '@/components/forms/form-wrapper'
+import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
 import { Fragment, useEffect, useState } from 'react'
 import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
-import FormFieldsWrapper from '../../../form-fields-wrapper'
-import FormHeading from '../../../form-heading'
-import FormWrapper from '../../../form-wrapper'
 import FormInputWrapper from '../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../field-wrappers/form-radio-wrapper'
 
 interface Step2Props {
   currentSubStep: number
-  legalAddressFields: (keyof FormSchema)[]
-  actualAddressFields: (keyof FormSchema)[]
   setValue: UseFormSetValue<FormSchema>
   getValues: UseFormGetValues<FormSchema>
+  registrationAddressFields: (keyof FormSchema)[]
+  residenceAddressFields: (keyof FormSchema)[]
 }
 
 export default function Step2({
   currentSubStep,
-  legalAddressFields,
-  actualAddressFields,
   setValue,
   getValues,
+  registrationAddressFields,
+  residenceAddressFields,
 }: Step2Props) {
   // Handle setting residence address values same as registration address
   const [sameAddress, setSameAddress] = useState(
-    () => getValues('isActualAddressMatchLegal') || '',
+    getValues('isResidenceAddressMatchRegistration') || '',
   )
 
-  const passLegalValuesToActualAddress = () => {
-    const legalAddressValues = getValues(legalAddressFields)
+  const passRegistrationValuesToResidenceAddress = () => {
+    const legalAddressValues = getValues(registrationAddressFields)
 
-    const concatActualAddressFields = actualAddressFields.slice(1)
+    const slicedResidenceAddressFields = residenceAddressFields.slice(1)
 
-    concatActualAddressFields.forEach((field, i) => {
+    slicedResidenceAddressFields.forEach((field, i) => {
       setValue(field, legalAddressValues[i], {
         shouldValidate: true,
       })
@@ -41,14 +41,14 @@ export default function Step2({
   }
 
   useEffect(() => {
-    if (sameAddress) passLegalValuesToActualAddress()
+    if (sameAddress) passRegistrationValuesToResidenceAddress()
   }, [])
 
   const handleSameAddressChange = (value: string) => {
     setSameAddress(value)
 
     if (value === 'да') {
-      passLegalValuesToActualAddress()
+      passRegistrationValuesToResidenceAddress()
     }
   }
 
@@ -57,32 +57,48 @@ export default function Step2({
       {/* Substep 1 - Registration address */}
       {currentSubStep === 0 && (
         <FormWrapper>
-          <FormHeading>Юридический адрес</FormHeading>
+          <FormHeading>Адрес регистрации</FormHeading>
           <FormFieldsWrapper>
-            <FormInputWrapper name="legalCountry" label="Страна" disabled />
             <FormInputWrapper
-              name="legalSettlement"
+              name="registrationCountry"
+              label="Страна"
+              disabled
+            />
+            <FormInputWrapper
+              name="registrationSettlement"
               label="Населенный пункт"
               disabled
             />
             <FormInputWrapper
-              name="legalStreetType"
+              name="registrationStreetType"
               label="Тип улицы"
               disabled
             />
-            <FormInputWrapper name="legalStreetName" label="Улица" disabled />
-            <FormInputWrapper name="legalHouseNumber" label="Дом" disabled />
             <FormInputWrapper
-              name="legalBuildingNumber"
-              label="Строение/корпус (необязательно)"
+              name="registrationStreetName"
+              label="Улица"
               disabled
             />
             <FormInputWrapper
-              name="legalOfficeNumber"
-              label="Офис (необязательно)"
+              name="registrationHouseNumber"
+              label="Дом"
               disabled
             />
-            <FormInputWrapper name="legalPostalCode" label="Индекс" disabled />
+            <FormInputWrapper
+              name="registrationBuildingNumber"
+              label="Строение/корпус"
+              disabled
+            />
+            <FormInputWrapper
+              name="registrationApartmentNumber"
+              label="Квартира"
+              disabled
+            />
+            <FormInputWrapper
+              name="registrationPostalCode"
+              label="Индекс"
+              disabled
+            />
           </FormFieldsWrapper>
         </FormWrapper>
       )}
@@ -91,52 +107,52 @@ export default function Step2({
       {currentSubStep === 1 && (
         <div className="flex flex-col gap-y-[22px]">
           <FormWrapper>
-            <FormHeading>Фактический адрес</FormHeading>
+            <FormHeading>Адрес проживания</FormHeading>
             <FormFieldsWrapper>
               <FormRadioWrapper
-                name="isActualAddressMatchLegal"
-                label="Фактический адрес совпадает с юридическим адресом?"
+                name="isResidenceAddressMatchRegistration"
+                label="Адрес проживания совпадает с адресом регистрации?"
                 items={generateYesNoRadioItems()}
                 extraOnChange={handleSameAddressChange}
               />
 
               <FormInputWrapper
-                name="actualCountry"
+                name="residenceCountry"
                 label="Страна"
                 disabled={sameAddress === 'да'}
               />
               <FormInputWrapper
-                name="actualSettlement"
+                name="residenceSettlement"
                 label="Населенный пункт"
                 disabled={sameAddress === 'да'}
               />
               <FormInputWrapper
-                name="actualStreetType"
+                name="residenceStreetType"
                 label="Тип улицы"
                 disabled={sameAddress === 'да'}
               />
               <FormInputWrapper
-                name="actualStreetName"
+                name="residenceStreetName"
                 label="Улица"
                 disabled={sameAddress === 'да'}
               />
               <FormInputWrapper
-                name="actualHouseNumber"
+                name="residenceHouseNumber"
                 label="Дом"
                 disabled={sameAddress === 'да'}
               />
               <FormInputWrapper
-                name="actualBuildingNumber"
-                label="Строение/корпус"
+                name="residenceBuildingNumber"
+                label="Строение/корпус (необязательно)"
                 disabled={sameAddress === 'да'}
               />
               <FormInputWrapper
-                name="actualOfficeNumber"
-                label="Офис"
+                name="residenceApartmentNumber"
+                label="Квартира (необязательно)"
                 disabled={sameAddress === 'да'}
               />
               <FormInputWrapper
-                name="actualPostalCode"
+                name="residencePostalCode"
                 label="Индекс"
                 disabled={sameAddress === 'да'}
               />

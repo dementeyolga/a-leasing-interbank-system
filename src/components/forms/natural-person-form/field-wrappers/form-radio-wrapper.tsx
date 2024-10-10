@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 
-import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
+import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
 import { useFormContext } from 'react-hook-form'
 import FormLabelWrapper from './form-label-wrapper'
 

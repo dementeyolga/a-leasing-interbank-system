@@ -1,8 +1,8 @@
 import PopoverWrapper from '@/components/popover/popover-wrapper'
 import { FormLabel } from '@/components/ui/form'
 import {
-  legalEntityFormSchemaShape,
-  type LegalEntityFormSchema as FormSchema,
+  naturalPersonFormSchemaShape,
+  type NaturalPersonFormSchema as FormSchema,
 } from '@/lib/schemas'
 import { z } from 'zod'
 
@@ -19,7 +19,7 @@ export default function FormLabelWrapper({
 }: FormLabelWrapperInterface) {
   return (
     <FormLabel
-      required={!(legalEntityFormSchemaShape[name] instanceof z.ZodOptional)}
+      required={!(naturalPersonFormSchemaShape[name] instanceof z.ZodOptional)}
     >
       {label}
       {tooltip && <PopoverWrapper>{tooltip}</PopoverWrapper>}

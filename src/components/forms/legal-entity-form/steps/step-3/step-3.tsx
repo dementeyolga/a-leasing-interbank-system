@@ -14,13 +14,13 @@ interface Step3Props {
 export default function Step3({ currentSubStep, getValues }: Step3Props) {
   return (
     <Fragment>
-      {/* Substep 1 - Information about the activities */}
+      {/* Substep 1 - Information about the management */}
       {currentSubStep === 0 && <Substep1 getValues={getValues} />}
 
-      {/* Substep 2 -  */}
+      {/* Substep 2 - Information about the accounting management */}
       {currentSubStep === 1 && <Substep2 getValues={getValues} />}
 
-      {/* Substep 3 -  */}
+      {/* Substep 3 - Information about beneficial owners */}
       {currentSubStep === 2 && <Substep3 />}
 
       {/* Substep 4 - Administrative and financial information */}

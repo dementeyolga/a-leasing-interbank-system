@@ -53,7 +53,7 @@ export const initialDataNaturalPerson: NaturalPersonFormSchema = {
   carManufactureYear: '',
 
   // Place of work and income
-  jobType: 'Иное',
+  jobType: 'иное',
   jobOrganization: 'ООО А-лизинг',
   jobOrganizationAddress: 'г. Минск',
   jobAccountingOrHRDeptPhone: '+375 44 444 44 44',
@@ -73,7 +73,7 @@ export const initialDataNaturalPerson: NaturalPersonFormSchema = {
   educationType: 'высшее образование',
   numberOfDependents: '',
   loansPaymentAmount: '',
-  imstallmentsPaymentAmount: '',
+  installmentsPaymentAmount: '',
   writOfExecutionPaymentAmount: '',
   alimonyPaymentAmount: '',
 

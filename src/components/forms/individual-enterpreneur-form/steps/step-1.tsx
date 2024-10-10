@@ -1,15 +1,17 @@
 import { generateYesNoRadioItems } from '@/lib/utils'
+import FormFieldsWrapper from '../../form-fields-wrapper'
 import FormHeading from '../../form-heading'
+import FormWrapper from '../../form-wrapper'
 import FormInputWrapper from '../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../field-wrappers/form-radio-wrapper'
 
 export default function Step1() {
   return (
-    <div className="flex flex-col gap-y-[22px]">
+    <FormWrapper>
       <FormHeading>
         Личные данные и документ, удостоверяющий личность
       </FormHeading>
-      <fieldset className="flex flex-col gap-y-3">
+      <FormFieldsWrapper>
         <FormInputWrapper name="surname" label="Фамилия" disabled />
         <FormInputWrapper name="name" label="Имя" disabled />
         <FormInputWrapper name="patronymic" label="Отчество" disabled />
@@ -79,7 +81,7 @@ export default function Step1() {
           disabled
           items={generateYesNoRadioItems()}
         />
-      </fieldset>
-    </div>
+      </FormFieldsWrapper>
+    </FormWrapper>
   )
 }

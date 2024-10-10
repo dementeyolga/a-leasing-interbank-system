@@ -1,3 +1,5 @@
+import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
+import FormWrapper from '@/components/forms/form-wrapper'
 import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
 import { useState } from 'react'
@@ -16,9 +18,9 @@ export default function Step1({ getValues }: Step1Props) {
   )
 
   return (
-    <div className="flex flex-col gap-y-[22px]">
+    <FormWrapper>
       <FormHeading>Общие сведения о юридическом лице</FormHeading>
-      <fieldset className="flex flex-col gap-y-3">
+      <FormFieldsWrapper>
         <FormInputWrapper
           name="fullName"
           label="Полное наименование"
@@ -66,27 +68,30 @@ export default function Step1({ getValues }: Step1Props) {
           items={generateYesNoRadioItems()}
           extraOnChange={(value) => setWasReorganized(value)}
         />
-        {wasReorganized === 'да' && (
-          <>
-            <FormInputWrapper
-              name="reorganizationType"
-              label="Выберите тип реорганизации"
-            />
-            <FormInputWrapper
-              name="reorganizationDate"
-              label="Дата реорганизации"
-            />
-            <FormInputWrapper
-              name="oldFullNameAndLegalForm"
-              label="Прежнее полное наименование и правовая форма"
-            />
-            <FormInputWrapper
-              name="oldPayerAccountingNumber"
-              label="Прежний УНП"
-            />
-          </>
-        )}
-      </fieldset>
-    </div>
+
+        <>
+          {wasReorganized === 'да' && (
+            <>
+              <FormInputWrapper
+                name="reorganizationType"
+                label="Выберите тип реорганизации"
+              />
+              <FormInputWrapper
+                name="reorganizationDate"
+                label="Дата реорганизации"
+              />
+              <FormInputWrapper
+                name="oldFullNameAndLegalForm"
+                label="Прежнее полное наименование и правовая форма"
+              />
+              <FormInputWrapper
+                name="oldPayerAccountingNumber"
+                label="Прежний УНП"
+              />
+            </>
+          )}
+        </>
+      </FormFieldsWrapper>
+    </FormWrapper>
   )
 }

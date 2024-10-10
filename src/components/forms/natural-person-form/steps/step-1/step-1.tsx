@@ -1,92 +1,91 @@
-import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
-import { generateYesNoRadioItems } from '@/lib/utils'
-import { useState } from 'react'
-import { UseFormGetValues } from 'react-hook-form'
+import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
+import FormWrapper from '@/components/forms/form-wrapper'
+import { generateSexRadioItems, generateYesNoRadioItems } from '@/lib/utils'
 import FormHeading from '../../../form-heading'
 import FormInputWrapper from '../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../field-wrappers/form-radio-wrapper'
 
-interface Step1Props {
-  getValues: UseFormGetValues<FormSchema>
-}
-
-export default function Step1({ getValues }: Step1Props) {
-  const [wasReorganized, setWasReorganized] = useState(
-    () => getValues('wasReorganized') || '',
-  )
-
+export default function Step1() {
+  // 'surname',
+  // 'name',
+  // 'patronymic',
+  // 'formerSurname',
+  // 'birthDate',
+  // 'sex',
+  // 'identityDocumentType',
+  // 'identityDocumentNumber',
+  // 'identificationNumber',
+  // 'identityDocumentIssueDate',
+  // 'identityDocumentValidThrough',
+  // 'identityDocumentIssuingAuthority',
+  // 'isResidentOfBelarus',
+  // 'isTaxResidentOfUSA',
   return (
-    <div className="flex flex-col gap-y-[22px]">
-      <FormHeading>Общие сведения о юридическом лице</FormHeading>
-      <fieldset className="flex flex-col gap-y-3">
+    <FormWrapper>
+      <FormHeading>
+        Личные данные и документ, удостоверяющий личность
+      </FormHeading>
+      <FormFieldsWrapper>
+        <FormInputWrapper name="surname" label="Фамилия" disabled />
+        <FormInputWrapper name="name" label="Имя" disabled />
+        <FormInputWrapper name="patronymic" label="Отчество" disabled />
         <FormInputWrapper
-          name="fullName"
-          label="Полное наименование"
-          disabled
+          name="formerSurname"
+          label="Предыдущая фамилия, если менялась"
         />
-        <FormInputWrapper name="payerAccountingNumber" label="УНП" disabled />
-        <FormInputWrapper
-          name="registrationNumber"
-          label="Регистрационный номер"
-          disabled
-        />
-        <FormInputWrapper
-          name="registrationDate"
-          label="Дата регистрации"
-          disabled
-        />
-        <FormInputWrapper
-          name="registrationAuthority"
-          label="Наименование регистрирующего органа"
-          disabled
-        />
-        <FormInputWrapper
-          name="coreActivity"
-          label="Основной вид деятельности"
-        />
-        <FormInputWrapper name="CCEACode" label="Код ОКЭД" />
-        <FormInputWrapper
-          name="otherActivity"
-          label="Другие фактически осуществляемые виды деятельности"
-        />
-        <FormInputWrapper
-          name="dateOfActivityBeginning"
-          label="Дата начала хозяйственной деятельности"
-          tooltip="первое отображение денежных средств на счетах организации"
-        />
-        <FormInputWrapper
-          name="licenceValidThrough"
-          label="Срок действия лицензии"
-          tooltip="в случае, если деятельность лицензируется"
-        />
+        <FormInputWrapper name="birthDate" label="Дата рождения" disabled />
 
         <FormRadioWrapper
-          name="wasReorganized"
-          label="Былы ли реорганизация?"
-          items={generateYesNoRadioItems()}
-          extraOnChange={(value) => setWasReorganized(value)}
+          name="sex"
+          label="Пол"
+          items={generateSexRadioItems()}
+          disabled
         />
-        {wasReorganized === 'да' && (
-          <>
-            <FormInputWrapper
-              name="reorganizationType"
-              label="Выберите тип реорганизации"
-            />
-            <FormInputWrapper
-              name="reorganizationDate"
-              label="Дата реорганизации"
-            />
-            <FormInputWrapper
-              name="oldFullNameAndLegalForm"
-              label="Прежнее полное наименование и правовая форма"
-            />
-            <FormInputWrapper
-              name="oldPayerAccountingNumber"
-              label="Прежний УНП"
-            />
-          </>
-        )}
-      </fieldset>
-    </div>
+
+        <FormInputWrapper
+          name="identityDocumentType"
+          label="Тип документа, удостоверяющего личность"
+          disabled
+        />
+        <FormInputWrapper
+          name="identityDocumentNumber"
+          label="Серия и номер документа"
+          disabled
+        />
+        <FormInputWrapper
+          name="identificationNumber"
+          label="Идентификационный номер"
+          disabled
+        />
+        <FormInputWrapper
+          name="identityDocumentIssueDate"
+          label="Дата выдачи"
+          disabled
+        />
+        <FormInputWrapper
+          name="identityDocumentValidThrough"
+          label="Срок действия"
+          disabled
+        />
+        <FormInputWrapper
+          name="identityDocumentIssuingAuthority"
+          label="Орган, выдавший документ"
+          disabled
+        />
+      </FormFieldsWrapper>
+
+      <FormRadioWrapper
+        name="isResidentOfBelarus"
+        label="Вы резидент Республики Беларусь?"
+        items={generateYesNoRadioItems()}
+        disabled
+      />
+      <FormRadioWrapper
+        name="isTaxResidentOfUSA"
+        label="Вы налоговый резидент США?"
+        items={generateYesNoRadioItems()}
+        disabled
+      />
+    </FormWrapper>
   )
 }
