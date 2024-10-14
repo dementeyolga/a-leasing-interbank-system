@@ -1,21 +1,9 @@
-import { SelectInput } from '@/components/select/select'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form'
 import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
-import { useFormContext } from 'react-hook-form'
-import FormLabelWrapper from './form-label-wrapper'
+import { FieldPath } from 'react-hook-form'
+import SelectField from '../../fields/select-field'
 
 interface FormSelectWrapperProps {
-  name: keyof Omit<
-    FormSchema,
-    | 'consentApplicationFormForLeasing'
-    | 'consentCreditReport'
-    | 'consentAdvertisingAndNewsletter'
-  >
+  name: FieldPath<FormSchema>
   label: string
   placeholder: string
   values: string[]
@@ -31,30 +19,14 @@ export default function FormSelectWrapper({
   disabled,
   tooltip,
 }: FormSelectWrapperProps) {
-  const { control } = useFormContext<FormSchema>()
-
   return (
-    <FormField
-      control={control}
+    <SelectField<FormSchema>
       name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabelWrapper name={name} label={label} tooltip={tooltip} />
-          <div>
-            <FormControl>
-              <SelectInput
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                disabled={disabled}
-                placeholder={placeholder}
-                values={values}
-                {...field}
-              />
-            </FormControl>
-            <FormMessage />
-          </div>
-        </FormItem>
-      )}
+      label={label}
+      placeholder={placeholder}
+      values={values}
+      disabled={disabled}
+      tooltip={tooltip}
     />
   )
 }
