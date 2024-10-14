@@ -1,4 +1,8 @@
-import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
+import {
+  naturalPersonFormSchema,
+  type NaturalPersonFormSchema as FormSchema,
+} from '@/lib/schemas'
+import { isFieldRequired } from '@/lib/utils'
 import { FieldPath } from 'react-hook-form'
 import TextareaField from '../../fields/textarea-field'
 
@@ -21,6 +25,7 @@ export default function FormTextareaWrapper({
     <TextareaField<FormSchema>
       name={name}
       label={label}
+      required={isFieldRequired(name, naturalPersonFormSchema)}
       disabled={disabled}
       placeholder={placeholder}
       tooltip={tooltip}

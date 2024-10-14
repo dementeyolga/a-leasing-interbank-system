@@ -5,6 +5,7 @@ import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 
 import FormHeading from '@/components/forms/form-heading'
 import { Separator } from '@/components/ui/separator'
+import { templateBeneficialOwnerData } from '@/data/template-client-data'
 import { generateYesNoRadioItems } from '@/lib/utils'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
@@ -136,34 +137,7 @@ export default function Substep3() {
       <Button
         variant={'dotted'}
         size={'smLong'}
-        onClick={() =>
-          append({
-            beneficialOwnerSurname: '',
-            beneficialOwnerName: '',
-            beneficialOwnerPatronymic: '',
-            beneficialOwnerRole: '',
-            beneficialOwnerFraction: '',
-            beneficialOwnerCitizenship: '',
-            beneficialOwnerBirthdate: '',
-            beneficialOwnerBirthPlace: '',
-            beneficialOwnerIdentityDocumentType: '',
-            beneficialOwnerIdentityDocumentNumber: '',
-            beneficialOwnerIdentificationNumber: '',
-            beneficialOwnerIdentityDocumentIssueDate: '',
-            beneficialOwnerIdentityDocumentValidThrough: '',
-            beneficialOwnerIdentityDocumentIssuingAuthority: '',
-            beneficialOwnerPhone: '',
-            beneficialOwnerIsPublicOfficial: '',
-            beneficialOwnerRegistrationCountry: '',
-            beneficialOwnerRegistrationRegion: '',
-            beneficialOwnerRegistrationSettlement: '',
-            beneficialOwnerRegistrationStreetType: '',
-            beneficialOwnerRegistrationStreetName: '',
-            beneficialOwnerRegistrationHouseNumber: '',
-            beneficialOwnerRegistrationBuildingNumber: '',
-            beneficialOwnerRegistrationApartmentNumber: '',
-          })
-        }
+        onClick={() => append(templateBeneficialOwnerData)}
       >
         Добавить еще
         <div className="ml-2">

@@ -1,4 +1,8 @@
-import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
+import {
+  legalEntityFormSchema,
+  type LegalEntityFormSchema as FormSchema,
+} from '@/lib/schemas'
+import { isFieldRequired } from '@/lib/utils'
 import { FieldPath } from 'react-hook-form'
 import SelectField from '../../fields/select-field'
 
@@ -25,6 +29,7 @@ export default function FormSelectWrapper({
     <SelectField<FormSchema>
       name={name}
       label={label}
+      required={isFieldRequired(name, legalEntityFormSchema)}
       placeholder={placeholder}
       values={values}
       disabled={disabled}

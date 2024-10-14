@@ -62,21 +62,44 @@ export function generateSexRadioItems(): {
   ]
 }
 
-export function isFieldRequired(name: string, resolver: unknown): boolean {
-  if (!resolver || typeof resolver !== 'function') return false
+type ZodPrimitiveType = z.ZodString | z.ZodNumber | z.ZodBoolean
+type ZodSchemaType =
+  | z.ZodObject<Record<string, z.ZodTypeAny>>
+  | z.ZodArray<z.ZodTypeAny>
+  | ZodPrimitiveType
+  | z.ZodOptional<ZodPrimitiveType>
 
-  try {
-    resolver({ [name]: undefined })
-    return false
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return error.issues.some(
-        (issue) =>
-          issue.path.join('.') === name &&
-          issue.code === 'invalid_type' &&
-          issue.received === 'undefined',
-      )
+export function isFieldRequired(path: string, schema: ZodSchemaType): boolean {
+  const pathArray = path.split(/\.(?![^[]*\])/)
+  let currentSchema: ZodSchemaType = schema
+
+  for (const key of pathArray) {
+    if (currentSchema instanceof z.ZodObject) {
+      const shape = currentSchema.shape
+      currentSchema = shape[key] as ZodSchemaType
+    } else if (currentSchema instanceof z.ZodArray) {
+      const match = key.match(/(\d+)/)
+      if (match) {
+        currentSchema = currentSchema.element as ZodSchemaType
+      } else {
+        return false
+      }
+    } else {
+      return false
     }
+
+    if (!currentSchema) {
+      return false
+    }
+  }
+
+  if (currentSchema instanceof z.ZodOptional) {
     return false
   }
+
+  return (
+    currentSchema instanceof z.ZodString ||
+    currentSchema instanceof z.ZodNumber ||
+    currentSchema instanceof z.ZodBoolean
+  )
 }

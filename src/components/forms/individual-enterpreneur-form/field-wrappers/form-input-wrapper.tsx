@@ -1,4 +1,8 @@
-import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
+import {
+  type IndividuaEntrepreneurFormSchema as FormSchema,
+  individualEntrepreneurFormSchema,
+} from '@/lib/schemas'
+import { isFieldRequired } from '@/lib/utils'
 import { FieldPath } from 'react-hook-form'
 import InputField from '../../fields/input-field'
 
@@ -27,6 +31,7 @@ export default function FormInputWrapper({
       placeholder={placeholder}
       disabled={disabled}
       tooltip={tooltip}
+      required={isFieldRequired(name, individualEntrepreneurFormSchema)}
     />
   )
 }

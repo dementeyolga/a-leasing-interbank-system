@@ -1,4 +1,8 @@
-import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
+import {
+  individualEntrepreneurFormSchema,
+  type IndividuaEntrepreneurFormSchema as FormSchema,
+} from '@/lib/schemas'
+import { isFieldRequired } from '@/lib/utils'
 import { FieldPath } from 'react-hook-form'
 import TextareaField from '../../fields/textarea-field'
 
@@ -21,6 +25,7 @@ export default function FormTextareaWrapper({
     <TextareaField<FormSchema>
       name={name}
       label={label}
+      required={isFieldRequired(name, individualEntrepreneurFormSchema)}
       disabled={disabled}
       placeholder={placeholder}
       tooltip={tooltip}

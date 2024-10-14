@@ -1,4 +1,8 @@
-import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
+import {
+  legalEntityFormSchema,
+  type LegalEntityFormSchema as FormSchema,
+} from '@/lib/schemas'
+import { isFieldRequired } from '@/lib/utils'
 import { FieldPath } from 'react-hook-form'
 import InputField from '../../fields/input-field'
 
@@ -23,6 +27,7 @@ export default function FormInputWrapper({
     <InputField<FormSchema>
       name={name}
       label={label}
+      required={isFieldRequired(name, legalEntityFormSchema)}
       type={type}
       placeholder={placeholder}
       disabled={disabled}

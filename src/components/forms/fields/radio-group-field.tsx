@@ -8,13 +8,13 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { isFieldRequired } from '@/lib/utils'
 import { FieldPath, FieldValues, useFormContext } from 'react-hook-form'
 import FormLabelWrapper from './label'
 
 interface RadioGroupFieldProps<T extends FieldValues> {
   name: FieldPath<T>
   label: string
+  required: boolean
   items: RadioGroupItems
   disabled?: boolean
   extraOnChange?: (value: string) => void
@@ -24,6 +24,7 @@ interface RadioGroupFieldProps<T extends FieldValues> {
 export default function RadioGroupField<T extends FieldValues>({
   name,
   label,
+  required,
   items,
   disabled,
   extraOnChange,
@@ -40,7 +41,7 @@ export default function RadioGroupField<T extends FieldValues>({
           <FormLabelWrapper
             label={label}
             tooltip={tooltip}
-            required={isFieldRequired(name, control._options.resolver)}
+            required={required}
           />
           <FormControl>
             <RadioGroupInput

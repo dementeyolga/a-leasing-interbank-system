@@ -1,5 +1,9 @@
 import { RadioGroupItems } from '@/components/radio-group/radio-group'
-import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
+import {
+  individualEntrepreneurFormSchema,
+  type IndividuaEntrepreneurFormSchema as FormSchema,
+} from '@/lib/schemas'
+import { isFieldRequired } from '@/lib/utils'
 import { FieldPath } from 'react-hook-form'
 import RadioGroupField from '../../fields/radio-group-field'
 
@@ -24,6 +28,7 @@ export default function FormRadioWrapper({
     <RadioGroupField<FormSchema>
       name={name}
       label={label}
+      required={isFieldRequired(name, individualEntrepreneurFormSchema)}
       items={items}
       disabled={disabled}
       extraOnChange={extraOnChange}

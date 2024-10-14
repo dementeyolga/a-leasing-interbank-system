@@ -5,13 +5,13 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import { isFieldRequired } from '@/lib/utils'
 import { FieldPath, FieldValues, useFormContext } from 'react-hook-form'
 import FormLabelWrapper from './label'
 
 interface TextareaFieldProps<T extends FieldValues> {
   name: FieldPath<T>
   label: string
+  required: boolean
   placeholder?: string
   disabled?: boolean
   tooltip?: string
@@ -20,6 +20,7 @@ interface TextareaFieldProps<T extends FieldValues> {
 export default function TextareaField<T extends FieldValues>({
   name,
   label,
+  required,
   disabled,
   placeholder,
   tooltip,
@@ -35,7 +36,7 @@ export default function TextareaField<T extends FieldValues>({
           <FormLabelWrapper
             label={label}
             tooltip={tooltip}
-            required={isFieldRequired(name, control._options.resolver)}
+            required={required}
           />
           <div>
             <FormControl>

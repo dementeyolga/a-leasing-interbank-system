@@ -5,13 +5,13 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { isFieldRequired } from '@/lib/utils'
 import { FieldPath, FieldValues, useFormContext } from 'react-hook-form'
 import FormLabelWrapper from './label'
 
 interface SelectFieldProps<T extends FieldValues> {
   name: FieldPath<T>
   label: string
+  required: boolean
   placeholder?: string
   values: string[]
   disabled?: boolean
@@ -22,6 +22,7 @@ interface SelectFieldProps<T extends FieldValues> {
 export default function SelectField<T extends FieldValues>({
   name,
   label,
+  required,
   placeholder,
   values,
   disabled,
@@ -39,7 +40,7 @@ export default function SelectField<T extends FieldValues>({
           <FormLabelWrapper
             label={label}
             tooltip={tooltip}
-            required={isFieldRequired(name, control._options.resolver)}
+            required={required}
           />
           <div>
             <FormControl>
