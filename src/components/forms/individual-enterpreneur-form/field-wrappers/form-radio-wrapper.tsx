@@ -1,25 +1,10 @@
-import {
-  RadioGroupInput,
-  RadioGroupItems,
-} from '@/components/radio-group/radio-group'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form'
-
+import { RadioGroupItems } from '@/components/radio-group/radio-group'
 import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
-import { useFormContext } from 'react-hook-form'
-import FormLabelWrapper from './form-label-wrapper'
+import { FieldPath } from 'react-hook-form'
+import RadioGroupField from '../../fields/radio-group-field'
 
 interface FormFieldWrapperProps {
-  name: keyof Omit<
-    FormSchema,
-    | 'consentApplicationFormForLeasing'
-    | 'consentCreditReport'
-    | 'consentAdvertisingAndNewsletter'
-  >
+  name: FieldPath<FormSchema>
   label: string
   items: RadioGroupItems
   disabled?: boolean
@@ -35,30 +20,14 @@ export default function FormRadioWrapper({
   extraOnChange,
   tooltip,
 }: FormFieldWrapperProps) {
-  const { control } = useFormContext<FormSchema>()
-
   return (
-    <FormField
-      control={control}
+    <RadioGroupField<FormSchema>
       name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabelWrapper name={name} label={label} tooltip={tooltip} />
-          <FormControl>
-            <RadioGroupInput
-              onValueChange={(value) => {
-                field.onChange(value)
-                if (extraOnChange) extraOnChange(value)
-              }}
-              defaultValue={field.value}
-              items={items}
-              disabled={disabled}
-              className="flex flex-col space-y-1"
-            ></RadioGroupInput>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
+      label={label}
+      items={items}
+      disabled={disabled}
+      extraOnChange={extraOnChange}
+      tooltip={tooltip}
     />
   )
 }

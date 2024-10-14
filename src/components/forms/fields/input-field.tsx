@@ -9,7 +9,7 @@ import { isFieldRequired } from '@/lib/utils'
 import { FieldPath, FieldValues, useFormContext } from 'react-hook-form'
 import FormLabelWrapper from './label'
 
-interface FormInputWrapperProps<T extends FieldValues> {
+interface InputFieldProps<T extends FieldValues> {
   name: FieldPath<T>
   label: string
   type?: string
@@ -25,7 +25,7 @@ export default function InputField<T extends FieldValues>({
   placeholder,
   disabled,
   tooltip,
-}: FormInputWrapperProps<T>) {
+}: InputFieldProps<T>) {
   const { control } = useFormContext<T>()
 
   return (
