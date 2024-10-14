@@ -1,2 +1,3 @@
-export const REGEXP_ONLY_DIGITS = '^\\d+$'
-export const REGEXP_ONLY_CYRILLIC_AND_DILIMITERS = '^[А-Яа-я -]+$'
+export const REGEX_ONLY_DIGITS = /^\d+$/
+export const REGEX_SUM = /^[\d,.\s]+$/
+export const REGEX_CYRILLIC_AND_DILIMITERS = /^[А-Яа-я -]+$/

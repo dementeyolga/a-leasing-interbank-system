@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { REGEX_ONLY_DIGITS, REGEX_SUM } from './regex'
 
 const requiredMessage = 'Обязательное поле'
 const wrongFormatMessage = 'Некорректный формат данных'
@@ -43,7 +44,10 @@ export const naturalPersonFormSchema = z.object({
   residenceHouseNumber: z.string().min(1, { message: requiredMessage }),
   residenceBuildingNumber: z.string().optional(),
   residenceApartmentNumber: z.string().optional(),
-  residencePostalCode: z.string().min(1, { message: requiredMessage }),
+  residencePostalCode: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
 
   // Marital status and property ownership
   maritalStatus: z.string().min(1, { message: requiredMessage }),
@@ -72,21 +76,64 @@ export const naturalPersonFormSchema = z.object({
   jobStartDate: z.string().min(1, { message: requiredMessage }),
   isWorksUnderContract: z.string().optional(),
   contractEndDate: z.string().optional(),
-  mainIncomeSum: z.string().min(1, { message: requiredMessage }),
-  spouseMainIncome: z.string().optional(),
-  partTimeWorkIncome: z.string().optional(),
-  contractArgeementIncome: z.string().optional(),
-  otherIncome: z.string().optional(),
+  mainIncomeSum: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  spouseMainIncome: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
+  partTimeWorkIncome: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
+  contractArgeementIncome: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
+  otherIncome: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
   hasAdditionalUnconfirmedIncome: z.string().optional(),
   additionalIncomeSource: z.string().optional(),
-  additionalIncomeSum: z.string().optional(),
+  additionalIncomeSum: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
   totalWorkExperience: z.string().min(1, { message: requiredMessage }),
   educationType: z.string().min(1, { message: requiredMessage }),
-  numberOfDependents: z.string().optional(),
-  loansPaymentAmount: z.string().optional(),
-  installmentsPaymentAmount: z.string().optional(),
-  writOfExecutionPaymentAmount: z.string().optional(),
-  alimonyPaymentAmount: z.string().optional(),
+  numberOfDependents: z
+    .string()
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
+  loansPaymentAmount: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
+  installmentsPaymentAmount: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
+  writOfExecutionPaymentAmount: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
+  alimonyPaymentAmount: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
 
   // Contacts
   phone: z.string().optional(),
@@ -114,7 +161,10 @@ export const legalEntityFormSchema = z.object({
   registrationDate: z.string().optional(),
   registrationAuthority: z.string().optional(),
   coreActivity: z.string().min(1, { message: requiredMessage }),
-  CCEACode: z.string().min(1, { message: requiredMessage }),
+  CCEACode: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
   otherActivity: z.string().optional(),
   dateOfActivityBeginning: z.string().optional(),
   licenceValidThrough: z.string().optional(),
@@ -144,7 +194,10 @@ export const legalEntityFormSchema = z.object({
   actualHouseNumber: z.string().min(1, { message: requiredMessage }),
   actualBuildingNumber: z.string().optional(),
   actualOfficeNumber: z.string().optional(),
-  actualPostalCode: z.string().min(1, { message: requiredMessage }),
+  actualPostalCode: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
 
   // Information about legal entity
   organizationManagementType: z.string().min(1, { message: requiredMessage }),
@@ -337,9 +390,17 @@ export const legalEntityFormSchema = z.object({
   // Administrative and financial information
   servicingBank: z.string().min(1, { message: requiredMessage }),
   hasNetLossLast3Month: z.string().optional(),
-  netLossLast3MonthSum: z.string().optional(),
+  netLossLast3MonthSum: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
   hasNetLossLastQuarterlyDate: z.string().optional(),
-  netLossLastQuarterlyDateSum: z.string().optional(),
+  netLossLastQuarterlyDateSum: z
+    .string()
+    .regex(REGEX_SUM, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
   hasCasesManagersCriminalResponsibility: z.string().optional(),
   hasCasesManagersCriminalResponsibilityReasons: z.string().optional(),
   isParticipateInTrial: z.string().optional(),
@@ -348,18 +409,54 @@ export const legalEntityFormSchema = z.object({
   isFinancialSanctionsAppliedLastYearReasons: z.string().optional(),
   isParticipateInBankruptEntities: z.string().optional(),
   isParticipateInBankruptEntitiesReasons: z.string().optional(),
-  revenueLast12Month1: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month2: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month3: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month4: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month5: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month6: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month7: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month8: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month9: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month10: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month11: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month12: z.string().min(1, { message: requiredMessage }),
+  revenueLast12Month1: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month2: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month3: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month4: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month5: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month6: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month7: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month8: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month9: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month10: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month11: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month12: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
 
   // Signing documents
   consentApplicationFormForLeasing: z.boolean().optional(),
@@ -408,7 +505,10 @@ export const individualEntrepreneurFormSchema = z.object({
   residenceHouseNumber: z.string().min(1, { message: requiredMessage }),
   residenceBuildingNumber: z.string().optional(),
   residenceApartmentNumber: z.string().optional(),
-  residencePostalCode: z.string().min(1, { message: requiredMessage }),
+  residencePostalCode: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
 
   // Inndividual entrepreneur information
   // General
@@ -417,7 +517,10 @@ export const individualEntrepreneurFormSchema = z.object({
   ieRegistrationDate: z.string().min(1, { message: requiredMessage }),
   ieRegistrationAuthority: z.string().optional(),
   ieCoreActivity: z.string().min(1, { message: requiredMessage }),
-  ieCCEACode: z.string().min(1, { message: requiredMessage }),
+  ieCCEACode: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
   ieOtherActivity: z.string().optional(),
   isPublicOfficial: z.string().optional(),
 
@@ -432,18 +535,54 @@ export const individualEntrepreneurFormSchema = z.object({
   isFinancialSanctionsAppliedLastYearReasons: z.string().optional(),
   isParticipateInBankruptEntities: z.string().optional(),
   isParticipateInBankruptEntitiesReasons: z.string().optional(),
-  revenueLast12Month1: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month2: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month3: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month4: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month5: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month6: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month7: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month8: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month9: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month10: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month11: z.string().min(1, { message: requiredMessage }),
-  revenueLast12Month12: z.string().min(1, { message: requiredMessage }),
+  revenueLast12Month1: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month2: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month3: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month4: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month5: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month6: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month7: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month8: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month9: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month10: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month11: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
+  revenueLast12Month12: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_SUM, { message: wrongFormatMessage }),
 
   // Signing documents
   consentApplicationFormForLeasing: z.boolean().optional(),

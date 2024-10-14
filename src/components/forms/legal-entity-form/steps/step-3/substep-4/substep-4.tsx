@@ -148,22 +148,57 @@ export default function Substep4({ getValues }: Substep4Props) {
         </>
 
         <div>
-          <FormLabel>Сведения о выручке за последние 12 месяцев:</FormLabel>
+          <FormLabel>
+            Сведения о выручке за последние 12 месяцев, BYN:
+          </FormLabel>
           <div className="gap-x grid grid-cols-2 gap-x-1 gap-y-1.5">
-            <FormInputWrapper name="revenueLast12Month1" label="Октябрь 2023" />
-            <FormInputWrapper name="revenueLast12Month2" label="Ноябрь 2023" />
-            <FormInputWrapper name="revenueLast12Month3" label="Декабрь 2023" />
-            <FormInputWrapper name="revenueLast12Month4" label="Январь 2024" />
-            <FormInputWrapper name="revenueLast12Month5" label="Февраль 2024" />
-            <FormInputWrapper name="revenueLast12Month6" label="Март 2024" />
-            <FormInputWrapper name="revenueLast12Month7" label="Апрель 2024" />
-            <FormInputWrapper name="revenueLast12Month8" label="Май 2024" />
-            <FormInputWrapper name="revenueLast12Month9" label="Июнь 2024" />
-            <FormInputWrapper name="revenueLast12Month10" label="Июль 2024" />
-            <FormInputWrapper name="revenueLast12Month11" label="Август 2024" />
+            <FormInputWrapper
+              name="revenueLast12Month1"
+              label="Октябрь 2023, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month2"
+              label="Ноябрь 2023, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month3"
+              label="Декабрь 2023, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month4"
+              label="Январь 2024, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month5"
+              label="Февраль 2024, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month6"
+              label="Март 2024, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month7"
+              label="Апрель 2024, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month8"
+              label="Май 2024, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month9"
+              label="Июнь 2024, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month10"
+              label="Июль 2024, BYN"
+            />
+            <FormInputWrapper
+              name="revenueLast12Month11"
+              label="Август 2024, BYN"
+            />
             <FormInputWrapper
               name="revenueLast12Month12"
-              label="Сентябрь 2024"
+              label="Сентябрь 2024, BYN"
             />
           </div>
         </div>
