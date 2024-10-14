@@ -1,21 +1,9 @@
-import { CheckboxInput } from '@/components/checkbox/checkbox'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form'
 import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
-import Link from 'next/link'
-import { useFormContext } from 'react-hook-form'
+import { FieldPath } from 'react-hook-form'
+import CheckboxField from '../../fields/checkbox-field'
 
 interface FormCheckboxWrapperProps {
-  name: keyof Pick<
-    FormSchema,
-    | 'consentApplicationFormForLeasing'
-    | 'consentCreditReport'
-    | 'consentAdvertisingAndNewsletter'
-  >
+  name: FieldPath<FormSchema>
   label: string
   disabled?: boolean
   icon?: JSX.Element
@@ -29,39 +17,13 @@ export default function FormCheckboxWrapper({
   icon,
   extraOnChange,
 }: FormCheckboxWrapperProps) {
-  const { control } = useFormContext<FormSchema>()
-
   return (
-    <FormField
-      control={control}
+    <CheckboxField<FormSchema>
       name={name}
-      render={({ field }) => (
-        <FormItem>
-          <div className="rounded-md bg-popover px-6 py-7">
-            <FormControl>
-              <div className="flex items-center justify-between">
-                <CheckboxInput
-                  id={crypto.randomUUID()}
-                  label={label}
-                  disabled={disabled}
-                  checked={field.value}
-                  onCheckedChange={(value) => {
-                    field.onChange(value)
-                    if (extraOnChange) extraOnChange(value)
-                  }}
-                  {...field}
-                />
-                {icon && (
-                  <Link className="shrink-0" href={'/'}>
-                    {icon}
-                  </Link>
-                )}
-              </div>
-            </FormControl>
-            <FormMessage />
-          </div>
-        </FormItem>
-      )}
+      label={label}
+      disabled={disabled}
+      icon={icon}
+      extraOnChange={extraOnChange}
     />
   )
 }
