@@ -1,4 +1,4 @@
-import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
+import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
 import { FieldPath } from 'react-hook-form'
 import TextareaField from '../../fields/textarea-field'
 
