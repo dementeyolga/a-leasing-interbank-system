@@ -5,9 +5,10 @@ import SelectField from '../../fields/select-field'
 interface FormSelectWrapperProps {
   name: FieldPath<FormSchema>
   label: string
-  placeholder: string
+  placeholder?: string
   values: string[]
   disabled?: boolean
+  extraOnChange?: (value: string) => void
   tooltip?: string
 }
 
@@ -17,6 +18,7 @@ export default function FormSelectWrapper({
   placeholder,
   values,
   disabled,
+  extraOnChange,
   tooltip,
 }: FormSelectWrapperProps) {
   return (
@@ -26,6 +28,7 @@ export default function FormSelectWrapper({
       placeholder={placeholder}
       values={values}
       disabled={disabled}
+      extraOnChange={extraOnChange}
       tooltip={tooltip}
     />
   )

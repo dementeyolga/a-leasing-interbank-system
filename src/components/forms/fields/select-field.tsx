@@ -12,9 +12,10 @@ import FormLabelWrapper from './label'
 interface SelectFieldProps<T extends FieldValues> {
   name: FieldPath<T>
   label: string
-  placeholder: string
+  placeholder?: string
   values: string[]
   disabled?: boolean
+  extraOnChange?: (value: string) => void
   tooltip?: string
 }
 
@@ -24,6 +25,7 @@ export default function SelectField<T extends FieldValues>({
   placeholder,
   values,
   disabled,
+  extraOnChange,
   tooltip,
 }: SelectFieldProps<T>) {
   const { control } = useFormContext<T>()
@@ -42,7 +44,10 @@ export default function SelectField<T extends FieldValues>({
           <div>
             <FormControl>
               <SelectInput
-                onValueChange={field.onChange}
+                onValueChange={(value) => {
+                  field.onChange(value)
+                  if (extraOnChange) extraOnChange(value)
+                }}
                 defaultValue={field.value}
                 disabled={disabled}
                 placeholder={placeholder}
