@@ -3,17 +3,19 @@ import { FormStep, FormStepVariants } from '../ui/form-step'
 
 interface FormStepWrapperProps extends FormStepVariants {
   text: string
+  progress?: number
 }
 
 export default function FormStepWrapper({
   text,
   variant,
+  progress,
 }: FormStepWrapperProps) {
   return (
     <div className="space-y-1">
       <p
         className={clsx(
-          'text-xxs text-center',
+          'text-center text-xxs',
           variant === 'progress' || variant === 'completed'
             ? 'text-primary'
             : 'text-secondary',
@@ -21,7 +23,7 @@ export default function FormStepWrapper({
       >
         {text}
       </p>
-      <FormStep variant={variant} />
+      <FormStep variant={variant} progress={progress} />
     </div>
   )
 }

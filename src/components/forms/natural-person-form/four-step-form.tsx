@@ -9,7 +9,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MoveLeft } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { FieldName, FormProvider, useForm } from 'react-hook-form'
 import { Button } from '../../ui/button'
 import FormFieldsWrapper from '../form-fields-wrapper'
@@ -169,6 +169,10 @@ export default function FourStepForm() {
   const [currentSubStep, setCurrentSubStep] = useState(0)
   const [formSuccess, setFormSuccess] = useState(false)
 
+  const getCurrentStepProgress = useCallback(() => {
+    return (currentSubStep / steps[currentStep].getSubstepsQuantity()) * 100
+  }, [currentStep, currentSubStep])
+
   const isValidFormStep = async (): Promise<boolean> => {
     const fields = steps[currentStep].fields[currentSubStep]
     return await trigger(fields as FieldName<FormSchema>[], {
@@ -224,7 +228,11 @@ export default function FourStepForm() {
             </div>
 
             {/* Steps */}
-            <FormSteps steps={stepNames} currentStep={currentStep} />
+            <FormSteps
+              steps={stepNames}
+              currentStep={currentStep}
+              progress={getCurrentStepProgress()}
+            />
 
             {/* Form */}
             <form
