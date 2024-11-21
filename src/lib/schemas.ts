@@ -1,5 +1,11 @@
 import { z } from 'zod'
-import { REGEX_ONLY_DIGITS, REGEX_PHONE, REGEX_SUM } from './regex'
+import {
+  REGEX_GEO_NAME,
+  REGEX_NAME,
+  REGEX_ONLY_DIGITS,
+  REGEX_PHONE_INTL,
+  REGEX_SUM,
+} from './regex'
 
 const requiredMessage = 'Обязательное поле'
 const wrongFormatMessage = 'Некорректный формат данных'
@@ -10,7 +16,11 @@ export const naturalPersonFormSchema = z.object({
   surname: z.string().optional(),
   name: z.string().optional(),
   patronymic: z.string().optional(),
-  formerSurname: z.string().optional(),
+  formerSurname: z
+    .string()
+    .regex(REGEX_NAME, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
   birthDate: z.string().optional(),
   sex: z.string().optional(),
   identityDocumentType: z.string().optional(),
@@ -37,13 +47,32 @@ export const naturalPersonFormSchema = z.object({
   isResidenceAddressMatchRegistration: z
     .string()
     .min(1, { message: requiredMessage }),
-  residenceCountry: z.string().min(1, { message: requiredMessage }),
-  residenceSettlement: z.string().min(1, { message: requiredMessage }),
-  residenceStreetType: z.string().min(1, { message: requiredMessage }),
-  residenceStreetName: z.string().min(1, { message: requiredMessage }),
-  residenceHouseNumber: z.string().min(1, { message: requiredMessage }),
+  residenceCountry: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+  residenceSettlement: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+  residenceStreetType: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+  residenceStreetName: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+  residenceHouseNumber: z
+    .string()
+    .min(1, { message: requiredMessage })
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
   residenceBuildingNumber: z.string().optional(),
-  residenceApartmentNumber: z.string().optional(),
+  residenceApartmentNumber: z
+    .string()
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
   residencePostalCode: z
     .string()
     .min(1, { message: requiredMessage })
@@ -51,7 +80,11 @@ export const naturalPersonFormSchema = z.object({
 
   // Marital status and property ownership
   maritalStatus: z.string().min(1, { message: requiredMessage }),
-  drivingExperience: z.string().optional(),
+  drivingExperience: z
+    .string()
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
   ownsProperty: z.string().optional(),
   typesOfProperty: z
     .string()
@@ -65,6 +98,7 @@ export const naturalPersonFormSchema = z.object({
   carManufactureYear: z
     .string()
     .min(1, { message: requiredMessage })
+    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
     .or(z.literal(undefined)),
 
   // Place of work and income
@@ -74,7 +108,7 @@ export const naturalPersonFormSchema = z.object({
   jobAccountingOrHRDeptPhone: z
     .string()
     .min(1, { message: requiredMessage })
-    .regex(REGEX_PHONE, { message: wrongFormatMessage }),
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
   jobPosition: z.string().min(1, { message: requiredMessage }),
   jobStartDate: z.string().min(1, { message: requiredMessage }),
   isWorksUnderContract: z.string().optional(),
@@ -141,23 +175,22 @@ export const naturalPersonFormSchema = z.object({
   // Contacts
   phone: z
     .string()
-    .regex(REGEX_PHONE, { message: wrongFormatMessage })
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
     .or(z.literal(''))
     .optional(),
   trustedPersonPhone: z
     .string()
     .min(1, { message: requiredMessage })
-    .regex(REGEX_PHONE, { message: wrongFormatMessage }),
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
   additionalPhone: z
     .string()
-    .regex(REGEX_PHONE, { message: wrongFormatMessage })
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
     .or(z.literal(''))
     .optional(),
   email: z
     .string()
-    .email({ message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
+    .min(1, { message: requiredMessage })
+    .email({ message: wrongFormatMessage }),
 
   // Signing documents
   consentApplicationFormForLeasing: z.boolean().optional(),
@@ -232,7 +265,7 @@ export const legalEntityFormSchema = z.object({
   managerIdentityDocumentIssuingAuthority: z.string().optional(),
   managerPhone: z
     .string()
-    .regex(REGEX_PHONE, { message: wrongFormatMessage })
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
     .or(z.literal(''))
     .optional(),
   managerRegistrationCountry: z.string().optional(),
@@ -266,7 +299,7 @@ export const legalEntityFormSchema = z.object({
   ieManagerIdentityDocumentIssuingAuthority: z.string().optional(),
   ieManagerPhone: z
     .string()
-    .regex(REGEX_PHONE, { message: wrongFormatMessage })
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
     .or(z.literal(''))
     .optional(),
   ieManagerRegistrationCountry: z.string().optional(),
@@ -301,7 +334,7 @@ export const legalEntityFormSchema = z.object({
   leManagerIdentityDocumentIssuingAuthority: z.string().optional(),
   leManagerPhone: z
     .string()
-    .regex(REGEX_PHONE, { message: wrongFormatMessage })
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
     .or(z.literal(''))
     .optional(),
   leManagerRegistrationCountry: z.string().optional(),
@@ -329,7 +362,7 @@ export const legalEntityFormSchema = z.object({
   leAccountantIdentityDocumentIssuingAuthority: z.string().optional(),
   leAccountantPhone: z
     .string()
-    .regex(REGEX_PHONE, { message: wrongFormatMessage })
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
     .or(z.literal(''))
     .optional(),
   leAccountantRegistrationCountry: z.string().optional(),
@@ -361,7 +394,7 @@ export const legalEntityFormSchema = z.object({
   accountingManagerIdentityDocumentIssuingAuthority: z.string().optional(),
   accountingManagerPhone: z
     .string()
-    .regex(REGEX_PHONE, { message: wrongFormatMessage })
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
     .or(z.literal(''))
     .optional(),
   accountingManagerRegistrationCountry: z.string().optional(),
@@ -396,7 +429,7 @@ export const legalEntityFormSchema = z.object({
       beneficialOwnerIdentityDocumentIssuingAuthority: z.string().optional(),
       beneficialOwnerPhone: z
         .string()
-        .regex(REGEX_PHONE, { message: wrongFormatMessage })
+        .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
         .or(z.literal(''))
         .optional(),
       beneficialOwnerIsPublicOfficial: z.string().optional(),
@@ -509,11 +542,15 @@ export const individualEntrepreneurFormSchema = z.object({
   surname: z.string().optional(),
   name: z.string().optional(),
   patronymic: z.string().optional(),
-  formerSurname: z.string().optional(),
+  formerSurname: z
+    .string()
+    .regex(REGEX_NAME, { message: wrongFormatMessage })
+    .or(z.literal(''))
+    .optional(),
   birthDate: z.string().optional(),
   phone: z
     .string()
-    .regex(REGEX_PHONE, { message: wrongFormatMessage })
+    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
     .or(z.literal(''))
     .optional(),
   email: z.string().email({ message: wrongFormatMessage }).optional(),

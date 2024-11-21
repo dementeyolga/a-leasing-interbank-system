@@ -25,11 +25,11 @@ import Step4 from './steps/step-4/step-4'
 const steps: {
   name: string
   fields: (keyof FormSchema)[][]
+  subsStepsWithWrongDataButton: number[]
   getSubstepsQuantity(): number
 }[] = [
   {
     name: 'Личные данные',
-
     fields: [
       [
         'surname',
@@ -48,6 +48,7 @@ const steps: {
         'isTaxResidentOfUSA',
       ],
     ],
+    subsStepsWithWrongDataButton: [0],
     getSubstepsQuantity() {
       return this.fields.length
     },
@@ -77,6 +78,7 @@ const steps: {
         'residencePostalCode',
       ],
     ],
+    subsStepsWithWrongDataButton: [0],
     getSubstepsQuantity() {
       return this.fields.length
     },
@@ -120,6 +122,7 @@ const steps: {
       ],
       ['phone', 'trustedPersonPhone', 'additionalPhone', 'email'],
     ],
+    subsStepsWithWrongDataButton: [],
     getSubstepsQuantity() {
       return this.fields.length
     },
@@ -134,6 +137,7 @@ const steps: {
       ],
       ['signDocsOTP'],
     ],
+    subsStepsWithWrongDataButton: [],
     getSubstepsQuantity() {
       return this.fields.length
     },
@@ -218,6 +222,12 @@ export default function FourStepForm() {
     )
   }
 
+  const isSubstepWithWrongDataButton = () => {
+    return steps[currentStep].subsStepsWithWrongDataButton.includes(
+      currentSubStep,
+    )
+  }
+
   return (
     <FormProvider {...form}>
       {!formSuccess ? (
@@ -273,7 +283,7 @@ export default function FourStepForm() {
 
               {/* Navigation buttons */}
               <div className="flex flex-col items-center">
-                {currentStep < 2 && (
+                {isSubstepWithWrongDataButton() && (
                   <Button variant={'secondary'} asChild>
                     <Link href={'/wrong-data'}>Данные неверны</Link>
                   </Button>
@@ -287,7 +297,7 @@ export default function FourStepForm() {
                       : handleSubmit(onSubmit, onError)
                   }
                 >
-                  {!isLastStep() ? 'Подтердить данные' : 'Подписать документы'}
+                  {!isLastStep() ? 'Подтвердить данные' : 'Подписать документы'}
                 </Button>
 
                 {currentStep > 0 && (
@@ -321,21 +331,21 @@ export default function FourStepForm() {
                 name="consentApplicationFormForLeasing"
                 label="Заявление-анкета на лизинг"
                 disabled={true}
-                icon={<img src="/download-icon.svg" />}
+                icon={<img src="/download-icon.svg" alt="" />}
               />
 
               <FormCheckboxWrapper
                 name="consentCreditReport"
                 label="Согласие на предоставление кредитного отчета"
                 disabled={true}
-                icon={<img src="/download-icon.svg" />}
+                icon={<img src="/download-icon.svg" alt="" />}
               />
 
               <FormCheckboxWrapper
                 name="consentAdvertisingAndNewsletter"
                 label="Согласие на рекламно-информационную рассылку об услугах А-Лизинг"
                 disabled={true}
-                icon={<img src="/download-icon.svg" />}
+                icon={<img src="/download-icon.svg" alt="" />}
               />
             </div>
 

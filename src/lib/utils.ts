@@ -97,9 +97,12 @@ export function isFieldRequired(path: string, schema: ZodSchemaType): boolean {
     return false
   }
 
+  console.log(currentSchema, path, currentSchema instanceof z.ZodString)
+
   return (
     currentSchema instanceof z.ZodString ||
     currentSchema instanceof z.ZodNumber ||
-    currentSchema instanceof z.ZodBoolean
+    currentSchema instanceof z.ZodBoolean ||
+    currentSchema instanceof z.ZodUnion
   )
 }
