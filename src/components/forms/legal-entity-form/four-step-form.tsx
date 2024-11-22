@@ -289,7 +289,7 @@ export default function FourStepForm() {
     defaultValues: {
       ...initialDataLegalEntity,
     },
-    mode: 'onChange',
+    mode: 'onTouched',
   })
 
   const { trigger, setValue, getValues, handleSubmit } = form

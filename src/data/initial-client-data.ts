@@ -85,7 +85,7 @@ export const initialDataNaturalPerson: NaturalPersonFormSchema = {
 
   // Signing documents
   consentApplicationFormForLeasing: true,
-  consentCreditReport: false,
+  consentCreditReport: true,
   consentAdvertisingAndNewsletter: true,
 
   signDocsOTP: '',
@@ -336,7 +336,7 @@ export const initialDataLegalEntity: LegalEntityFormSchema = {
 
   // Signing documents
   consentApplicationFormForLeasing: true,
-  consentCreditReport: false,
+  consentCreditReport: true,
   consentAdvertisingAndNewsletter: true,
 
   signDocsOTP: '',
@@ -420,7 +420,7 @@ export const initialDataIndividualEntrepreneur: IndividuaEntrepreneurFormSchema 
 
     // Signing docs
     consentApplicationFormForLeasing: true,
-    consentCreditReport: false,
+    consentCreditReport: true,
     consentAdvertisingAndNewsletter: true,
 
     signDocsOTP: '',

@@ -152,10 +152,10 @@ export default function FourStepForm() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(naturalPersonFormSchema),
     // TODO: Can fetch async default data:  defaultValues: async () => fetch('/api-endpoint');
+    mode: 'onTouched',
     defaultValues: {
       ...initialDataNaturalPerson,
     },
-    mode: 'onChange',
   })
 
   const { trigger, setValue, getValues, handleSubmit } = form

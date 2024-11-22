@@ -155,7 +155,7 @@ export default function FourStepForm() {
     defaultValues: {
       ...initialDataIndividualEntrepreneur,
     },
-    mode: 'onChange',
+    mode: 'onTouched',
   })
 
   const { trigger, setValue, getValues, handleSubmit } = form
