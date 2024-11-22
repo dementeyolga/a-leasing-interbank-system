@@ -41,7 +41,7 @@ export default function Step2({
   }
 
   useEffect(() => {
-    if (sameAddress) passRegistrationValuesToResidenceAddress()
+    if (sameAddress === 'да') passRegistrationValuesToResidenceAddress()
   }, [])
 
   const handleSameAddressChange = (value: string) => {

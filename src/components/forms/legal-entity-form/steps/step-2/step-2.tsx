@@ -41,7 +41,7 @@ export default function Step2({
   }
 
   useEffect(() => {
-    if (sameAddress) passLegalValuesToActualAddress()
+    if (sameAddress === 'да') passLegalValuesToActualAddress()
   }, [])
 
   const handleSameAddressChange = (value: string) => {

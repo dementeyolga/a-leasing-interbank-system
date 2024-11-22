@@ -2,6 +2,7 @@
 
 import { Form } from '@/components/ui/form'
 import { initialDataIndividualEntrepreneur } from '@/data/initial-client-data'
+import { MAIN_WEBSITE_LINK } from '@/data/links'
 import {
   type IndividuaEntrepreneurFormSchema as FormSchema,
   individualEntrepreneurFormSchema,
@@ -10,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { MoveLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useCallback, useState } from 'react'
-import { FieldName, FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Button } from '../../ui/button'
 import FormFieldsWrapper from '../form-fields-wrapper'
 import FormHeading from '../form-heading'
@@ -22,7 +23,12 @@ import Step2 from './steps/step-2'
 import Step3 from './steps/step-3'
 import Step4 from './steps/step-4'
 
-const steps = [
+const steps: {
+  name: string
+  fields: (keyof FormSchema)[][]
+  subsStepsWithWrongDataButton: number[]
+  getSubstepsQuantity(): number
+}[] = [
   {
     name: 'Личные данные',
     fields: [
@@ -45,6 +51,7 @@ const steps = [
         'isTaxResidentOfUSA',
       ],
     ],
+    subsStepsWithWrongDataButton: [0],
     getSubstepsQuantity() {
       return this.fields.length
     },
@@ -73,6 +80,7 @@ const steps = [
         'residencePostalCode',
       ],
     ],
+    subsStepsWithWrongDataButton: [0],
     getSubstepsQuantity() {
       return this.fields.length
     },
@@ -115,6 +123,7 @@ const steps = [
         'revenueLast12Month12',
       ],
     ],
+    subsStepsWithWrongDataButton: [],
     getSubstepsQuantity() {
       return this.fields.length
     },
@@ -129,6 +138,7 @@ const steps = [
       ],
       ['signDocsOTP'],
     ],
+    subsStepsWithWrongDataButton: [],
     getSubstepsQuantity() {
       return this.fields.length
     },
@@ -170,7 +180,7 @@ export default function FourStepForm() {
 
   const isValidFormStep = async (): Promise<boolean> => {
     const fields = steps[currentStep].fields[currentSubStep]
-    return await trigger(fields as FieldName<FormSchema>[], {
+    return await trigger(fields, {
       shouldFocus: true,
     })
   }
@@ -210,6 +220,12 @@ export default function FourStepForm() {
     return (
       currentStep === steps.length - 1 &&
       currentSubStep === steps[currentStep].getSubstepsQuantity() - 1
+    )
+  }
+
+  const isSubstepWithWrongDataButton = () => {
+    return steps[currentStep].subsStepsWithWrongDataButton.includes(
+      currentSubStep,
     )
   }
 
@@ -262,7 +278,7 @@ export default function FourStepForm() {
 
               {/* Navigation buttons */}
               <div className="flex flex-col items-center">
-                {currentStep < 2 && (
+                {isSubstepWithWrongDataButton() && (
                   <Button variant={'secondary'} asChild>
                     <Link href={'/wrong-data'}>Данные неверны</Link>
                   </Button>
@@ -276,10 +292,10 @@ export default function FourStepForm() {
                       : handleSubmit(onSubmit, onError)
                   }
                 >
-                  {!isLastStep() ? 'Подтердить данные' : 'Подписать документы'}
+                  {!isLastStep() ? 'Подтвердить данные' : 'Подписать документы'}
                 </Button>
 
-                {currentStep > 0 && (
+                {(currentStep > 0 || currentSubStep > 0) && (
                   <Button
                     className="flex gap-1"
                     variant={'secondary'}
@@ -310,27 +326,27 @@ export default function FourStepForm() {
                 name="consentApplicationFormForLeasing"
                 label="Заявление-анкета на лизинг"
                 disabled={true}
-                icon={<img src="/download-icon.svg" />}
+                icon={<img src="/download-icon.svg" alt="" />}
               />
 
               <FormCheckboxWrapper
                 name="consentCreditReport"
                 label="Согласие на предоставление кредитного отчета"
                 disabled={true}
-                icon={<img src="/download-icon.svg" />}
+                icon={<img src="/download-icon.svg" alt="" />}
               />
 
               <FormCheckboxWrapper
                 name="consentAdvertisingAndNewsletter"
                 label="Согласие на рекламно-информационную рассылку об услугах А-Лизинг"
                 disabled={true}
-                icon={<img src="/download-icon.svg" />}
+                icon={<img src="/download-icon.svg" alt="" />}
               />
             </div>
 
             <div className="mt-6 flex justify-center">
               <Button>
-                <Link href={'http://client.a-leasing.by/'}>Сайт А-Лизинг</Link>
+                <Link href={MAIN_WEBSITE_LINK}>Сайт А-Лизинг</Link>
               </Button>
             </div>
           </FormFieldsWrapper>

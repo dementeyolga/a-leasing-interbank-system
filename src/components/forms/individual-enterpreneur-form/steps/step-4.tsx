@@ -21,9 +21,23 @@ export default function Step4({
   getValues,
   setValue,
 }: Step4Props) {
+  const [
+    consentApplicationFormForLeasing,
+    setConsentApplicationFormForLeasing,
+  ] = useState(() => getValues('consentApplicationFormForLeasing'))
   const [consentCreditReport, setConsentCreditReport] = useState(() =>
     getValues('consentCreditReport'),
   )
+  const [consentAdvertisingAndNewsletter, setConsentAdvertisingAndNewsletter] =
+    useState(() => getValues('consentAdvertisingAndNewsletter'))
+
+  const checkIfAllChecked = () => {
+    return (
+      consentApplicationFormForLeasing &&
+      consentCreditReport &&
+      consentAdvertisingAndNewsletter
+    )
+  }
 
   const setAllChecked = () => {
     setValue('consentCreditReport', true, {
@@ -31,12 +45,14 @@ export default function Step4({
     })
     setConsentCreditReport(true)
     setValue('consentAdvertisingAndNewsletter', true, { shouldValidate: true })
+    setConsentAdvertisingAndNewsletter(true)
   }
 
   const setAllUnchecked = () => {
     setValue('consentCreditReport', false, { shouldValidate: true })
     setConsentCreditReport(false)
     setValue('consentAdvertisingAndNewsletter', false, { shouldValidate: true })
+    setConsentAdvertisingAndNewsletter(false)
   }
 
   return (
@@ -68,7 +84,7 @@ export default function Step4({
                   </p>
                   <p className="flex items-center gap-1">
                     <span className="text-lg text-primary">✖</span> Согласие на
-                    подписание кредитного отчета
+                    предоставление кредитного отчета
                   </p>
 
                   <p>
@@ -83,27 +99,34 @@ export default function Step4({
               <FormCheckboxWrapper
                 name="consentApplicationFormForLeasing"
                 label="Заявление-анкета на лизинг"
+                extraOnChange={(checked) =>
+                  setConsentApplicationFormForLeasing(checked)
+                }
                 disabled={true}
-                icon={<img src="/watch-icon.svg" />}
+                icon={<img src="/watch-icon.svg" alt="" />}
               />
 
               <FormCheckboxWrapper
                 name="consentCreditReport"
                 label="Согласие на предоставление кредитного отчета"
-                icon={<img src="/watch-icon.svg" />}
                 extraOnChange={(checked) => setConsentCreditReport(checked)}
+                icon={<img src="/watch-icon.svg" alt="" />}
               />
 
               <FormCheckboxWrapper
                 name="consentAdvertisingAndNewsletter"
                 label="Согласие на рекламно-информационную рассылку об услугах А-Лизинг"
-                icon={<img src="/watch-icon.svg" />}
+                extraOnChange={(checked) =>
+                  setConsentAdvertisingAndNewsletter(checked)
+                }
+                icon={<img src="/watch-icon.svg" alt="" />}
               />
 
               <div className="px-6">
                 <CheckboxInput
                   id={crypto.randomUUID()}
                   label="Выбрать все документы"
+                  checked={checkIfAllChecked()}
                   onCheckedChange={(checked) =>
                     checked ? setAllChecked() : setAllUnchecked()
                   }

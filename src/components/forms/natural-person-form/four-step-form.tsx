@@ -2,6 +2,7 @@
 
 import { Form } from '@/components/ui/form'
 import { initialDataNaturalPerson } from '@/data/initial-client-data'
+import { MAIN_WEBSITE_LINK } from '@/data/links'
 import {
   type NaturalPersonFormSchema as FormSchema,
   naturalPersonFormSchema,
@@ -10,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { MoveLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useCallback, useState } from 'react'
-import { FieldName, FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Button } from '../../ui/button'
 import FormFieldsWrapper from '../form-fields-wrapper'
 import FormHeading from '../form-heading'
@@ -179,7 +180,7 @@ export default function FourStepForm() {
 
   const isValidFormStep = async (): Promise<boolean> => {
     const fields = steps[currentStep].fields[currentSubStep]
-    return await trigger(fields as FieldName<FormSchema>[], {
+    return await trigger(fields, {
       shouldFocus: true,
     })
   }
@@ -300,7 +301,7 @@ export default function FourStepForm() {
                   {!isLastStep() ? 'Подтвердить данные' : 'Подписать документы'}
                 </Button>
 
-                {currentStep > 0 && (
+                {(currentStep > 0 || currentSubStep > 0) && (
                   <Button
                     className="flex gap-1"
                     variant={'secondary'}
@@ -351,7 +352,7 @@ export default function FourStepForm() {
 
             <div className="mt-6 flex justify-center">
               <Button>
-                <Link href={'http://client.a-leasing.by/'}>Сайт А-Лизинг</Link>
+                <Link href={MAIN_WEBSITE_LINK}>Сайт А-Лизинг</Link>
               </Button>
             </div>
           </FormFieldsWrapper>
