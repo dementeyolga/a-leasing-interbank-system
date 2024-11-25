@@ -93,20 +93,16 @@ export const initialDataNaturalPerson: NaturalPersonFormSchema = {
 
 export const initialDataLegalEntity: LegalEntityFormSchema = {
   fullName: 'Общество с ограниченной ответственностью “ааа ооо иии”',
-  payerAccountingNumber: '',
-  registrationNumber: '',
-  registrationDate: '',
-  registrationAuthority: '',
-  coreActivity: 'торговля',
+  payerAccountingNumber: '12312312',
+  registrationNumber: '12312312',
+  registrationDate: '12.05.2020',
+  registrationAuthority: 'Главное управление юстиции Могилевского облисполкома',
+  coreActivity: '',
   CCEACode: '222222',
   otherActivity: '',
-  dateOfActivityBeginning: '',
+  dateOfActivityBeginning: '12.05.2020',
   licenceValidThrough: '',
-  wasReorganized: 'да',
-  reorganizationType: '',
-  reorganizationDate: '',
-  oldFullNameAndLegalForm: '',
-  oldPayerAccountingNumber: '',
+  wasReorganized: 'нет',
 
   // Address information
   // Legal address

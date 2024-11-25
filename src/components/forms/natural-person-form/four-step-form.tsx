@@ -151,8 +151,8 @@ export default function FourStepForm() {
   // Init react-hook-forms helpers
   const form = useForm<FormSchema>({
     resolver: zodResolver(naturalPersonFormSchema),
+    mode: 'onChange',
     // TODO: Can fetch async default data:  defaultValues: async () => fetch('/api-endpoint');
-    mode: 'onTouched',
     defaultValues: {
       ...initialDataNaturalPerson,
     },

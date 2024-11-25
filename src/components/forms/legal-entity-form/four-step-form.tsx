@@ -7,6 +7,7 @@ import {
   type LegalEntityFormSchema as FormSchema,
   legalEntityFormSchema,
 } from '@/lib/schemas'
+import { KeysOfUnion } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MoveLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -23,15 +24,16 @@ import Step2 from './steps/step-2/step-2'
 import Step3 from './steps/step-3/step-3'
 import Step4 from './steps/step-4/step-4'
 
+export type AllLegalEntityFormKeys = KeysOfUnion<FormSchema>
+
 const steps: {
   name: string
-  fields: (keyof FormSchema)[][]
+  fields: AllLegalEntityFormKeys[][]
   subsStepsWithWrongDataButton: number[]
   getSubstepsQuantity(): number
 }[] = [
   {
     name: 'Данные ЮЛ',
-
     fields: [
       [
         'fullName',
@@ -285,14 +287,14 @@ export default function FourStepForm() {
   // Init react-hook-forms helpers
   const form = useForm<FormSchema>({
     resolver: zodResolver(legalEntityFormSchema),
+    mode: 'onChange',
     // TODO: Can fetch async default data:  defaultValues: async () => fetch('/api-endpoint');
     defaultValues: {
       ...initialDataLegalEntity,
     },
-    mode: 'onTouched',
   })
 
-  const { trigger, setValue, getValues, handleSubmit } = form
+  const { trigger, watch, setValue, getValues, handleSubmit } = form
 
   function onSubmit(values: FormSchema) {
     console.log('Submitted values:', JSON.stringify(values, null, 2))
@@ -386,7 +388,7 @@ export default function FourStepForm() {
               className="space-y-8"
             >
               {/* Step 1 - Personal data*/}
-              {currentStep === 0 && <Step1 getValues={getValues} />}
+              {currentStep === 0 && <Step1 setValue={setValue} watch={watch} />}
 
               {/* Step 2 - Address*/}
               {currentStep === 1 && (

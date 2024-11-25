@@ -7,11 +7,12 @@ import FormHeading from '../../../form-heading'
 import FormWrapper from '../../../form-wrapper'
 import FormInputWrapper from '../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../field-wrappers/form-radio-wrapper'
+import { AllLegalEntityFormKeys } from '../../four-step-form'
 
 interface Step2Props {
   currentSubStep: number
-  legalAddressFields: (keyof FormSchema)[]
-  actualAddressFields: (keyof FormSchema)[]
+  legalAddressFields: AllLegalEntityFormKeys[]
+  actualAddressFields: AllLegalEntityFormKeys[]
   setValue: UseFormSetValue<FormSchema>
   getValues: UseFormGetValues<FormSchema>
 }

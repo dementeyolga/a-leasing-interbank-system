@@ -1,73 +1,16 @@
-import { FormStepVariants } from '@/components/ui/form-step'
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
-
-export function toFirstUppercase(str: string): string {
-  return str.length !== 0 ? str[0].toUpperCase() + str.slice(1) : ''
-}
-
-export function defineFormStepVariant(
-  stepIndex: number,
-  currentStep: number,
-): NonNullable<FormStepVariants['variant']> {
-  if (stepIndex === currentStep) {
-    return 'progress'
-  } else if (stepIndex < currentStep) {
-    return 'completed'
-  } else {
-    return 'unfilled'
-  }
-}
-
-export function generateYesNoRadioItems(): {
-  id: string
-  value: string
-  text: string
-}[] {
-  return [
-    {
-      id: crypto.randomUUID(),
-      value: 'да',
-      text: 'да',
-    },
-    {
-      id: crypto.randomUUID(),
-      value: 'нет',
-      text: 'нет',
-    },
-  ]
-}
-
-export function generateSexRadioItems(): {
-  id: string
-  value: string
-  text: string
-}[] {
-  return [
-    {
-      id: crypto.randomUUID(),
-      value: 'мужской',
-      text: 'мужской',
-    },
-    {
-      id: crypto.randomUUID(),
-      value: 'женский',
-      text: 'женский',
-    },
-  ]
-}
-
-type ZodPrimitiveType = z.ZodString | z.ZodNumber | z.ZodBoolean
+type ZodPrimitiveType =
+  | z.ZodString
+  | z.ZodNumber
+  | z.ZodBoolean
+  | z.ZodEnum<any>
+  | z.ZodLiteral<any>
 type ZodSchemaType =
   | z.ZodObject<Record<string, z.ZodTypeAny>>
   | z.ZodArray<z.ZodTypeAny>
   | ZodPrimitiveType
-  | z.ZodOptional<ZodPrimitiveType>
+  | z.ZodOptional<ZodSchemaType>
   | z.ZodUnion<[ZodSchemaType, ...ZodSchemaType[]]>
   | z.ZodIntersection<ZodSchemaType, ZodSchemaType>
   | z.ZodDiscriminatedUnion<
@@ -77,17 +20,16 @@ type ZodSchemaType =
 
 export function isFieldRequired(path: string, schema: ZodSchemaType): boolean {
   const pathArray = path.split(/\.(?![^[]*\])/)
-  let currentSchema = schema
-  console.log(currentSchema)
+  let currentSchema: ZodSchemaType | undefined = schema
 
   for (const key of pathArray) {
     if (currentSchema instanceof z.ZodObject) {
       const shape = currentSchema.shape
-      currentSchema = shape[key]
+      currentSchema = shape[key] as ZodSchemaType
     } else if (currentSchema instanceof z.ZodArray) {
       const match = key.match(/(\d+)/)
       if (match) {
-        currentSchema = currentSchema.element
+        currentSchema = currentSchema.element as ZodSchemaType
       } else {
         return false
       }

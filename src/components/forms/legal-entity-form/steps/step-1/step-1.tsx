@@ -1,21 +1,35 @@
 import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
 import FormWrapper from '@/components/forms/form-wrapper'
+import { coreActivityTypes } from '@/data/select-field-options'
 import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
-import { useState } from 'react'
-import { UseFormGetValues } from 'react-hook-form'
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import FormHeading from '../../../form-heading'
 import FormInputWrapper from '../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../field-wrappers/form-radio-wrapper'
+import FormSelectWrapper from '../../field-wrappers/form-select-wrapper'
 
 interface Step1Props {
-  getValues: UseFormGetValues<FormSchema>
+  setValue: UseFormSetValue<FormSchema>
+  watch: UseFormWatch<FormSchema>
 }
 
-export default function Step1({ getValues }: Step1Props) {
-  const [wasReorganized, setWasReorganized] = useState(
-    () => getValues('wasReorganized') || '',
-  )
+export default function Step1({ watch }: Step1Props) {
+  const wasReorganized = watch('wasReorganized')
+
+  // const handleWasReorganizedChange = (value: string) => {
+  //   // if (value === 'нет') {
+  //   //   setValue('reorganizationType', undefined)
+  //   //   setValue('reorganizationDate', undefined)
+  //   //   setValue('oldFullNameAndLegalForm', undefined)
+  //   //   setValue('oldPayerAccountingNumber', undefined)
+  //   // } else if (value === 'да') {
+  //   //   setValue('reorganizationType', '')
+  //   //   setValue('reorganizationDate', '')
+  //   //   setValue('oldFullNameAndLegalForm', '')
+  //   //   setValue('oldPayerAccountingNumber', '')
+  //   // }
+  // }
 
   return (
     <FormWrapper>
@@ -42,9 +56,11 @@ export default function Step1({ getValues }: Step1Props) {
           label="Наименование регистрирующего органа"
           disabled
         />
-        <FormInputWrapper
+        <FormSelectWrapper
           name="coreActivity"
           label="Основной вид деятельности"
+          placeholder="Выберите вид деятельности"
+          values={coreActivityTypes}
         />
         <FormInputWrapper name="CCEACode" label="Код ОКЭД" />
         <FormInputWrapper
@@ -66,7 +82,7 @@ export default function Step1({ getValues }: Step1Props) {
           name="wasReorganized"
           label="Была ли реорганизация?"
           items={generateYesNoRadioItems()}
-          extraOnChange={(value) => setWasReorganized(value)}
+          // extraOnChange={(value) => handleWasReorganizedChange(value)}
         />
 
         <>

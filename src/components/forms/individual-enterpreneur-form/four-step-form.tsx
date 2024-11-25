@@ -151,11 +151,11 @@ export default function FourStepForm() {
   // Init react-hook-forms helpers
   const form = useForm<FormSchema>({
     resolver: zodResolver(individualEntrepreneurFormSchema),
+    mode: 'onChange',
     // TODO: Can fetch async default data:  defaultValues: async () => fetch('/api-endpoint');
     defaultValues: {
       ...initialDataIndividualEntrepreneur,
     },
-    mode: 'onTouched',
   })
 
   const { trigger, setValue, getValues, handleSubmit } = form
