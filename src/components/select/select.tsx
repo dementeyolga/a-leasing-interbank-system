@@ -14,7 +14,7 @@ import { ScrollArea } from '../ui/scroll-area'
 
 interface SelectInputProps {
   placeholder?: string
-  values: string[]
+  values: string[] | readonly string[]
   defaultValue?: string
   onValueChange?: (value: string) => void
 }

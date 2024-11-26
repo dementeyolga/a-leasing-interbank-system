@@ -6,20 +6,6 @@ import FormInputWrapper from '../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../field-wrappers/form-radio-wrapper'
 
 export default function Step1() {
-  // 'surname',
-  // 'name',
-  // 'patronymic',
-  // 'formerSurname',
-  // 'birthDate',
-  // 'sex',
-  // 'identityDocumentType',
-  // 'identityDocumentNumber',
-  // 'identificationNumber',
-  // 'identityDocumentIssueDate',
-  // 'identityDocumentValidThrough',
-  // 'identityDocumentIssuingAuthority',
-  // 'isResidentOfBelarus',
-  // 'isTaxResidentOfUSA',
   return (
     <FormWrapper>
       <FormHeading>

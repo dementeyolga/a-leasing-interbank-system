@@ -7,6 +7,7 @@ import {
   type NaturalPersonFormSchema as FormSchema,
   naturalPersonFormSchema,
 } from '@/lib/schemas'
+import { KeysOfUnion } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MoveLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -23,9 +24,11 @@ import Step2 from './steps/step-2/step-2'
 import Step3 from './steps/step-3/step-3'
 import Step4 from './steps/step-4/step-4'
 
+export type AllNaturalPersonFormKeys = KeysOfUnion<FormSchema>
+
 const steps: {
   name: string
-  fields: (keyof FormSchema)[][]
+  fields: AllNaturalPersonFormKeys[][]
   subsStepsWithWrongDataButton: number[]
   getSubstepsQuantity(): number
 }[] = [
@@ -103,7 +106,7 @@ const steps: {
         'jobAccountingOrHRDeptPhone',
         'jobPosition',
         'jobStartDate',
-        'isWorksUnderContract',
+        'worksUnderContract',
         'contractEndDate',
         'mainIncomeSum',
         'spouseMainIncome',
@@ -158,7 +161,7 @@ export default function FourStepForm() {
     },
   })
 
-  const { trigger, setValue, getValues, handleSubmit } = form
+  const { trigger, watch, setValue, getValues, handleSubmit } = form
 
   function onSubmit(values: FormSchema) {
     console.log('Submitted values:', JSON.stringify(values, null, 2))
@@ -199,9 +202,11 @@ export default function FourStepForm() {
       return
     } else if (currentSubStep !== substepsQuantity - 1) {
       setCurrentSubStep((substep) => substep + 1)
+      window.scrollTo(0, 0)
     } else if (currentSubStep === substepsQuantity - 1) {
       setCurrentStep((step) => step + 1)
       setCurrentSubStep(0)
+      window.scrollTo(0, 0)
     }
   }
 
@@ -259,18 +264,15 @@ export default function FourStepForm() {
                   currentSubStep={currentSubStep}
                   setValue={setValue}
                   getValues={getValues}
+                  watch={watch}
                   registrationAddressFields={steps[1].fields[0]}
-                  residenceAddressFields={steps[1].fields[1]}
+                  residenceAddressFieldsWithSwitch={steps[1].fields[1]}
                 />
               )}
 
               {/* Step 3 - Information about the sole proprietor */}
               {currentStep === 2 && (
-                <Step3
-                  currentSubStep={currentSubStep}
-                  getValues={getValues}
-                  setValue={setValue}
-                />
+                <Step3 currentSubStep={currentSubStep} watch={watch} />
               )}
 
               {/* Step 4 - Documents */}

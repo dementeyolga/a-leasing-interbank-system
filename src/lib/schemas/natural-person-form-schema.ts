@@ -1,3 +1,4 @@
+import { jobType } from '@/data/select-field-options'
 import { z } from 'zod'
 import {
   OTPLengthMessage,
@@ -13,183 +14,216 @@ import {
   REGEX_SUM,
 } from '../regex'
 
-export const naturalPersonFormSchema = z.object({
-  // Personal data
-  surname: z.string().optional(),
-  name: z.string().optional(),
-  patronymic: z.string().optional(),
-  formerSurname: z
-    .string()
-    .regex(REGEX_NAME, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  birthDate: z.string().optional(),
-  sex: z.string().optional(),
-  identityDocumentType: z.string().optional(),
-  identityDocumentNumber: z.string().optional(),
-  identificationNumber: z.string().optional(),
-  identityDocumentIssueDate: z.string().optional(),
-  identityDocumentValidThrough: z.string().optional(),
-  identityDocumentIssuingAuthority: z.string().optional(),
-  isResidentOfBelarus: z.string().optional(),
-  isTaxResidentOfUSA: z.string().optional(),
+const ownsPropertyDiscriminatedUnion = z.discriminatedUnion('ownsProperty', [
+  z.object({
+    ownsProperty: z.literal('да'),
+    typesOfProperty: z.string().min(1, { message: requiredMessage }),
+  }),
+  z.object({
+    ownsProperty: z.literal('нет'),
+  }),
+])
 
-  // Address information
-  // Registration address
-  registrationCountry: z.string().optional(),
-  registrationSettlement: z.string().optional(),
-  registrationStreetType: z.string().optional(),
-  registrationStreetName: z.string().optional(),
-  registrationHouseNumber: z.string().optional(),
-  registrationBuildingNumber: z.string().optional(),
-  registrationApartmentNumber: z.string().optional(),
-  registrationPostalCode: z.string().optional(),
+const ownsCarDiscriminatedUnion = z.discriminatedUnion('ownsCar', [
+  z.object({
+    ownsCar: z.literal('да'),
+    carBrand: z.string().min(1, { message: requiredMessage }),
+    carManufactureYear: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
+  }),
+  z.object({
+    ownsCar: z.literal('нет'),
+  }),
+])
 
-  // Residence address
-  isResidenceAddressMatchRegistration: z
-    .string()
-    .min(1, { message: requiredMessage }),
-  residenceCountry: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
-  residenceSettlement: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
-  residenceStreetType: z.string().min(1, { message: requiredMessage }),
-  residenceStreetName: z.string().min(1, { message: requiredMessage }),
-  residenceHouseNumber: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
-  residenceBuildingNumber: z.string().optional(),
-  residenceApartmentNumber: z
-    .string()
-    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  residencePostalCode: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
+const worksUnderContractDiscriminatedUnion = z.discriminatedUnion(
+  'worksUnderContract',
+  [
+    z.object({
+      worksUnderContract: z.literal('да'),
+      contractEndDate: z.string().optional(),
+    }),
+    z.object({
+      worksUnderContract: z.literal('нет'),
+    }),
+  ],
+)
 
-  // Marital status and property ownership
-  maritalStatus: z.string().min(1, { message: requiredMessage }),
-  drivingExperience: z
-    .string()
-    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  ownsProperty: z.enum(yesNoArray).optional(),
-  ownsCar: z.string().optional(),
-  carBrand: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .or(z.literal(undefined)),
-  carManufactureYear: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
-    .or(z.literal(undefined)),
+const hasAdditionalUnconfirmedIncomeDiscriminatedUnion = z.discriminatedUnion(
+  'hasAdditionalUnconfirmedIncome',
+  [
+    z.object({
+      hasAdditionalUnconfirmedIncome: z.literal('да'),
+      additionalIncomeSource: z.string().optional(),
+      additionalIncomeSum: z
+        .string()
+        .regex(REGEX_SUM, { message: wrongFormatMessage })
+        .optional(),
+    }),
+    z.object({
+      hasAdditionalUnconfirmedIncome: z.literal('нет'),
+    }),
+  ],
+)
 
-  // Place of work and income
-  jobType: z.string().min(1, { message: requiredMessage }),
-  jobOrganization: z.string().min(1, { message: requiredMessage }),
-  jobOrganizationAddress: z.string().min(1, { message: requiredMessage }),
-  jobAccountingOrHRDeptPhone: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
-  jobPosition: z.string().min(1, { message: requiredMessage }),
-  jobStartDate: z.string().min(1, { message: requiredMessage }),
-  isWorksUnderContract: z.string().optional(),
-  contractEndDate: z.string().optional(),
-  mainIncomeSum: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .regex(REGEX_SUM, { message: wrongFormatMessage }),
-  spouseMainIncome: z
-    .string()
-    .regex(REGEX_SUM, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  partTimeWorkIncome: z
-    .string()
-    .regex(REGEX_SUM, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  contractArgeementIncome: z
-    .string()
-    .regex(REGEX_SUM, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  otherIncome: z
-    .string()
-    .regex(REGEX_SUM, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  hasAdditionalUnconfirmedIncome: z.string().optional(),
-  additionalIncomeSource: z.string().optional(),
-  additionalIncomeSum: z
-    .string()
-    .regex(REGEX_SUM, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  totalWorkExperience: z.string().min(1, { message: requiredMessage }),
-  educationType: z.string().min(1, { message: requiredMessage }),
-  numberOfDependents: z
-    .string()
-    .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  loansPaymentAmount: z
-    .string()
-    .regex(REGEX_SUM, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  installmentsPaymentAmount: z
-    .string()
-    .regex(REGEX_SUM, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  writOfExecutionPaymentAmount: z
-    .string()
-    .regex(REGEX_SUM, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  alimonyPaymentAmount: z
-    .string()
-    .regex(REGEX_SUM, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
+export const naturalPersonFormSchema = z
+  .object({
+    // STEP 1
+    // Personal data
+    surname: z.string().optional(),
+    name: z.string().optional(),
+    patronymic: z.string().optional(),
+    formerSurname: z
+      .string()
+      .regex(REGEX_NAME, { message: wrongFormatMessage })
+      .optional(),
+    birthDate: z.string().optional(),
+    sex: z.string().optional(),
+    identityDocumentType: z.string().optional(),
+    identityDocumentNumber: z.string().optional(),
+    identificationNumber: z.string().optional(),
+    identityDocumentIssueDate: z.string().optional(),
+    identityDocumentValidThrough: z.string().optional(),
+    identityDocumentIssuingAuthority: z.string().optional(),
+    isResidentOfBelarus: z.string().optional(),
+    isTaxResidentOfUSA: z.string().optional(),
 
-  // Contacts
-  phone: z
-    .string()
-    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  trustedPersonPhone: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
-  additionalPhone: z
-    .string()
-    .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
-    .or(z.literal(''))
-    .optional(),
-  email: z
-    .string()
-    .min(1, { message: requiredMessage })
-    .email({ message: wrongFormatMessage }),
+    // STEP 2
+    // Address information
+    // Registration address
+    registrationCountry: z.string().optional(),
+    registrationSettlement: z.string().optional(),
+    registrationStreetType: z.string().optional(),
+    registrationStreetName: z.string().optional(),
+    registrationHouseNumber: z.string().optional(),
+    registrationBuildingNumber: z.string().optional(),
+    registrationApartmentNumber: z.string().optional(),
+    registrationPostalCode: z.string().optional(),
 
-  // Signing documents
-  consentApplicationFormForLeasing: z.boolean().optional(),
-  consentCreditReport: z.boolean().optional(),
-  consentAdvertisingAndNewsletter: z.boolean().optional(),
+    // Residence address
+    isResidenceAddressMatchRegistration: z
+      .string()
+      .min(1, { message: requiredMessage }),
+    residenceCountry: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+    residenceSettlement: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+    residenceStreetType: z.string().min(1, { message: requiredMessage }),
+    residenceStreetName: z.string().min(1, { message: requiredMessage }),
+    residenceHouseNumber: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
+    residenceBuildingNumber: z.string().optional(),
+    residenceApartmentNumber: z
+      .string()
+      .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+      .optional(),
+    residencePostalCode: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
 
-  signDocsOTP: z.string().length(6, { message: OTPLengthMessage }),
-})
+    // STEP 3
+    // Marital status and property ownership
+    maritalStatus: z.string().min(1, { message: requiredMessage }),
+    drivingExperience: z
+      .string()
+      .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+      .optional(),
+    ownsProperty: z.enum(yesNoArray).optional(),
+    ownsCar: z.enum(yesNoArray).optional(),
+
+    // Place of work and income
+    jobType: z.enum(jobType, { required_error: requiredMessage }),
+    jobOrganization: z.string().min(1, { message: requiredMessage }),
+    jobOrganizationAddress: z.string().min(1, { message: requiredMessage }),
+    jobAccountingOrHRDeptPhone: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
+    jobPosition: z.string().min(1, { message: requiredMessage }),
+    jobStartDate: z.string().min(1, { message: requiredMessage }),
+    worksUnderContract: z.enum(yesNoArray).optional(),
+    mainIncomeSum: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_SUM, { message: wrongFormatMessage }),
+    spouseMainIncome: z
+      .string()
+      .regex(REGEX_SUM, { message: wrongFormatMessage })
+      .optional(),
+    partTimeWorkIncome: z
+      .string()
+      .regex(REGEX_SUM, { message: wrongFormatMessage })
+      .optional(),
+    contractArgeementIncome: z
+      .string()
+      .regex(REGEX_SUM, { message: wrongFormatMessage })
+      .optional(),
+    otherIncome: z
+      .string()
+      .regex(REGEX_SUM, { message: wrongFormatMessage })
+      .optional(),
+    hasAdditionalUnconfirmedIncome: z.enum(yesNoArray).optional(),
+    totalWorkExperience: z.string().min(1, { message: requiredMessage }),
+    educationType: z.string().min(1, { message: requiredMessage }),
+    numberOfDependents: z
+      .string()
+      .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+      .optional(),
+    loansPaymentAmount: z
+      .string()
+      .regex(REGEX_SUM, { message: wrongFormatMessage })
+      .optional(),
+    installmentsPaymentAmount: z
+      .string()
+      .regex(REGEX_SUM, { message: wrongFormatMessage })
+      .optional(),
+    writOfExecutionPaymentAmount: z
+      .string()
+      .regex(REGEX_SUM, { message: wrongFormatMessage })
+      .optional(),
+    alimonyPaymentAmount: z
+      .string()
+      .regex(REGEX_SUM, { message: wrongFormatMessage })
+      .optional(),
+
+    // Contacts
+    phone: z
+      .string()
+      .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
+      .optional(),
+    trustedPersonPhone: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
+    additionalPhone: z
+      .string()
+      .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
+      .optional(),
+    email: z
+      .string()
+      .min(1, { message: requiredMessage })
+      .email({ message: wrongFormatMessage }),
+
+    // STEP 4
+    // Signing documents
+    consentApplicationFormForLeasing: z.boolean().optional(),
+    consentCreditReport: z.boolean().optional(),
+    consentAdvertisingAndNewsletter: z.boolean().optional(),
+
+    signDocsOTP: z.string().length(6, { message: OTPLengthMessage }),
+  })
+  .and(ownsPropertyDiscriminatedUnion)
+  .and(ownsCarDiscriminatedUnion)
+  .and(worksUnderContractDiscriminatedUnion)
+  .and(hasAdditionalUnconfirmedIncomeDiscriminatedUnion)
 
 export type NaturalPersonFormSchema = z.infer<typeof naturalPersonFormSchema>

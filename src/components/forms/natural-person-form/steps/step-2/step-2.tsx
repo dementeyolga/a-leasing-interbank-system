@@ -3,54 +3,60 @@ import FormHeading from '@/components/forms/form-heading'
 import FormWrapper from '@/components/forms/form-wrapper'
 import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
-import { Fragment, useEffect, useState } from 'react'
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
+import { Fragment, useCallback, useEffect } from 'react'
+import {
+  UseFormGetValues,
+  UseFormSetValue,
+  UseFormWatch,
+} from 'react-hook-form'
 import FormInputWrapper from '../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../field-wrappers/form-radio-wrapper'
+import { type AllNaturalPersonFormKeys } from '../../four-step-form'
 
 interface Step2Props {
   currentSubStep: number
   setValue: UseFormSetValue<FormSchema>
   getValues: UseFormGetValues<FormSchema>
-  registrationAddressFields: (keyof FormSchema)[]
-  residenceAddressFields: (keyof FormSchema)[]
+  watch: UseFormWatch<FormSchema>
+  registrationAddressFields: AllNaturalPersonFormKeys[]
+  residenceAddressFieldsWithSwitch: AllNaturalPersonFormKeys[]
 }
 
 export default function Step2({
   currentSubStep,
   setValue,
   getValues,
+  watch,
   registrationAddressFields,
-  residenceAddressFields,
+  residenceAddressFieldsWithSwitch,
 }: Step2Props) {
   // Handle setting residence address values same as registration address
-  const [sameAddress, setSameAddress] = useState(
-    getValues('isResidenceAddressMatchRegistration') || '',
-  )
+  const sameAddress = watch('isResidenceAddressMatchRegistration')
 
-  const passRegistrationValuesToResidenceAddress = () => {
-    const legalAddressValues = getValues(registrationAddressFields)
+  const passRegistrationValuesToResidenceAddress = useCallback(() => {
+    const registrationAddressValues = getValues(registrationAddressFields)
 
-    const slicedResidenceAddressFields = residenceAddressFields.slice(1)
+    const residenceAddressFields = residenceAddressFieldsWithSwitch.slice(1)
 
-    slicedResidenceAddressFields.forEach((field, i) => {
-      setValue(field, legalAddressValues[i], {
+    residenceAddressFields.forEach((field, i) => {
+      setValue(field, registrationAddressValues[i], {
         shouldValidate: true,
       })
     })
-  }
+  }, [
+    registrationAddressFields,
+    residenceAddressFieldsWithSwitch,
+    setValue,
+    getValues,
+  ])
+
+  const checkSameAddress = useCallback(() => {
+    return sameAddress === 'да'
+  }, [sameAddress])
 
   useEffect(() => {
-    if (sameAddress === 'да') passRegistrationValuesToResidenceAddress()
-  }, [])
-
-  const handleSameAddressChange = (value: string) => {
-    setSameAddress(value)
-
-    if (value === 'да') {
-      passRegistrationValuesToResidenceAddress()
-    }
-  }
+    if (checkSameAddress()) passRegistrationValuesToResidenceAddress()
+  }, [checkSameAddress, passRegistrationValuesToResidenceAddress])
 
   return (
     <Fragment>
@@ -113,48 +119,47 @@ export default function Step2({
                 name="isResidenceAddressMatchRegistration"
                 label="Адрес проживания совпадает с адресом регистрации?"
                 items={generateYesNoRadioItems()}
-                extraOnChange={handleSameAddressChange}
               />
 
               <FormInputWrapper
                 name="residenceCountry"
                 label="Страна"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="residenceSettlement"
                 label="Населенный пункт"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="residenceStreetType"
                 label="Тип улицы"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="residenceStreetName"
                 label="Улица"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="residenceHouseNumber"
                 label="Дом"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="residenceBuildingNumber"
                 label="Строение/корпус"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="residenceApartmentNumber"
                 label="Квартира"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="residencePostalCode"
                 label="Индекс"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
             </FormFieldsWrapper>
           </FormWrapper>

@@ -7,6 +7,7 @@ import FormHeading from '@/components/forms/form-heading'
 import { Separator } from '@/components/ui/separator'
 import { templateBeneficialOwnerData } from '@/data/template-client-data'
 import { generateYesNoRadioItems } from '@/lib/utils'
+import { CirclePlus, CircleX } from 'lucide-react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../../field-wrappers/form-radio-wrapper'
@@ -14,7 +15,7 @@ import FormTextareaWrapper from '../../../field-wrappers/form-textarea-wrapper'
 
 export default function Substep3() {
   const { control } = useFormContext<FormSchema>()
-  const { fields, append } = useFieldArray<FormSchema>({
+  const { fields, append, remove } = useFieldArray<FormSchema>({
     name: 'beneficialOwners',
     control,
   })
@@ -25,6 +26,21 @@ export default function Substep3() {
       <div className="flex flex-col gap-y-5">
         {fields.map((field, index, arr) => (
           <FormFieldsWrapper key={field.id}>
+            <>
+              {index !== 0 && (
+                <Button
+                  variant={'dotted'}
+                  size={'smLong'}
+                  onClick={() => remove(index)}
+                >
+                  Удалить
+                  <div className="ml-2">
+                    <CircleX strokeWidth={1.5} />
+                  </div>
+                </Button>
+              )}
+            </>
+
             <FormInputWrapper
               name={`beneficialOwners.${index}.beneficialOwnerSurname`}
               label="Фамилия"
@@ -129,7 +145,9 @@ export default function Substep3() {
               />
             </>
 
-            <> {index !== arr.length - 1 && <Separator className="mt-5" />}</>
+            <>
+              {index !== arr.length - 1 && <Separator className="mb-4 mt-5" />}
+            </>
           </FormFieldsWrapper>
         ))}
       </div>
@@ -141,7 +159,7 @@ export default function Substep3() {
       >
         Добавить еще
         <div className="ml-2">
-          <img src="/plus-icon.svg" />
+          <CirclePlus strokeWidth={1.5} />
         </div>
       </Button>
 

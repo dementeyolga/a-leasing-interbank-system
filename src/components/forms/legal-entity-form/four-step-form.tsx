@@ -324,6 +324,7 @@ export default function FourStepForm() {
 
   const handleNextStep = async () => {
     const fieldsValid = await isValidFormStep()
+    console.log(fieldsValid)
 
     if (!fieldsValid) return
 
@@ -336,9 +337,11 @@ export default function FourStepForm() {
       return
     } else if (currentSubStep !== substepsQuantity - 1) {
       setCurrentSubStep((substep) => substep + 1)
+      window.scrollTo(0, 0)
     } else if (currentSubStep === substepsQuantity - 1) {
       setCurrentStep((step) => step + 1)
       setCurrentSubStep(0)
+      window.scrollTo(0, 0)
     }
   }
 
@@ -397,13 +400,14 @@ export default function FourStepForm() {
                   setValue={setValue}
                   getValues={getValues}
                   legalAddressFields={steps[1].fields[0]}
-                  actualAddressFields={steps[1].fields[1]}
+                  actualAddressFieldsWithSwitch={steps[1].fields[1]}
+                  watch={watch}
                 />
               )}
 
               {/* Step 3 - Information about the sole proprietor */}
               {currentStep === 2 && (
-                <Step3 currentSubStep={currentSubStep} getValues={getValues} />
+                <Step3 currentSubStep={currentSubStep} watch={watch} />
               )}
 
               {/* Step 4 - Documents */}

@@ -49,7 +49,7 @@ export default function RadioGroupField<T extends FieldValues>({
                 field.onChange(value)
                 if (extraOnChange) extraOnChange(value)
               }}
-              defaultValue={field.value}
+              defaultValue={field.value || items[0].value}
               items={items}
               disabled={disabled}
               className="flex flex-col space-y-1"

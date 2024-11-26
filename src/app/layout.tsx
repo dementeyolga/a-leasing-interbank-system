@@ -3,7 +3,7 @@ import { Roboto } from 'next/font/google'
 import './globals.css'
 
 const roboto = Roboto({
-  subsets: ['cyrillic'],
+  subsets: ['cyrillic', 'latin'],
   weight: ['400', '500', '700'],
   variable: '--font-roboto',
 })

@@ -10,7 +10,7 @@ interface FormSelectWrapperProps {
   name: FieldPath<FormSchema>
   label: string
   placeholder?: string
-  values: string[]
+  values: string[] | readonly string[]
   disabled?: boolean
   extraOnChange?: (value: string) => void
   tooltip?: string

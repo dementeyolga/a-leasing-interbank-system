@@ -1,22 +1,20 @@
 import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
 import FormHeading from '@/components/forms/form-heading'
 import FormWrapper from '@/components/forms/form-wrapper'
+import { organizationManagementTypes } from '@/data/select-field-options'
 import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { generateSexRadioItems } from '@/lib/utils'
-import { useState } from 'react'
-import { UseFormGetValues } from 'react-hook-form'
+import { UseFormWatch } from 'react-hook-form'
 import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../../field-wrappers/form-radio-wrapper'
 import FormSelectWrapper from '../../../field-wrappers/form-select-wrapper'
 
 interface Substep1Props {
-  getValues: UseFormGetValues<FormSchema>
+  watch: UseFormWatch<FormSchema>
 }
 
-export default function Substep1({ getValues }: Substep1Props) {
-  const [organizationManagementType, setOrganizationManagementType] = useState(
-    () => getValues('organizationManagementType') || '',
-  )
+export default function Substep1({ watch }: Substep1Props) {
+  const organizationManagementType = watch('organizationManagementType')
 
   return (
     <FormWrapper>
@@ -24,12 +22,7 @@ export default function Substep1({ getValues }: Substep1Props) {
         <FormSelectWrapper
           name="organizationManagementType"
           label="Кто управляет организацией"
-          values={[
-            'физическое лицо',
-            'индивидуальный предприниматель',
-            'юридическое лицо',
-          ]}
-          extraOnChange={(value) => setOrganizationManagementType(value)}
+          values={organizationManagementTypes}
         />
 
         <>

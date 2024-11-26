@@ -1,8 +1,9 @@
 import { FormLabel } from '@/components/ui/form'
+import { servicingBanks } from '@/data/select-field-options'
 import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
-import { Fragment, useState } from 'react'
-import { UseFormGetValues } from 'react-hook-form'
+import { Fragment } from 'react'
+import { UseFormWatch } from 'react-hook-form'
 import FormFieldsWrapper from '../../form-fields-wrapper'
 import FormHeading from '../../form-heading'
 import FormWrapper from '../../form-wrapper'
@@ -12,23 +13,20 @@ import FormSelectWrapper from '../field-wrappers/form-select-wrapper'
 
 interface Step3Props {
   currentSubStep: number
-  getValues: UseFormGetValues<FormSchema>
+  watch: UseFormWatch<FormSchema>
 }
 
-export default function Step3({ currentSubStep, getValues }: Step3Props) {
-  const [hasRecordedCriminalProsecutions, setHasRecordedCriminalProsecutions] =
-    useState<string>(() => getValues('hasRecordedCriminalProsecutions') || '')
-  const [isParticipateInTrial, setIsParticipateInTrial] = useState<string>(
-    () => getValues('isParticipateInTrial') || '',
+export default function Step3({ currentSubStep, watch }: Step3Props) {
+  const hasRecordedCriminalProsecutions = watch(
+    'hasRecordedCriminalProsecutions',
   )
-  const [
-    isFinancialSanctionsAppliedLastYear,
-    setIsFinancialSanctionsAppliedLastYear,
-  ] = useState<string>(
-    () => getValues('isFinancialSanctionsAppliedLastYear') || '',
+  const isParticipateInTrial = watch('isParticipateInTrial')
+  const isFinancialSanctionsAppliedLastYear = watch(
+    'isFinancialSanctionsAppliedLastYear',
   )
-  const [isParticipateInBankruptEntities, setIsParticipateInBankruptEntities] =
-    useState<string>(() => getValues('isParticipateInBankruptEntities') || '')
+  const isParticipateInBankruptEntities = watch(
+    'isParticipateInBankruptEntities',
+  )
 
   return (
     <Fragment>
@@ -85,7 +83,7 @@ export default function Step3({ currentSubStep, getValues }: Step3Props) {
               name="servicingBank"
               label="Обслуживающий банк"
               placeholder="Выберите банк"
-              values={['Альфа-Банк', 'МТБанк', 'Беларусбанк', 'Банк Дабрабыт']}
+              values={servicingBanks}
             />
             <FormRadioWrapper
               name="hasNetLossLast3Month"
@@ -93,13 +91,11 @@ export default function Step3({ currentSubStep, getValues }: Step3Props) {
               items={generateYesNoRadioItems()}
               tooltip="Для ИП, которые ведут бухгалтерский учет и используют упрощенную систему налогообложения"
             />
+
             <FormRadioWrapper
               name="hasRecordedCriminalProsecutions"
               label="Наличие случаев привлечения к уголовной ответсвенности"
               items={generateYesNoRadioItems()}
-              extraOnChange={(value) =>
-                setHasRecordedCriminalProsecutions(value)
-              }
             />
             <>
               {hasRecordedCriminalProsecutions === 'да' && (
@@ -114,9 +110,7 @@ export default function Step3({ currentSubStep, getValues }: Step3Props) {
               name="isParticipateInTrial"
               label="Является ли ИП ответчиком, должником в хозяйственном, уголовном процессе, гражданском судопроизводстве либо лицом, в отношении которого ведется административный процесс?"
               items={generateYesNoRadioItems()}
-              extraOnChange={(value) => setIsParticipateInTrial(value)}
             />
-
             <>
               {isParticipateInTrial === 'да' && (
                 <FormInputWrapper
@@ -130,11 +124,7 @@ export default function Step3({ currentSubStep, getValues }: Step3Props) {
               name="isFinancialSanctionsAppliedLastYear"
               label="Применялись ли к ИП экономические (финансовые) санкции в течение календарного года?"
               items={generateYesNoRadioItems()}
-              extraOnChange={(value) =>
-                setIsFinancialSanctionsAppliedLastYear(value)
-              }
             />
-
             <>
               {isFinancialSanctionsAppliedLastYear === 'да' && (
                 <FormInputWrapper
@@ -148,11 +138,7 @@ export default function Step3({ currentSubStep, getValues }: Step3Props) {
               name="isParticipateInBankruptEntities"
               label="Участие ИП в субъектах хозяйствования, находящихся в стадии ликвидации (банкротства)?"
               items={generateYesNoRadioItems()}
-              extraOnChange={(value) =>
-                setIsParticipateInBankruptEntities(value)
-              }
             />
-
             <>
               {isParticipateInBankruptEntities === 'да' && (
                 <FormInputWrapper

@@ -2,41 +2,31 @@ import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
 import FormHeading from '@/components/forms/form-heading'
 import FormWrapper from '@/components/forms/form-wrapper'
 import { FormLabel } from '@/components/ui/form'
+import { servicingBanks } from '@/data/select-field-options'
 import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
-import { useState } from 'react'
-import { UseFormGetValues } from 'react-hook-form'
+import { UseFormWatch } from 'react-hook-form'
 import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../../field-wrappers/form-radio-wrapper'
 import FormSelectWrapper from '../../../field-wrappers/form-select-wrapper'
 
 interface Substep4Props {
-  getValues: UseFormGetValues<FormSchema>
+  watch: UseFormWatch<FormSchema>
 }
 
-export default function Substep4({ getValues }: Substep4Props) {
-  const [hasNetLossLast3Month, setHasNetLossLast3Month] = useState<string>(
-    () => getValues('hasNetLossLast3Month') || '',
+export default function Substep4({ watch }: Substep4Props) {
+  const hasNetLossLast3Month = watch('hasNetLossLast3Month')
+  const hasNetLossLastQuarterlyDate = watch('hasNetLossLastQuarterlyDate')
+  const hasCasesManagersCriminalResponsibility = watch(
+    'hasCasesManagersCriminalResponsibility',
   )
-  const [hasNetLossLastQuarterlyDate, setHasNetLossLastQuarterlyDate] =
-    useState<string>(() => getValues('hasNetLossLastQuarterlyDate') || '')
-  const [
-    hasCasesManagersCriminalResponsibility,
-    setHasCasesManagersCriminalResponsibility,
-  ] = useState<string>(
-    () => getValues('hasCasesManagersCriminalResponsibility') || '',
+  const isParticipateInTrial = watch('isParticipateInTrial')
+  const isFinancialSanctionsAppliedLastYear = watch(
+    'isFinancialSanctionsAppliedLastYear',
   )
-  const [isParticipateInTrial, setIsParticipateInTrial] = useState<string>(
-    () => getValues('isParticipateInTrial') || '',
+  const isParticipateInBankruptEntities = watch(
+    'isParticipateInBankruptEntities',
   )
-  const [
-    isFinancialSanctionsAppliedLastYear,
-    setIsFinancialSanctionsAppliedLastYear,
-  ] = useState<string>(
-    () => getValues('isFinancialSanctionsAppliedLastYear') || '',
-  )
-  const [isParticipateInBankruptEntities, setIsParticipateInBankruptEntities] =
-    useState<string>(() => getValues('isParticipateInBankruptEntities') || '')
 
   return (
     <FormWrapper>
@@ -46,7 +36,7 @@ export default function Substep4({ getValues }: Substep4Props) {
           name="servicingBank"
           label="Обслуживающий банк"
           placeholder="Выберите банк"
-          values={['Альфа-Банк', 'МТБанк', 'Беларусбанк', 'Банк Дабрабыт']}
+          values={servicingBanks}
         />
 
         <FormRadioWrapper
@@ -54,7 +44,6 @@ export default function Substep4({ getValues }: Substep4Props) {
           label="Наличие чистого убытка за 3 последних месяца"
           items={generateYesNoRadioItems()}
           tooltip="Для ИП, которые ведут бухгалтерский учет и используют упрощенную систему налогообложения"
-          extraOnChange={(value) => setHasNetLossLast3Month(value)}
         />
         <>
           {hasNetLossLast3Month === 'да' && (
@@ -69,7 +58,6 @@ export default function Substep4({ getValues }: Substep4Props) {
           name="hasNetLossLastQuarterlyDate"
           label="Наличие чистого убытка на последнюю квартальную дату"
           items={generateYesNoRadioItems()}
-          extraOnChange={(value) => setHasNetLossLastQuarterlyDate(value)}
         />
         <>
           {hasNetLossLastQuarterlyDate === 'да' && (
@@ -84,9 +72,6 @@ export default function Substep4({ getValues }: Substep4Props) {
           name="hasCasesManagersCriminalResponsibility"
           label="Наличие случаев привлечения к уголовной ответсвенности"
           items={generateYesNoRadioItems()}
-          extraOnChange={(value) =>
-            setHasCasesManagersCriminalResponsibility(value)
-          }
         />
         <>
           {hasCasesManagersCriminalResponsibility === 'да' && (
@@ -101,9 +86,7 @@ export default function Substep4({ getValues }: Substep4Props) {
           name="isParticipateInTrial"
           label="Является ли ИП ответчиком, должником в хозяйственном, уголовном процессе, гражданском судопроизводстве либо лицом, в отношении которого ведется административный процесс?"
           items={generateYesNoRadioItems()}
-          extraOnChange={(value) => setIsParticipateInTrial(value)}
         />
-
         <>
           {isParticipateInTrial === 'да' && (
             <FormInputWrapper
@@ -117,11 +100,7 @@ export default function Substep4({ getValues }: Substep4Props) {
           name="isFinancialSanctionsAppliedLastYear"
           label="Применялись ли к ИП экономические (финансовые) санкции в течение календарного года?"
           items={generateYesNoRadioItems()}
-          extraOnChange={(value) =>
-            setIsFinancialSanctionsAppliedLastYear(value)
-          }
         />
-
         <>
           {isFinancialSanctionsAppliedLastYear === 'да' && (
             <FormInputWrapper
@@ -135,9 +114,7 @@ export default function Substep4({ getValues }: Substep4Props) {
           name="isParticipateInBankruptEntities"
           label="Участие ИП в субъектах хозяйствования, находящихся в стадии ликвидации (банкротства)?"
           items={generateYesNoRadioItems()}
-          extraOnChange={(value) => setIsParticipateInBankruptEntities(value)}
         />
-
         <>
           {isParticipateInBankruptEntities === 'да' && (
             <FormInputWrapper

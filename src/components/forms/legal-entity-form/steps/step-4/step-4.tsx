@@ -80,7 +80,7 @@ export default function Step4({
               ) : (
                 <>
                   <p>
-                    Для оформления онлайн-заявки необходимо подписать согласия:{' '}
+                    Для оформления онлайн-заявки необходимо подписать согласия:
                   </p>
                   <p className="flex items-center gap-1">
                     <span className="text-lg text-primary">✖</span> Согласие на

@@ -1,24 +1,21 @@
 import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
 import FormHeading from '@/components/forms/form-heading'
 import FormWrapper from '@/components/forms/form-wrapper'
+import { jobType } from '@/data/select-field-options'
 import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
-import { useState } from 'react'
-import { UseFormGetValues } from 'react-hook-form'
+import { UseFormWatch } from 'react-hook-form'
 import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../../field-wrappers/form-radio-wrapper'
 import FormSelectWrapper from '../../../field-wrappers/form-select-wrapper'
 
 interface Substep2Props {
-  getValues: UseFormGetValues<FormSchema>
+  watch: UseFormWatch<FormSchema>
 }
 
-export default function Substep2({ getValues }: Substep2Props) {
-  const [isWorksUnderContract, setIsWorksUnderContract] = useState(
-    () => getValues('isWorksUnderContract') || '',
-  )
-  const [hasAdditionalUnconfirmedIncome, setHasAdditionalUnconfirmedIncome] =
-    useState(() => getValues('hasAdditionalUnconfirmedIncome') || '')
+export default function Substep2({ watch }: Substep2Props) {
+  const worksUnderContract = watch('worksUnderContract')
+  const hasAdditionalUnconfirmedIncome = watch('hasAdditionalUnconfirmedIncome')
 
   return (
     <FormWrapper>
@@ -28,7 +25,7 @@ export default function Substep2({ getValues }: Substep2Props) {
         <FormSelectWrapper
           name="jobType"
           label="Тип должности"
-          values={['иное', 'рабочий', 'специалист', 'руководитель']}
+          values={jobType}
         />
 
         <FormInputWrapper
@@ -47,13 +44,12 @@ export default function Substep2({ getValues }: Substep2Props) {
         <FormInputWrapper name="jobStartDate" label="Дата начала работы" />
 
         <FormRadioWrapper
-          name="isWorksUnderContract"
+          name="worksUnderContract"
           label="Работаете по контракту (трудовому договору)?"
           items={generateYesNoRadioItems()}
-          extraOnChange={(value) => setIsWorksUnderContract(value)}
         />
         <>
-          {isWorksUnderContract === 'да' && (
+          {worksUnderContract === 'да' && (
             <FormInputWrapper
               name="contractEndDate"
               label="Дата окончания контракта (трудового договора)"
@@ -83,7 +79,6 @@ export default function Substep2({ getValues }: Substep2Props) {
           name="hasAdditionalUnconfirmedIncome"
           label="Наличие дополнительного неподтвержденного дохода"
           items={generateYesNoRadioItems()}
-          extraOnChange={(value) => setHasAdditionalUnconfirmedIncome(value)}
         />
         <>
           {hasAdditionalUnconfirmedIncome === 'да' && (

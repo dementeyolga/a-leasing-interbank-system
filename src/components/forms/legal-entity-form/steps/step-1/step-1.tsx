@@ -17,20 +17,6 @@ interface Step1Props {
 export default function Step1({ watch }: Step1Props) {
   const wasReorganized = watch('wasReorganized')
 
-  // const handleWasReorganizedChange = (value: string) => {
-  //   // if (value === 'нет') {
-  //   //   setValue('reorganizationType', undefined)
-  //   //   setValue('reorganizationDate', undefined)
-  //   //   setValue('oldFullNameAndLegalForm', undefined)
-  //   //   setValue('oldPayerAccountingNumber', undefined)
-  //   // } else if (value === 'да') {
-  //   //   setValue('reorganizationType', '')
-  //   //   setValue('reorganizationDate', '')
-  //   //   setValue('oldFullNameAndLegalForm', '')
-  //   //   setValue('oldPayerAccountingNumber', '')
-  //   // }
-  // }
-
   return (
     <FormWrapper>
       <FormHeading>Общие сведения о юридическом лице</FormHeading>
@@ -82,7 +68,6 @@ export default function Step1({ watch }: Step1Props) {
           name="wasReorganized"
           label="Была ли реорганизация?"
           items={generateYesNoRadioItems()}
-          // extraOnChange={(value) => handleWasReorganizedChange(value)}
         />
 
         <>

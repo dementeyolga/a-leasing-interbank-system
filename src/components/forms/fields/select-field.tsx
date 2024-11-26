@@ -13,7 +13,7 @@ interface SelectFieldProps<T extends FieldValues> {
   label: string
   required: boolean
   placeholder?: string
-  values: string[]
+  values: string[] | readonly string[]
   disabled?: boolean
   extraOnChange?: (value: string) => void
   tooltip?: string

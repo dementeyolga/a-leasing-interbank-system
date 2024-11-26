@@ -1,7 +1,11 @@
 import { type LegalEntityFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
-import { Fragment, useEffect, useState } from 'react'
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
+import { Fragment, useCallback, useEffect } from 'react'
+import {
+  UseFormGetValues,
+  UseFormSetValue,
+  UseFormWatch,
+} from 'react-hook-form'
 import FormFieldsWrapper from '../../../form-fields-wrapper'
 import FormHeading from '../../../form-heading'
 import FormWrapper from '../../../form-wrapper'
@@ -12,46 +16,42 @@ import { AllLegalEntityFormKeys } from '../../four-step-form'
 interface Step2Props {
   currentSubStep: number
   legalAddressFields: AllLegalEntityFormKeys[]
-  actualAddressFields: AllLegalEntityFormKeys[]
+  actualAddressFieldsWithSwitch: AllLegalEntityFormKeys[]
   setValue: UseFormSetValue<FormSchema>
   getValues: UseFormGetValues<FormSchema>
+  watch: UseFormWatch<FormSchema>
 }
 
 export default function Step2({
   currentSubStep,
   legalAddressFields,
-  actualAddressFields,
+  actualAddressFieldsWithSwitch,
   setValue,
   getValues,
+  watch,
 }: Step2Props) {
   // Handle setting residence address values same as registration address
-  const [sameAddress, setSameAddress] = useState(
-    () => getValues('isActualAddressMatchLegal') || '',
-  )
+  const sameAddress = watch('isActualAddressMatchLegal')
 
-  const passLegalValuesToActualAddress = () => {
+  const passLegalValuesToActualAddress = useCallback(() => {
     const legalAddressValues = getValues(legalAddressFields)
 
-    const concatActualAddressFields = actualAddressFields.slice(1)
+    const actualAddressFields = actualAddressFieldsWithSwitch.slice(1)
 
-    concatActualAddressFields.forEach((field, i) => {
+    actualAddressFields.forEach((field, i) => {
       setValue(field, legalAddressValues[i], {
         shouldValidate: true,
       })
     })
-  }
+  }, [legalAddressFields, actualAddressFieldsWithSwitch, getValues, setValue])
+
+  const checkSameAddress = useCallback(() => {
+    return sameAddress === 'да'
+  }, [sameAddress])
 
   useEffect(() => {
     if (sameAddress === 'да') passLegalValuesToActualAddress()
-  }, [])
-
-  const handleSameAddressChange = (value: string) => {
-    setSameAddress(value)
-
-    if (value === 'да') {
-      passLegalValuesToActualAddress()
-    }
-  }
+  }, [passLegalValuesToActualAddress, sameAddress])
 
   return (
     <Fragment>
@@ -98,48 +98,47 @@ export default function Step2({
                 name="isActualAddressMatchLegal"
                 label="Фактический адрес совпадает с юридическим адресом?"
                 items={generateYesNoRadioItems()}
-                extraOnChange={handleSameAddressChange}
               />
 
               <FormInputWrapper
                 name="actualCountry"
                 label="Страна"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="actualSettlement"
                 label="Населенный пункт"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="actualStreetType"
                 label="Тип улицы"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="actualStreetName"
                 label="Улица"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="actualHouseNumber"
                 label="Дом"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="actualBuildingNumber"
                 label="Строение/корпус"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="actualOfficeNumber"
                 label="Офис"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
               <FormInputWrapper
                 name="actualPostalCode"
                 label="Индекс"
-                disabled={sameAddress === 'да'}
+                disabled={checkSameAddress()}
               />
             </FormFieldsWrapper>
           </FormWrapper>

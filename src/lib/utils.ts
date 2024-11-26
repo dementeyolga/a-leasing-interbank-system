@@ -69,7 +69,7 @@ type ZodSchemaType =
   | ZodPrimitiveType
   | z.ZodOptional<ZodPrimitiveType>
   | z.ZodUnion<[ZodSchemaType, ...ZodSchemaType[]]>
-  | z.ZodIntersection<ZodSchemaType, ZodSchemaType>
+  | z.ZodIntersection<z.ZodTypeAny, z.ZodTypeAny>
   | z.ZodDiscriminatedUnion<
       string,
       z.ZodObject<Record<string, ZodSchemaType>>[]
@@ -93,7 +93,7 @@ export function isFieldRequired(path: string, schema: ZodSchemaType): boolean {
       }
     } else if (currentSchema instanceof z.ZodUnion) {
       // For union types, we consider it required if all options are required
-      return currentSchema._def.options.every((option: ZodSchemaType) =>
+      return currentSchema._def.options.every((option) =>
         isFieldRequired(path, option),
       )
     } else if (currentSchema instanceof z.ZodIntersection) {
@@ -104,9 +104,8 @@ export function isFieldRequired(path: string, schema: ZodSchemaType): boolean {
       )
     } else if (currentSchema instanceof z.ZodDiscriminatedUnion) {
       // For discriminated unions, we check if the field is required in any of the options
-      return currentSchema._def.options.some(
-        (option: z.ZodObject<Record<string, ZodSchemaType>>) =>
-          isFieldRequired(path, option),
+      return currentSchema._def.options.some((option) =>
+        isFieldRequired(path, option),
       )
     } else {
       return false
