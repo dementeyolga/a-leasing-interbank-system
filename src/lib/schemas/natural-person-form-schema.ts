@@ -17,7 +17,9 @@ import {
 const ownsPropertyDiscriminatedUnion = z.discriminatedUnion('ownsProperty', [
   z.object({
     ownsProperty: z.literal('да'),
-    typesOfProperty: z.string().min(1, { message: requiredMessage }),
+    typesOfProperty: z.array(z.string()).nonempty({
+      message: requiredMessage,
+    }),
   }),
   z.object({
     ownsProperty: z.literal('нет'),

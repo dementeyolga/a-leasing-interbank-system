@@ -62,7 +62,12 @@ export function generateSexRadioItems(): {
   ]
 }
 
-type ZodPrimitiveType = z.ZodString | z.ZodNumber | z.ZodBoolean
+type ZodPrimitiveType =
+  | z.ZodString
+  | z.ZodNumber
+  | z.ZodBoolean
+  | z.ZodEnum<[string]>
+  | z.ZodLiteral<unknown>
 type ZodSchemaType =
   | z.ZodObject<Record<string, z.ZodTypeAny>>
   | z.ZodArray<z.ZodTypeAny>
@@ -78,7 +83,6 @@ type ZodSchemaType =
 export function isFieldRequired(path: string, schema: ZodSchemaType): boolean {
   const pathArray = path.split(/\.(?![^[]*\])/)
   let currentSchema = schema
-  console.log(currentSchema)
 
   for (const key of pathArray) {
     if (currentSchema instanceof z.ZodObject) {
@@ -93,7 +97,7 @@ export function isFieldRequired(path: string, schema: ZodSchemaType): boolean {
       }
     } else if (currentSchema instanceof z.ZodUnion) {
       // For union types, we consider it required if all options are required
-      return currentSchema._def.options.every((option) =>
+      return currentSchema._def.options.some((option) =>
         isFieldRequired(path, option),
       )
     } else if (currentSchema instanceof z.ZodIntersection) {
@@ -108,7 +112,7 @@ export function isFieldRequired(path: string, schema: ZodSchemaType): boolean {
         isFieldRequired(path, option),
       )
     } else {
-      return false
+      break
     }
 
     if (!currentSchema) {
@@ -125,6 +129,8 @@ export function isFieldRequired(path: string, schema: ZodSchemaType): boolean {
     currentSchema instanceof z.ZodNumber ||
     currentSchema instanceof z.ZodBoolean ||
     currentSchema instanceof z.ZodEnum ||
-    currentSchema instanceof z.ZodLiteral
+    currentSchema instanceof z.ZodLiteral ||
+    (currentSchema instanceof z.ZodArray &&
+      currentSchema._def.minLength !== null)
   )
 }

@@ -1,10 +1,12 @@
 import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
 import FormHeading from '@/components/forms/form-heading'
 import FormWrapper from '@/components/forms/form-wrapper'
+import { typesOfProperty } from '@/data/select-field-options'
 import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
 import { UseFormWatch } from 'react-hook-form'
 import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
+import FormMultiSelectWrapper from '../../../field-wrappers/form-multi-select-wrapper'
 import FormRadioWrapper from '../../../field-wrappers/form-radio-wrapper'
 import FormSelectWrapper from '../../../field-wrappers/form-select-wrapper'
 
@@ -38,12 +40,14 @@ export default function Substep1({ watch }: Substep1Props) {
         />
         <>
           {ownsProperty === 'да' && (
-            <FormSelectWrapper
-              name="typesOfProperty"
-              label="Недвижимое имущество в собственности"
-              placeholder="Выберите несколько вариантов"
-              values={['квартира', 'офис', 'склад']}
-            />
+            <>
+              <FormMultiSelectWrapper
+                name="typesOfProperty"
+                label="Недвижимое имущество в собственности"
+                placeholder="Выберите один или несколько вариантов"
+                options={typesOfProperty}
+              />
+            </>
           )}
         </>
 

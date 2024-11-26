@@ -46,6 +46,7 @@ export function SelectInput({
           )}
         />
       </SelectTrigger>
+
       <SelectContent>
         <ScrollArea type="auto">
           {values.map((value) => (

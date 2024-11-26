@@ -77,3 +77,5 @@ export const servicingBanks = [
   'ЗАО "Альфа-Банк"',
   'ЗАО "Банк ВТБ" (Беларусь)',
 ] as const
+
+export const typesOfProperty = ['квартира', 'офис', 'склад'] as const
