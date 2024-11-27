@@ -1,8 +1,13 @@
-import { jobType } from '@/data/select-field-options'
+import {
+  educationTypes,
+  jobType,
+  maritalStatuses,
+} from '@/data/select-field-options'
 import { z } from 'zod'
 import {
   OTPLengthMessage,
   requiredMessage,
+  requiredOptions,
   wrongFormatMessage,
   yesNoArray,
 } from '../constants'
@@ -29,9 +34,9 @@ const ownsPropertyDiscriminatedUnion = z.discriminatedUnion('ownsProperty', [
 const ownsCarDiscriminatedUnion = z.discriminatedUnion('ownsCar', [
   z.object({
     ownsCar: z.literal('да'),
-    carBrand: z.string().min(1, { message: requiredMessage }),
+    carBrand: z.string(requiredOptions).min(1, { message: requiredMessage }),
     carManufactureYear: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
   }),
@@ -106,20 +111,24 @@ export const naturalPersonFormSchema = z
 
     // Residence address
     isResidenceAddressMatchRegistration: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage }),
     residenceCountry: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
     residenceSettlement: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
-    residenceStreetType: z.string().min(1, { message: requiredMessage }),
-    residenceStreetName: z.string().min(1, { message: requiredMessage }),
+    residenceStreetType: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
+    residenceStreetName: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
     residenceHouseNumber: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
     residenceBuildingNumber: z.string().optional(),
@@ -128,13 +137,13 @@ export const naturalPersonFormSchema = z
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
       .optional(),
     residencePostalCode: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
 
     // STEP 3
     // Marital status and property ownership
-    maritalStatus: z.string().min(1, { message: requiredMessage }),
+    maritalStatus: z.enum(maritalStatuses, { required_error: requiredMessage }),
     drivingExperience: z
       .string()
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
@@ -144,17 +153,23 @@ export const naturalPersonFormSchema = z
 
     // Place of work and income
     jobType: z.enum(jobType, { required_error: requiredMessage }),
-    jobOrganization: z.string().min(1, { message: requiredMessage }),
-    jobOrganizationAddress: z.string().min(1, { message: requiredMessage }),
+    jobOrganization: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
+    jobOrganizationAddress: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
     jobAccountingOrHRDeptPhone: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
-    jobPosition: z.string().min(1, { message: requiredMessage }),
-    jobStartDate: z.string().min(1, { message: requiredMessage }),
+    jobPosition: z.string(requiredOptions).min(1, { message: requiredMessage }),
+    jobStartDate: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
     worksUnderContract: z.enum(yesNoArray).optional(),
     mainIncomeSum: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     spouseMainIncome: z
@@ -174,8 +189,10 @@ export const naturalPersonFormSchema = z
       .regex(REGEX_SUM, { message: wrongFormatMessage })
       .optional(),
     hasAdditionalUnconfirmedIncome: z.enum(yesNoArray).optional(),
-    totalWorkExperience: z.string().min(1, { message: requiredMessage }),
-    educationType: z.string().min(1, { message: requiredMessage }),
+    totalWorkExperience: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
+    educationType: z.enum(educationTypes, { required_error: requiredMessage }),
     numberOfDependents: z
       .string()
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
@@ -203,7 +220,7 @@ export const naturalPersonFormSchema = z
       .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
       .optional(),
     trustedPersonPhone: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
     additionalPhone: z
@@ -211,7 +228,7 @@ export const naturalPersonFormSchema = z
       .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
       .optional(),
     email: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .email({ message: wrongFormatMessage }),
 

@@ -1,5 +1,5 @@
 import { FormLabel } from '@/components/ui/form'
-import { servicingBanks } from '@/data/select-field-options'
+import { coreActivityTypes, servicingBanks } from '@/data/select-field-options'
 import { type IndividuaEntrepreneurFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
 import { Fragment } from 'react'
@@ -55,9 +55,10 @@ export default function Step3({ currentSubStep, watch }: Step3Props) {
               label="Наименование регистрирующего органа"
               disabled
             />
-            <FormInputWrapper
+            <FormSelectWrapper
               name="ieCoreActivity"
               label="Основной вид деятельности"
+              values={coreActivityTypes}
             />
             <FormInputWrapper name="ieCCEACode" label="Код ОКЭД" />
             <FormInputWrapper

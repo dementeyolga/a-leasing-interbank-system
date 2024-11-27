@@ -49,7 +49,7 @@ export default function Substep4({ watch }: Substep4Props) {
           {hasNetLossLast3Month === 'да' && (
             <FormInputWrapper
               name="netLossLast3MonthSum"
-              label="Сумма убытка"
+              label="Сумма убытка, BYN"
             />
           )}
         </>
@@ -63,14 +63,14 @@ export default function Substep4({ watch }: Substep4Props) {
           {hasNetLossLastQuarterlyDate === 'да' && (
             <FormInputWrapper
               name="netLossLastQuarterlyDateSum"
-              label="Сумма убытка"
+              label="Сумма убытка, BYN"
             />
           )}
         </>
 
         <FormRadioWrapper
           name="hasCasesManagersCriminalResponsibility"
-          label="Наличие случаев привлечения к уголовной ответсвенности"
+          label="Наличие случаев привлечения руководителей к уголовной ответсвенности"
           items={generateYesNoRadioItems()}
         />
         <>
@@ -84,7 +84,7 @@ export default function Substep4({ watch }: Substep4Props) {
 
         <FormRadioWrapper
           name="isParticipateInTrial"
-          label="Является ли ИП ответчиком, должником в хозяйственном, уголовном процессе, гражданском судопроизводстве либо лицом, в отношении которого ведется административный процесс?"
+          label="Является ли организация ответчиком, должником в хозяйственном, уголовном процессе, гражданском судопроизводстве либо лицом, в отношении которого ведется административный процесс?"
           items={generateYesNoRadioItems()}
         />
         <>
@@ -98,7 +98,7 @@ export default function Substep4({ watch }: Substep4Props) {
 
         <FormRadioWrapper
           name="isFinancialSanctionsAppliedLastYear"
-          label="Применялись ли к ИП экономические (финансовые) санкции в течение календарного года?"
+          label="Применялись ли к организации экономические (финансовые) санкции в течение календарного года? "
           items={generateYesNoRadioItems()}
         />
         <>
@@ -112,7 +112,7 @@ export default function Substep4({ watch }: Substep4Props) {
 
         <FormRadioWrapper
           name="isParticipateInBankruptEntities"
-          label="Участие ИП в субъектах хозяйствования, находящихся в стадии ликвидации (банкротства)?"
+          label="Участие организации, ее учредителей и руководителей в субъектах хозяйствования, находящихся в стадии ликвидации (банкротства)?"
           items={generateYesNoRadioItems()}
         />
         <>

@@ -1,5 +1,6 @@
 import {
   accountingManagementTypes,
+  coreActivityTypes,
   organizationManagementTypes,
   servicingBanks,
 } from '@/data/select-field-options'
@@ -49,53 +50,67 @@ const organizationManagementTypeDiscriminatedUnion = z.discriminatedUnion(
     // 1. case is Natural person
     z.object({
       organizationManagementType: z.literal('физическое лицо'),
-      managerPosition: z.string().min(1, { message: requiredMessage }),
-      managerSurname: z.string().min(1, { message: requiredMessage }),
-      managerName: z.string().min(1, { message: requiredMessage }),
+      managerPosition: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      managerSurname: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      managerName: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
       managerPatronymic: z.string().optional(),
-      managerSex: z.string().min(1, { message: requiredMessage }),
-      managerCitizenship: z.string().min(1, { message: requiredMessage }),
-      managerBirthdate: z.string().min(1, { message: requiredMessage }),
-      managerBirthPlace: z.string().min(1, { message: requiredMessage }),
+      managerSex: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      managerCitizenship: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      managerBirthdate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      managerBirthPlace: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
       managerIdentityDocumentType: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage }),
       managerIdentityDocumentNumber: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage }),
       managerIdentificationNumber: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage }),
       managerIdentityDocumentIssueDate: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage }),
       managerIdentityDocumentValidThrough: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage }),
       managerIdentityDocumentIssuingAuthority: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage }),
       managerPhone: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage })
         .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
       managerRegistrationCountry: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage })
         .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
       managerRegistrationSettlement: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage })
         .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
       managerRegistrationStreetType: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage })
         .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
       managerRegistrationStreetName: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage }),
       managerRegistrationHouseNumber: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage })
         .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
       managerRegistrationBuildingNumber: z.string().optional(),
@@ -107,13 +122,13 @@ const organizationManagementTypeDiscriminatedUnion = z.discriminatedUnion(
     // 2. case is Individual Enterpreneur
     z.object({
       organizationManagementType: z.literal('индивидуальный предприниматель'),
-      ieName: z.string().min(1, { message: requiredMessage }),
+      ieName: z.string(requiredOptions).min(1, { message: requiredMessage }),
       iePayerAccountingNumber: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage })
         .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
       ieRegistrationNumber: z
-        .string()
+        .string(requiredOptions)
         .min(1, { message: requiredMessage })
         .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
       ieRegistrationDate: z.string().optional(),
@@ -340,21 +355,31 @@ export const legalEntityFormSchema = z
   .object({
     // STEP 1
     // General data
-    fullName: z.string().min(1, { message: requiredMessage }),
+    fullName: z.string(requiredOptions).min(1, { message: requiredMessage }),
     payerAccountingNumber: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
-    registrationNumber: z.string().min(1, { message: requiredMessage }),
-    registrationDate: z.string().min(1, { message: requiredMessage }),
-    registrationAuthority: z.string().min(1, { message: requiredMessage }),
-    coreActivity: z.string().min(1, { message: requiredMessage }),
+    registrationNumber: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
+    registrationDate: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
+    registrationAuthority: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
+    coreActivity: z.enum(coreActivityTypes, {
+      required_error: requiredMessage,
+    }),
     CCEACode: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
     otherActivity: z.string().optional(),
-    dateOfActivityBeginning: z.string().min(1, { message: requiredMessage }),
+    dateOfActivityBeginning: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
     licenceValidThrough: z.string().optional(),
 
     wasReorganized: z.enum(yesNoArray).optional(),
@@ -370,22 +395,26 @@ export const legalEntityFormSchema = z
 
     // STEP 2
     // Actual address
-    isActualAddressMatchLegal: z.string().min(1, { message: requiredMessage }),
+    isActualAddressMatchLegal: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
     actualCountry: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
     actualSettlement: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
     actualStreetType: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
-    actualStreetName: z.string().min(1, { message: requiredMessage }),
+    actualStreetName: z
+      .string(requiredOptions)
+      .min(1, { message: requiredMessage }),
     actualHouseNumber: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
     actualBuildingNumber: z.string().optional(),
@@ -394,7 +423,7 @@ export const legalEntityFormSchema = z
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
       .optional(),
     actualPostalCode: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
 
@@ -415,8 +444,12 @@ export const legalEntityFormSchema = z
     // Substep 3
     beneficialOwners: z.array(
       z.object({
-        beneficialOwnerSurname: z.string().min(1, { message: requiredMessage }),
-        beneficialOwnerName: z.string().min(1, { message: requiredMessage }),
+        beneficialOwnerSurname: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
+        beneficialOwnerName: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
         beneficialOwnerPatronymic: z.string().optional(),
         beneficialOwnerRole: z.string().optional(),
         beneficialOwnerFraction: z.string().optional(),
@@ -432,26 +465,25 @@ export const legalEntityFormSchema = z
         beneficialOwnerPhone: z
           .string()
           .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
-          .or(z.literal(''))
           .optional(),
         beneficialOwnerIsPublicOfficial: z.string().optional(),
         beneficialOwnerRegistrationCountry: z
-          .string()
+          .string(requiredOptions)
           .min(1, { message: requiredMessage }),
         beneficialOwnerRegistrationRegion: z
-          .string()
+          .string(requiredOptions)
           .min(1, { message: requiredMessage }),
         beneficialOwnerRegistrationSettlement: z
-          .string()
+          .string(requiredOptions)
           .min(1, { message: requiredMessage }),
         beneficialOwnerRegistrationStreetType: z
-          .string()
+          .string(requiredOptions)
           .min(1, { message: requiredMessage }),
         beneficialOwnerRegistrationStreetName: z
-          .string()
+          .string(requiredOptions)
           .min(1, { message: requiredMessage }),
         beneficialOwnerRegistrationHouseNumber: z
-          .string()
+          .string(requiredOptions)
           .min(1, { message: requiredMessage }),
         beneficialOwnerRegistrationBuildingNumber: z.string().optional(),
         beneficialOwnerRegistrationApartmentNumber: z.string().optional(),
@@ -459,6 +491,7 @@ export const legalEntityFormSchema = z
     ),
 
     participantsInformation: z.string().optional(),
+    foundersWithLargeUVShareInformation: z.string().optional(),
 
     // Substep 4
     // Administrative and financial information
@@ -491,51 +524,51 @@ export const legalEntityFormSchema = z
     }),
 
     revenueLast12Month1: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month2: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month3: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month4: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month5: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month6: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month7: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month8: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month9: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month10: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month11: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
     revenueLast12Month12: z
-      .string()
+      .string(requiredOptions)
       .min(1, { message: requiredMessage })
       .regex(REGEX_SUM, { message: wrongFormatMessage }),
 

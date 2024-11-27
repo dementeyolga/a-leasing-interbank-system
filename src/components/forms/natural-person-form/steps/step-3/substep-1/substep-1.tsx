@@ -1,7 +1,7 @@
 import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
 import FormHeading from '@/components/forms/form-heading'
 import FormWrapper from '@/components/forms/form-wrapper'
-import { typesOfProperty } from '@/data/select-field-options'
+import { maritalStatuses, typesOfProperty } from '@/data/select-field-options'
 import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
 import { UseFormWatch } from 'react-hook-form'
@@ -25,7 +25,7 @@ export default function Substep1({ watch }: Substep1Props) {
         <FormSelectWrapper
           name="maritalStatus"
           label="Семейное положение"
-          values={['женат/замужем', 'не женат/не замужем']}
+          values={maritalStatuses}
         />
 
         <FormInputWrapper

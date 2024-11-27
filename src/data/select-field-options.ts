@@ -79,3 +79,12 @@ export const servicingBanks = [
 ] as const
 
 export const typesOfProperty = ['квартира', 'офис', 'склад'] as const
+
+export const maritalStatuses = ['женат/замужем', 'не женат/не замужем'] as const
+
+export const educationTypes = [
+  'общее среднее образование',
+  'профессионально-техническое образование',
+  'среднее специальное образование',
+  'высшее образование',
+] as const

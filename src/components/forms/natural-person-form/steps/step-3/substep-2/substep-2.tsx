@@ -1,7 +1,7 @@
 import FormFieldsWrapper from '@/components/forms/form-fields-wrapper'
 import FormHeading from '@/components/forms/form-heading'
 import FormWrapper from '@/components/forms/form-wrapper'
-import { jobType } from '@/data/select-field-options'
+import { educationTypes, jobType } from '@/data/select-field-options'
 import { type NaturalPersonFormSchema as FormSchema } from '@/lib/schemas'
 import { generateYesNoRadioItems } from '@/lib/utils'
 import { UseFormWatch } from 'react-hook-form'
@@ -103,12 +103,7 @@ export default function Substep2({ watch }: Substep2Props) {
         <FormSelectWrapper
           name="educationType"
           label="Ваше образование"
-          values={[
-            'общее среднее образование',
-            'профессионально-техническое образование',
-            'среднее специальное образование',
-            'высшее образование',
-          ]}
+          values={educationTypes}
         />
 
         <FormInputWrapper

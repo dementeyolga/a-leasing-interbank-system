@@ -93,7 +93,7 @@ export const initialDataLegalEntity: LegalEntityFormSchema = {
   registrationNumber: '12312312',
   registrationDate: '12.05.2020',
   registrationAuthority: 'Главное управление юстиции Могилевского облисполкома',
-  coreActivity: '',
+  coreActivity: 'Авиационный транспорт',
   CCEACode: '222222',
   otherActivity: '',
   dateOfActivityBeginning: '12.05.2020',
@@ -208,6 +208,7 @@ export const initialDataLegalEntity: LegalEntityFormSchema = {
   ],
 
   participantsInformation: '',
+  foundersWithLargeUVShareInformation: '',
 
   // Administrative and financial information
   servicingBank: 'ОАО "АСБ Беларусбанк"',
@@ -285,7 +286,7 @@ export const initialDataIndividualEntrepreneur: IndividuaEntrepreneurFormSchema 
     ieRegistrationNumber: '111',
     ieRegistrationDate: '21.02.2021',
     ieRegistrationAuthority: 'Орган',
-    ieCoreActivity: 'продажа',
+    ieCoreActivity: 'Авиационный транспорт',
     ieCCEACode: '11111',
     ieOtherActivity: '',
     isPublicOfficial: 'нет',
