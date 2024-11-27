@@ -12,10 +12,17 @@ export default function FormLabelWrapper({
   tooltip,
   required,
 }: FormLabelWrapperProps) {
+  const lastLabelWordIndex = label.lastIndexOf(' ')
+  const lastLabelWord = label.slice(lastLabelWordIndex + 1)
+  const mainLabelPart = label.slice(0, lastLabelWordIndex)
+
   return (
     <FormLabel required={required}>
-      {label}
-      {tooltip && <PopoverWrapper>{tooltip}</PopoverWrapper>}
+      {mainLabelPart}{' '}
+      <span className="whitespace-nowrap">
+        {lastLabelWord}
+        {tooltip && <PopoverWrapper>{tooltip}</PopoverWrapper>}
+      </span>
     </FormLabel>
   )
 }
