@@ -32,8 +32,8 @@ export default function Substep2({ watch }: Substep2Props) {
         <>
           {/* Case 1: Natural person */}
           {accountingManagementType === 'физическое лицо' && (
-            <>
-              <>
+            <FormWrapper>
+              <FormFieldsWrapper>
                 <FormInputWrapper
                   name="accountingManagerPosition"
                   label="Занимаемая должность"
@@ -92,50 +92,52 @@ export default function Substep2({ watch }: Substep2Props) {
                   name="accountingManagerPhone"
                   label="Мобильный телефон"
                 />
-              </>
+              </FormFieldsWrapper>
 
-              <FormHeading>Адрес регистрации</FormHeading>
+              <FormWrapper>
+                <FormHeading>Адрес регистрации</FormHeading>
 
-              <>
-                <FormInputWrapper
-                  name="accountingManagerRegistrationCountry"
-                  label="Страна"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationRegion"
-                  label="Область"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationSettlement"
-                  label="Населенный пункт"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationStreetType"
-                  label="Тип улицы"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationStreetName"
-                  label="Улица"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationHouseNumber"
-                  label="Дом"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationBuildingNumber"
-                  label="Строение/корпус"
-                />
-                <FormInputWrapper
-                  name="accountingManagerRegistrationApartmentNumber"
-                  label="Квартира"
-                />
-              </>
-            </>
+                <FormFieldsWrapper>
+                  <FormInputWrapper
+                    name="accountingManagerRegistrationCountry"
+                    label="Страна"
+                  />
+                  <FormInputWrapper
+                    name="accountingManagerRegistrationRegion"
+                    label="Область"
+                  />
+                  <FormInputWrapper
+                    name="accountingManagerRegistrationSettlement"
+                    label="Населенный пункт"
+                  />
+                  <FormInputWrapper
+                    name="accountingManagerRegistrationStreetType"
+                    label="Тип улицы"
+                  />
+                  <FormInputWrapper
+                    name="accountingManagerRegistrationStreetName"
+                    label="Улица"
+                  />
+                  <FormInputWrapper
+                    name="accountingManagerRegistrationHouseNumber"
+                    label="Дом"
+                  />
+                  <FormInputWrapper
+                    name="accountingManagerRegistrationBuildingNumber"
+                    label="Строение/корпус"
+                  />
+                  <FormInputWrapper
+                    name="accountingManagerRegistrationApartmentNumber"
+                    label="Квартира"
+                  />
+                </FormFieldsWrapper>
+              </FormWrapper>
+            </FormWrapper>
           )}
 
           {/* Case 2: IE or LE */}
           {accountingManagementType === 'юридическое лицо/ИП' && (
-            <>
+            <FormFieldsWrapper>
               <FormInputWrapper
                 name="accountingManagementCompanyName"
                 label="Наименование организации"
@@ -144,7 +146,7 @@ export default function Substep2({ watch }: Substep2Props) {
                 name="accountingManagementCompanyPayerAccountingNumber"
                 label="УНП"
               />
-            </>
+            </FormFieldsWrapper>
           )}
         </>
       </FormFieldsWrapper>

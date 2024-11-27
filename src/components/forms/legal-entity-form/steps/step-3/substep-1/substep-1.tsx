@@ -29,97 +29,101 @@ export default function Substep1({ watch }: Substep1Props) {
           {/* Case 1: Natural person */}
           {organizationManagementType === 'физическое лицо' && (
             <FormWrapper>
-              <FormHeading tooltip="ином лице, уполномоченном в соответсвии с учредительными документами действовать от имени клиента-организации">
-                Сведения о руководителе организации
-              </FormHeading>
+              <FormWrapper>
+                <FormHeading tooltip="ином лице, уполномоченном в соответсвии с учредительными документами действовать от имени клиента-организации">
+                  Сведения о руководителе организации
+                </FormHeading>
 
-              <FormFieldsWrapper>
-                <FormInputWrapper
-                  name="managerPosition"
-                  label="Занимаемая должность"
-                />
-                <FormInputWrapper name="managerSurname" label="Фамилия" />
-                <FormInputWrapper name="managerName" label="Имя" />
-                <FormInputWrapper name="managerPatronymic" label="Отчество" />
-                <FormRadioWrapper
-                  name="managerSex"
-                  label="Пол"
-                  items={generateSexRadioItems()}
-                />
-                <FormInputWrapper
-                  name="managerCitizenship"
-                  label="Гражданство"
-                />
-                <FormInputWrapper
-                  name="managerBirthdate"
-                  label="Дата рождения"
-                />
-                <FormInputWrapper
-                  name="managerBirthPlace"
-                  label="Место рождения"
-                />
-                <FormInputWrapper
-                  name="managerIdentityDocumentType"
-                  label="Тип документа"
-                />
-                <FormInputWrapper
-                  name="managerIdentityDocumentNumber"
-                  label="Серия и номер документа"
-                />
-                <FormInputWrapper
-                  name="managerIdentificationNumber"
-                  label="Идентификационный номер"
-                />
-                <FormInputWrapper
-                  name="managerIdentityDocumentIssueDate"
-                  label="Дата выдачи"
-                />
-                <FormInputWrapper
-                  name="managerIdentityDocumentValidThrough"
-                  label="Срок действия"
-                />
-                <FormInputWrapper
-                  name="managerIdentityDocumentIssuingAuthority"
-                  label="Орган выдавший документ"
-                />
-                <FormInputWrapper
-                  name="managerPhone"
-                  label="Мобильный телефон"
-                />
-              </FormFieldsWrapper>
+                <FormFieldsWrapper>
+                  <FormInputWrapper
+                    name="managerPosition"
+                    label="Занимаемая должность"
+                  />
+                  <FormInputWrapper name="managerSurname" label="Фамилия" />
+                  <FormInputWrapper name="managerName" label="Имя" />
+                  <FormInputWrapper name="managerPatronymic" label="Отчество" />
+                  <FormRadioWrapper
+                    name="managerSex"
+                    label="Пол"
+                    items={generateSexRadioItems()}
+                  />
+                  <FormInputWrapper
+                    name="managerCitizenship"
+                    label="Гражданство"
+                  />
+                  <FormInputWrapper
+                    name="managerBirthdate"
+                    label="Дата рождения"
+                  />
+                  <FormInputWrapper
+                    name="managerBirthPlace"
+                    label="Место рождения"
+                  />
+                  <FormInputWrapper
+                    name="managerIdentityDocumentType"
+                    label="Тип документа"
+                  />
+                  <FormInputWrapper
+                    name="managerIdentityDocumentNumber"
+                    label="Серия и номер документа"
+                  />
+                  <FormInputWrapper
+                    name="managerIdentificationNumber"
+                    label="Идентификационный номер"
+                  />
+                  <FormInputWrapper
+                    name="managerIdentityDocumentIssueDate"
+                    label="Дата выдачи"
+                  />
+                  <FormInputWrapper
+                    name="managerIdentityDocumentValidThrough"
+                    label="Срок действия"
+                  />
+                  <FormInputWrapper
+                    name="managerIdentityDocumentIssuingAuthority"
+                    label="Орган выдавший документ"
+                  />
+                  <FormInputWrapper
+                    name="managerPhone"
+                    label="Мобильный телефон"
+                  />
+                </FormFieldsWrapper>
+              </FormWrapper>
 
-              <FormHeading>Адрес регистрации</FormHeading>
+              <FormWrapper>
+                <FormHeading>Адрес регистрации</FormHeading>
 
-              <FormFieldsWrapper>
-                <FormInputWrapper
-                  name="managerRegistrationCountry"
-                  label="Страна"
-                />
-                <FormInputWrapper
-                  name="managerRegistrationSettlement"
-                  label="Населенный пункт"
-                />
-                <FormInputWrapper
-                  name="managerRegistrationStreetType"
-                  label="Тип улицы"
-                />
-                <FormInputWrapper
-                  name="managerRegistrationStreetName"
-                  label="Улица"
-                />
-                <FormInputWrapper
-                  name="managerRegistrationHouseNumber"
-                  label="Дом"
-                />
-                <FormInputWrapper
-                  name="managerRegistrationBuildingNumber"
-                  label="Строение/корпус"
-                />
-                <FormInputWrapper
-                  name="managerRegistrationApartmentNumber"
-                  label="Квартира"
-                />
-              </FormFieldsWrapper>
+                <FormFieldsWrapper>
+                  <FormInputWrapper
+                    name="managerRegistrationCountry"
+                    label="Страна"
+                  />
+                  <FormInputWrapper
+                    name="managerRegistrationSettlement"
+                    label="Населенный пункт"
+                  />
+                  <FormInputWrapper
+                    name="managerRegistrationStreetType"
+                    label="Тип улицы"
+                  />
+                  <FormInputWrapper
+                    name="managerRegistrationStreetName"
+                    label="Улица"
+                  />
+                  <FormInputWrapper
+                    name="managerRegistrationHouseNumber"
+                    label="Дом"
+                  />
+                  <FormInputWrapper
+                    name="managerRegistrationBuildingNumber"
+                    label="Строение/корпус"
+                  />
+                  <FormInputWrapper
+                    name="managerRegistrationApartmentNumber"
+                    label="Квартира"
+                  />
+                </FormFieldsWrapper>
+              </FormWrapper>
             </FormWrapper>
           )}
 

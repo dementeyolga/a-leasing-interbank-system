@@ -10,6 +10,7 @@ import FormWrapper from '../../form-wrapper'
 import FormInputWrapper from '../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../field-wrappers/form-radio-wrapper'
 import FormSelectWrapper from '../field-wrappers/form-select-wrapper'
+import FormTextareaWrapper from '../field-wrappers/form-textarea-wrapper'
 
 interface Step3Props {
   currentSubStep: number
@@ -100,7 +101,7 @@ export default function Step3({ currentSubStep, watch }: Step3Props) {
             />
             <>
               {hasRecordedCriminalProsecutions === 'да' && (
-                <FormInputWrapper
+                <FormTextareaWrapper
                   name="hasRecordedCriminalProsecutionsReasons"
                   label="Укажите причины"
                 />
@@ -114,7 +115,7 @@ export default function Step3({ currentSubStep, watch }: Step3Props) {
             />
             <>
               {isParticipateInTrial === 'да' && (
-                <FormInputWrapper
+                <FormTextareaWrapper
                   name="isParticipateInTrialReasons"
                   label="Укажите причины"
                 />
@@ -128,7 +129,7 @@ export default function Step3({ currentSubStep, watch }: Step3Props) {
             />
             <>
               {isFinancialSanctionsAppliedLastYear === 'да' && (
-                <FormInputWrapper
+                <FormTextareaWrapper
                   name="isFinancialSanctionsAppliedLastYearReasons"
                   label="Укажите причины"
                 />
@@ -142,7 +143,7 @@ export default function Step3({ currentSubStep, watch }: Step3Props) {
             />
             <>
               {isParticipateInBankruptEntities === 'да' && (
-                <FormInputWrapper
+                <FormTextareaWrapper
                   name="isParticipateInBankruptEntitiesReasons"
                   label="Укажите причины"
                 />

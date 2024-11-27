@@ -75,14 +75,10 @@ export default function Step2({
             <FormInputWrapper name="legalHouseNumber" label="Дом" disabled />
             <FormInputWrapper
               name="legalBuildingNumber"
-              label="Строение/корпус (необязательно)"
+              label="Строение/корпус"
               disabled
             />
-            <FormInputWrapper
-              name="legalOfficeNumber"
-              label="Офис (необязательно)"
-              disabled
-            />
+            <FormInputWrapper name="legalOfficeNumber" label="Офис" disabled />
             <FormInputWrapper name="legalPostalCode" label="Индекс" disabled />
           </FormFieldsWrapper>
         </FormWrapper>

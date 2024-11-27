@@ -7,6 +7,8 @@ import {
 import { z } from 'zod'
 import {
   OTPLengthMessage,
+  percentLessThanMessage,
+  percentMoreThanMessage,
   requiredMessage,
   requiredOptions,
   wrongFormatMessage,
@@ -14,6 +16,7 @@ import {
 } from '../constants'
 import {
   REGEX_GEO_NAME,
+  REGEX_NAME,
   REGEX_ONLY_DIGITS,
   REGEX_PHONE_INTL,
   REGEX_SUM,
@@ -52,29 +55,38 @@ const organizationManagementTypeDiscriminatedUnion = z.discriminatedUnion(
       organizationManagementType: z.literal('физическое лицо'),
       managerPosition: z
         .string(requiredOptions)
-        .min(1, { message: requiredMessage }),
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
       managerSurname: z
         .string(requiredOptions)
-        .min(1, { message: requiredMessage }),
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
       managerName: z
         .string(requiredOptions)
-        .min(1, { message: requiredMessage }),
-      managerPatronymic: z.string().optional(),
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      managerPatronymic: z
+        .string()
+        .regex(REGEX_NAME, { message: wrongFormatMessage })
+        .optional(),
       managerSex: z
         .string(requiredOptions)
         .min(1, { message: requiredMessage }),
       managerCitizenship: z
         .string(requiredOptions)
-        .min(1, { message: requiredMessage }),
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
       managerBirthdate: z
         .string(requiredOptions)
         .min(1, { message: requiredMessage }),
       managerBirthPlace: z
         .string(requiredOptions)
-        .min(1, { message: requiredMessage }),
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
       managerIdentityDocumentType: z
         .string(requiredOptions)
-        .min(1, { message: requiredMessage }),
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
       managerIdentityDocumentNumber: z
         .string(requiredOptions)
         .min(1, { message: requiredMessage }),
@@ -94,6 +106,7 @@ const organizationManagementTypeDiscriminatedUnion = z.discriminatedUnion(
         .string(requiredOptions)
         .min(1, { message: requiredMessage })
         .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
+
       managerRegistrationCountry: z
         .string(requiredOptions)
         .min(1, { message: requiredMessage })
@@ -122,6 +135,7 @@ const organizationManagementTypeDiscriminatedUnion = z.discriminatedUnion(
     // 2. case is Individual Enterpreneur
     z.object({
       organizationManagementType: z.literal('индивидуальный предприниматель'),
+
       ieName: z.string(requiredOptions).min(1, { message: requiredMessage }),
       iePayerAccountingNumber: z
         .string(requiredOptions)
@@ -131,98 +145,282 @@ const organizationManagementTypeDiscriminatedUnion = z.discriminatedUnion(
         .string(requiredOptions)
         .min(1, { message: requiredMessage })
         .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
-      ieRegistrationDate: z.string().optional(),
-      ieRegistrationAuthority: z.string().optional(),
-      ieLocation: z.string().optional(),
-      ieManagerPosition: z.string().optional(),
-      ieManagerSurname: z.string().optional(),
-      ieManagerName: z.string().optional(),
-      ieManagerPatronymic: z.string().optional(),
-      ieManagerSex: z.string().optional(),
-      ieManagerCitizenship: z.string().optional(),
-      ieManagerBirthdate: z.string().optional(),
-      ieManagerBirthPlace: z.string().optional(),
-      ieManagerIdentityDocumentType: z.string().optional(),
-      ieManagerIdentityDocumentNumber: z.string().optional(),
-      ieManagerIdentificationNumber: z.string().optional(),
-      ieManagerIdentityDocumentIssueDate: z.string().optional(),
-      ieManagerIdentityDocumentValidThrough: z.string().optional(),
-      ieManagerIdentityDocumentIssuingAuthority: z.string().optional(),
-      ieManagerPhone: z
+      ieRegistrationDate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      ieRegistrationAuthority: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      ieLocation: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+
+      ieManagerPosition: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      ieManagerSurname: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      ieManagerName: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      ieManagerPatronymic: z
         .string()
-        .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage })
         .optional(),
-      ieManagerRegistrationCountry: z.string().optional(),
-      ieManagerRegistrationRegion: z.string().optional(),
-      ieManagerRegistrationSettlement: z.string().optional(),
-      ieManagerRegistrationStreetType: z.string().optional(),
+      ieManagerSex: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      ieManagerCitizenship: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      ieManagerBirthdate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      ieManagerBirthPlace: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      ieManagerIdentityDocumentType: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      ieManagerIdentityDocumentNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      ieManagerIdentificationNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      ieManagerIdentityDocumentIssueDate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      ieManagerIdentityDocumentValidThrough: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      ieManagerIdentityDocumentIssuingAuthority: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      ieManagerPhone: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
+
+      ieManagerRegistrationCountry: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
+      ieManagerRegistrationRegion: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
+      ieManagerRegistrationSettlement: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
+      ieManagerRegistrationStreetType: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
       ieManagerRegistrationStreetName: z.string().optional(),
-      ieManagerRegistrationHouseNumber: z.string().optional(),
+      ieManagerRegistrationHouseNumber: z
+        .string()
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+        .optional(),
       ieManagerRegistrationBuildingNumber: z.string().optional(),
-      ieManagerRegistrationApartmentNumber: z.string().optional(),
+      ieManagerRegistrationApartmentNumber: z
+        .string()
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+        .optional(),
     }),
     // 3. case is Legal Entity
     z.object({
       organizationManagementType: z.literal('юридическое лицо'),
-      leName: z.string().optional(),
-      lePayerAccountingNumber: z.string().optional(),
-      leRegistrationNumber: z.string().optional(),
-      leRegistrationDate: z.string().optional(),
-      leRegistrationAuthority: z.string().optional(),
-      leLocation: z.string().optional(),
-      leManagerPosition: z.string().optional(),
-      leManagerSurname: z.string().optional(),
-      leManagerName: z.string().optional(),
-      leManagerPatronymic: z.string().optional(),
-      leManagerSex: z.string().optional(),
-      leManagerCitizenship: z.string().optional(),
-      leManagerBirthdate: z.string().optional(),
-      leManagerBirthPlace: z.string().optional(),
-      leManagerIdentityDocumentType: z.string().optional(),
-      leManagerIdentityDocumentNumber: z.string().optional(),
-      leManagerIdentificationNumber: z.string().optional(),
-      leManagerIdentityDocumentIssueDate: z.string().optional(),
-      leManagerIdentityDocumentValidThrough: z.string().optional(),
-      leManagerIdentityDocumentIssuingAuthority: z.string().optional(),
+
+      leName: z.string(requiredOptions).min(1, { message: requiredMessage }),
+      lePayerAccountingNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
+      leRegistrationNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
+      leRegistrationDate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leRegistrationAuthority: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leLocation: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+
+      leManagerPosition: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leManagerSurname: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leManagerName: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leManagerPatronymic: z
+        .string()
+        .regex(REGEX_NAME, { message: wrongFormatMessage })
+        .optional(),
+      leManagerSex: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leManagerCitizenship: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leManagerBirthdate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leManagerBirthPlace: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leManagerIdentityDocumentType: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leManagerIdentityDocumentNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leManagerIdentificationNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leManagerIdentityDocumentIssueDate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leManagerIdentityDocumentValidThrough: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leManagerIdentityDocumentIssuingAuthority: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
       leManagerPhone: z
-        .string()
-        .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
+
+      leManagerRegistrationCountry: z
+        .string(requiredOptions)
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
         .optional(),
-      leManagerRegistrationCountry: z.string().optional(),
-      leManagerRegistrationRegion: z.string().optional(),
-      leManagerRegistrationSettlement: z.string().optional(),
-      leManagerRegistrationStreetType: z.string().optional(),
+      leManagerRegistrationRegion: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
+      leManagerRegistrationSettlement: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
+      leManagerRegistrationStreetType: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
       leManagerRegistrationStreetName: z.string().optional(),
-      leManagerRegistrationHouseNumber: z.string().optional(),
-      leManagerRegistrationBuildingNumber: z.string().optional(),
-      leManagerRegistrationApartmentNumber: z.string().optional(),
-      // Accountant
-      leAccountantPosition: z.string().optional(),
-      leAccountantSurname: z.string().optional(),
-      leAccountantName: z.string().optional(),
-      leAccountantPatronymic: z.string().optional(),
-      leAccountantSex: z.string().optional(),
-      leAccountantCitizenship: z.string().optional(),
-      leAccountantBirthdate: z.string().optional(),
-      leAccountantBirthPlace: z.string().optional(),
-      leAccountantIdentityDocumentType: z.string().optional(),
-      leAccountantIdentityDocumentNumber: z.string().optional(),
-      leAccountantIdentificationNumber: z.string().optional(),
-      leAccountantIdentityDocumentIssueDate: z.string().optional(),
-      leAccountantIdentityDocumentValidThrough: z.string().optional(),
-      leAccountantIdentityDocumentIssuingAuthority: z.string().optional(),
-      leAccountantPhone: z
+      leManagerRegistrationHouseNumber: z
         .string()
-        .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
         .optional(),
-      leAccountantRegistrationCountry: z.string().optional(),
-      leAccountantRegistrationRegion: z.string().optional(),
-      leAccountantRegistrationSettlement: z.string().optional(),
-      leAccountantRegistrationStreetType: z.string().optional(),
+      leManagerRegistrationBuildingNumber: z.string().optional(),
+      leManagerRegistrationApartmentNumber: z
+        .string()
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+        .optional(),
+
+      // Accountant
+      leAccountantPosition: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leAccountantSurname: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leAccountantName: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leAccountantPatronymic: z
+        .string()
+        .regex(REGEX_NAME, { message: wrongFormatMessage })
+        .optional(),
+      leAccountantSex: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leAccountantCitizenship: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leAccountantBirthdate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leAccountantBirthPlace: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leAccountantIdentityDocumentType: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      leAccountantIdentityDocumentNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leAccountantIdentificationNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leAccountantIdentityDocumentIssueDate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leAccountantIdentityDocumentValidThrough: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leAccountantIdentityDocumentIssuingAuthority: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      leAccountantPhone: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
+
+      leAccountantRegistrationCountry: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
+      leAccountantRegistrationRegion: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
+      leAccountantRegistrationSettlement: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
+      leAccountantRegistrationStreetType: z
+        .string()
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage })
+        .optional(),
       leAccountantRegistrationStreetName: z.string().optional(),
-      leAccountantRegistrationHouseNumber: z.string().optional(),
+      leAccountantRegistrationHouseNumber: z
+        .string()
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+        .optional(),
       leAccountantRegistrationBuildingNumber: z.string().optional(),
-      leAccountantRegistrationApartmentNumber: z.string().optional(),
+      leAccountantRegistrationApartmentNumber: z
+        .string()
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+        .optional(),
     }),
   ],
 )
@@ -234,39 +432,99 @@ const accountingManagementTypeDiscriminatedUnion = z.discriminatedUnion(
     z.object({
       accountingManagementType: z.literal('физическое лицо'),
 
-      accountingManagerPosition: z.string().optional(),
-      accountingManagerSurname: z.string().optional(),
-      accountingManagerName: z.string().optional(),
-      accountingManagerPatronymic: z.string().optional(),
-      accountingManagerSex: z.string().optional(),
-      accountingManagerCitizenship: z.string().optional(),
-      accountingManagerBirthdate: z.string().optional(),
-      accountingManagerBirthPlace: z.string().optional(),
-      accountingManagerIdentityDocumentType: z.string().optional(),
-      accountingManagerIdentityDocumentNumber: z.string().optional(),
-      accountingManagerIdentificationNumber: z.string().optional(),
-      accountingManagerIdentityDocumentIssueDate: z.string().optional(),
-      accountingManagerIdentityDocumentValidThrough: z.string().optional(),
-      accountingManagerIdentityDocumentIssuingAuthority: z.string().optional(),
-      accountingManagerPhone: z
+      accountingManagerPosition: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      accountingManagerSurname: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      accountingManagerName: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      accountingManagerPatronymic: z
         .string()
-        .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage })
         .optional(),
-      accountingManagerRegistrationCountry: z.string().optional(),
-      accountingManagerRegistrationRegion: z.string().optional(),
-      accountingManagerRegistrationSettlement: z.string().optional(),
-      accountingManagerRegistrationStreetType: z.string().optional(),
-      accountingManagerRegistrationStreetName: z.string().optional(),
-      accountingManagerRegistrationHouseNumber: z.string().optional(),
+      accountingManagerSex: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagerCitizenship: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      accountingManagerBirthdate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagerBirthPlace: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagerIdentityDocumentType: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_NAME, { message: wrongFormatMessage }),
+      accountingManagerIdentityDocumentNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagerIdentificationNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagerIdentityDocumentIssueDate: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagerIdentityDocumentValidThrough: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagerIdentityDocumentIssuingAuthority: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagerPhone: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
+
+      accountingManagerRegistrationCountry: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+      accountingManagerRegistrationRegion: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+      accountingManagerRegistrationSettlement: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+      accountingManagerRegistrationStreetType: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+      accountingManagerRegistrationStreetName: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagerRegistrationHouseNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
       accountingManagerRegistrationBuildingNumber: z.string().optional(),
-      accountingManagerRegistrationApartmentNumber: z.string().optional(),
+      accountingManagerRegistrationApartmentNumber: z
+        .string(requiredOptions)
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+        .optional(),
     }),
     // 2. case accounting manager is a legal entity or individual enterpreneur
     z.object({
       accountingManagementType: z.literal('юридическое лицо/ИП'),
 
-      accountingManagementCompanyName: z.string().optional(),
-      accountingManagementCompanyPayerAccountingNumber: z.string().optional(),
+      accountingManagementCompanyName: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
+      accountingManagementCompanyPayerAccountingNumber: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
     }),
   ],
 )
@@ -277,9 +535,9 @@ const hasNetLossLast3MonthDiscriminatedUnion = z.discriminatedUnion(
     z.object({
       hasNetLossLast3Month: z.literal('да'),
       netLossLast3MonthSum: z
-        .string()
-        .regex(REGEX_SUM, { message: wrongFormatMessage })
-        .optional(),
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_SUM, { message: wrongFormatMessage }),
     }),
     z.object({
       hasNetLossLast3Month: z.literal('нет'),
@@ -293,9 +551,9 @@ const hasNetLossLastQuarterlyDateDiscriminatedUnion = z.discriminatedUnion(
     z.object({
       hasNetLossLastQuarterlyDate: z.literal('да'),
       netLossLastQuarterlyDateSum: z
-        .string()
-        .regex(REGEX_SUM, { message: wrongFormatMessage })
-        .optional(),
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage })
+        .regex(REGEX_SUM, { message: wrongFormatMessage }),
     }),
     z.object({
       hasNetLossLastQuarterlyDate: z.literal('нет'),
@@ -307,7 +565,9 @@ const hasCasesManagersCriminalResponsibilityDiscriminatedUnion =
   z.discriminatedUnion('hasCasesManagersCriminalResponsibility', [
     z.object({
       hasCasesManagersCriminalResponsibility: z.literal('да'),
-      hasCasesManagersCriminalResponsibilityReasons: z.string().optional(),
+      hasCasesManagersCriminalResponsibilityReasons: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
     }),
     z.object({
       hasCasesManagersCriminalResponsibility: z.literal('нет'),
@@ -319,7 +579,9 @@ const isParticipateInTrialDiscriminatedUnion = z.discriminatedUnion(
   [
     z.object({
       isParticipateInTrial: z.literal('да'),
-      isParticipateInTrialReasons: z.string().optional(),
+      isParticipateInTrialReasons: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
     }),
     z.object({
       isParticipateInTrial: z.literal('нет'),
@@ -331,7 +593,9 @@ const isFinancialSanctionsAppliedLastYearDiscriminatedUnion =
   z.discriminatedUnion('isFinancialSanctionsAppliedLastYear', [
     z.object({
       isFinancialSanctionsAppliedLastYear: z.literal('да'),
-      isFinancialSanctionsAppliedLastYearReasons: z.string().optional(),
+      isFinancialSanctionsAppliedLastYearReasons: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
     }),
     z.object({
       isFinancialSanctionsAppliedLastYear: z.literal('нет'),
@@ -343,7 +607,9 @@ const isParticipateInBankruptEntitiesDiscriminatedUnion = z.discriminatedUnion(
   [
     z.object({
       isParticipateInBankruptEntities: z.literal('да'),
-      isParticipateInBankruptEntitiesReasons: z.string().optional(),
+      isParticipateInBankruptEntitiesReasons: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
     }),
     z.object({
       isParticipateInBankruptEntities: z.literal('нет'),
@@ -446,47 +712,92 @@ export const legalEntityFormSchema = z
       z.object({
         beneficialOwnerSurname: z
           .string(requiredOptions)
-          .min(1, { message: requiredMessage }),
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
         beneficialOwnerName: z
           .string(requiredOptions)
-          .min(1, { message: requiredMessage }),
-        beneficialOwnerPatronymic: z.string().optional(),
-        beneficialOwnerRole: z.string().optional(),
-        beneficialOwnerFraction: z.string().optional(),
-        beneficialOwnerCitizenship: z.string().optional(),
-        beneficialOwnerBirthdate: z.string().optional(),
-        beneficialOwnerBirthPlace: z.string().optional(),
-        beneficialOwnerIdentityDocumentType: z.string().optional(),
-        beneficialOwnerIdentityDocumentNumber: z.string().optional(),
-        beneficialOwnerIdentificationNumber: z.string().optional(),
-        beneficialOwnerIdentityDocumentIssueDate: z.string().optional(),
-        beneficialOwnerIdentityDocumentValidThrough: z.string().optional(),
-        beneficialOwnerIdentityDocumentIssuingAuthority: z.string().optional(),
-        beneficialOwnerPhone: z
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+        beneficialOwnerPatronymic: z
           .string()
-          .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage })
+          .regex(REGEX_NAME, { message: wrongFormatMessage })
           .optional(),
-        beneficialOwnerIsPublicOfficial: z.string().optional(),
+        beneficialOwnerRole: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+        beneficialOwnerFraction: z.coerce
+          .number({
+            ...requiredOptions,
+            invalid_type_error: wrongFormatMessage,
+          })
+          .gt(0, { message: percentMoreThanMessage })
+          .lte(100, { message: percentLessThanMessage }),
+        beneficialOwnerCitizenship: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
+        beneficialOwnerBirthdate: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
+        beneficialOwnerBirthPlace: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
+        beneficialOwnerIdentityDocumentType: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_NAME, { message: wrongFormatMessage }),
+        beneficialOwnerIdentityDocumentNumber: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
+        beneficialOwnerIdentificationNumber: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
+        beneficialOwnerIdentityDocumentIssueDate: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
+        beneficialOwnerIdentityDocumentValidThrough: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
+        beneficialOwnerIdentityDocumentIssuingAuthority: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
+        beneficialOwnerPhone: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_PHONE_INTL, { message: wrongFormatMessage }),
+        beneficialOwnerIsPublicOfficial: z
+          .string(requiredOptions)
+          .min(1, { message: requiredMessage }),
+
         beneficialOwnerRegistrationCountry: z
           .string(requiredOptions)
-          .min(1, { message: requiredMessage }),
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
         beneficialOwnerRegistrationRegion: z
           .string(requiredOptions)
-          .min(1, { message: requiredMessage }),
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
         beneficialOwnerRegistrationSettlement: z
           .string(requiredOptions)
-          .min(1, { message: requiredMessage }),
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
         beneficialOwnerRegistrationStreetType: z
           .string(requiredOptions)
-          .min(1, { message: requiredMessage }),
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
         beneficialOwnerRegistrationStreetName: z
           .string(requiredOptions)
           .min(1, { message: requiredMessage }),
         beneficialOwnerRegistrationHouseNumber: z
           .string(requiredOptions)
-          .min(1, { message: requiredMessage }),
+          .min(1, { message: requiredMessage })
+          .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
         beneficialOwnerRegistrationBuildingNumber: z.string().optional(),
-        beneficialOwnerRegistrationApartmentNumber: z.string().optional(),
+        beneficialOwnerRegistrationApartmentNumber: z
+          .string()
+          .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+          .optional(),
       }),
     ),
 

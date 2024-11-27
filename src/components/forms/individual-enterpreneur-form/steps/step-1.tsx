@@ -41,7 +41,11 @@ export default function Step1() {
           disabled
         />
 
-        <FormInputWrapper name="identityDocumentType" label="Тип документа" />
+        <FormInputWrapper
+          name="identityDocumentType"
+          label="Тип документа"
+          disabled
+        />
         <FormInputWrapper
           name="identityDocumentNumber"
           label="Серия и номер документа"

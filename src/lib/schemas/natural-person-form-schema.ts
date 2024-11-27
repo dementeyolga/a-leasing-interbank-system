@@ -94,12 +94,8 @@ export const naturalPersonFormSchema = z
     identityDocumentIssueDate: z.string().optional(),
     identityDocumentValidThrough: z.string().optional(),
     identityDocumentIssuingAuthority: z.string().optional(),
-    isResidentOfBelarus: z.enum(yesNoArray, {
-      required_error: requiredMessage,
-    }),
-    isTaxResidentOfUSA: z.enum(yesNoArray, {
-      required_error: requiredMessage,
-    }),
+    isResidentOfBelarus: z.string().optional(),
+    isTaxResidentOfUSA: z.string().optional(),
 
     // STEP 2
     // Address information
@@ -127,7 +123,8 @@ export const naturalPersonFormSchema = z
       .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
     residenceStreetType: z
       .string(requiredOptions)
-      .min(1, { message: requiredMessage }),
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
     residenceStreetName: z
       .string(requiredOptions)
       .min(1, { message: requiredMessage }),

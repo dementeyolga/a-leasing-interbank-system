@@ -8,18 +8,21 @@ import {
   yesNoArray,
 } from '../constants'
 import {
+  REGEX_GEO_NAME,
   REGEX_NAME,
   REGEX_ONLY_DIGITS,
   REGEX_PHONE_INTL,
   REGEX_SUM,
 } from '../regex'
 
-const hasRecordedCriminalProsecutionsReasons = z.discriminatedUnion(
+const hasRecordedCriminalProsecutionsDiscriminatedUnion = z.discriminatedUnion(
   'hasRecordedCriminalProsecutions',
   [
     z.object({
       hasRecordedCriminalProsecutions: z.literal('да'),
-      hasRecordedCriminalProsecutionsReasons: z.string().optional(),
+      hasRecordedCriminalProsecutionsReasons: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
     }),
     z.object({
       hasRecordedCriminalProsecutions: z.literal('нет'),
@@ -32,7 +35,9 @@ const isParticipateInTrialDiscriminatedUnion = z.discriminatedUnion(
   [
     z.object({
       isParticipateInTrial: z.literal('да'),
-      isParticipateInTrialReasons: z.string().optional(),
+      isParticipateInTrialReasons: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
     }),
     z.object({
       isParticipateInTrial: z.literal('нет'),
@@ -44,7 +49,9 @@ const isFinancialSanctionsAppliedLastYearDiscriminatedUnion =
   z.discriminatedUnion('isFinancialSanctionsAppliedLastYear', [
     z.object({
       isFinancialSanctionsAppliedLastYear: z.literal('да'),
-      isFinancialSanctionsAppliedLastYearReasons: z.string().optional(),
+      isFinancialSanctionsAppliedLastYearReasons: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
     }),
     z.object({
       isFinancialSanctionsAppliedLastYear: z.literal('нет'),
@@ -56,7 +63,9 @@ const isParticipateInBankruptEntitiesDiscriminatedUnion = z.discriminatedUnion(
   [
     z.object({
       isParticipateInBankruptEntities: z.literal('да'),
-      isParticipateInBankruptEntitiesReasons: z.string().optional(),
+      isParticipateInBankruptEntitiesReasons: z
+        .string(requiredOptions)
+        .min(1, { message: requiredMessage }),
     }),
     z.object({
       isParticipateInBankruptEntities: z.literal('нет'),
@@ -88,12 +97,8 @@ export const individualEntrepreneurFormSchema = z
     identityDocumentIssueDate: z.string().optional(),
     identityDocumentValidThrough: z.string().optional(),
     identityDocumentIssuingAuthority: z.string().optional(),
-    isResidentOfBelarus: z.enum(yesNoArray, {
-      required_error: requiredMessage,
-    }),
-    isTaxResidentOfUSA: z.enum(yesNoArray, {
-      required_error: requiredMessage,
-    }),
+    isResidentOfBelarus: z.string().optional(),
+    isTaxResidentOfUSA: z.string().optional(),
 
     // STEP 2
     // Address information
@@ -113,21 +118,28 @@ export const individualEntrepreneurFormSchema = z
     }),
     residenceCountry: z
       .string(requiredOptions)
-      .min(1, { message: requiredMessage }),
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
     residenceSettlement: z
       .string(requiredOptions)
-      .min(1, { message: requiredMessage }),
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
     residenceStreetType: z
       .string(requiredOptions)
-      .min(1, { message: requiredMessage }),
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_GEO_NAME, { message: wrongFormatMessage }),
     residenceStreetName: z
       .string(requiredOptions)
       .min(1, { message: requiredMessage }),
     residenceHouseNumber: z
       .string(requiredOptions)
-      .min(1, { message: requiredMessage }),
+      .min(1, { message: requiredMessage })
+      .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
     residenceBuildingNumber: z.string().optional(),
-    residenceApartmentNumber: z.string().optional(),
+    residenceApartmentNumber: z
+      .string()
+      .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage })
+      .optional(),
     residencePostalCode: z
       .string(requiredOptions)
       .min(1, { message: requiredMessage })
@@ -136,15 +148,9 @@ export const individualEntrepreneurFormSchema = z
     // STEP 3
     // Individual entrepreneur information
     // General
-    payerAccountingNumber: z
-      .string(requiredOptions)
-      .min(1, { message: requiredMessage }),
-    ieRegistrationNumber: z
-      .string(requiredOptions)
-      .min(1, { message: requiredMessage }),
-    ieRegistrationDate: z
-      .string(requiredOptions)
-      .min(1, { message: requiredMessage }),
+    payerAccountingNumber: z.string().optional(),
+    ieRegistrationNumber: z.string().optional(),
+    ieRegistrationDate: z.string().optional(),
     ieRegistrationAuthority: z.string().optional(),
     ieCoreActivity: z.enum(coreActivityTypes, {
       required_error: requiredMessage,
@@ -239,7 +245,7 @@ export const individualEntrepreneurFormSchema = z
 
     signDocsOTP: z.string().length(6, { message: OTPLengthMessage }),
   })
-  .and(hasRecordedCriminalProsecutionsReasons)
+  .and(hasRecordedCriminalProsecutionsDiscriminatedUnion)
   .and(isParticipateInTrialDiscriminatedUnion)
   .and(isFinancialSanctionsAppliedLastYearDiscriminatedUnion)
   .and(isParticipateInBankruptEntitiesDiscriminatedUnion)

@@ -9,6 +9,7 @@ import { UseFormWatch } from 'react-hook-form'
 import FormInputWrapper from '../../../field-wrappers/form-input-wrapper'
 import FormRadioWrapper from '../../../field-wrappers/form-radio-wrapper'
 import FormSelectWrapper from '../../../field-wrappers/form-select-wrapper'
+import FormTextareaWrapper from '../../../field-wrappers/form-textarea-wrapper'
 
 interface Substep4Props {
   watch: UseFormWatch<FormSchema>
@@ -75,7 +76,7 @@ export default function Substep4({ watch }: Substep4Props) {
         />
         <>
           {hasCasesManagersCriminalResponsibility === 'да' && (
-            <FormInputWrapper
+            <FormTextareaWrapper
               name="hasCasesManagersCriminalResponsibilityReasons"
               label="Укажите причины"
             />
@@ -89,7 +90,7 @@ export default function Substep4({ watch }: Substep4Props) {
         />
         <>
           {isParticipateInTrial === 'да' && (
-            <FormInputWrapper
+            <FormTextareaWrapper
               name="isParticipateInTrialReasons"
               label="Укажите причины"
             />
@@ -103,7 +104,7 @@ export default function Substep4({ watch }: Substep4Props) {
         />
         <>
           {isFinancialSanctionsAppliedLastYear === 'да' && (
-            <FormInputWrapper
+            <FormTextareaWrapper
               name="isFinancialSanctionsAppliedLastYearReasons"
               label="Укажите причины"
             />
@@ -117,7 +118,7 @@ export default function Substep4({ watch }: Substep4Props) {
         />
         <>
           {isParticipateInBankruptEntities === 'да' && (
-            <FormInputWrapper
+            <FormTextareaWrapper
               name="isParticipateInBankruptEntitiesReasons"
               label="Укажите причины"
             />

@@ -215,9 +215,11 @@ export default function FourStepForm() {
       return
     } else if (currentSubStep !== 0) {
       setCurrentSubStep((substep) => substep - 1)
+      window.scrollTo(0, 0)
     } else if (currentSubStep === 0) {
       setCurrentStep((step) => step - 1)
       setCurrentSubStep(steps[currentStep - 1].getSubstepsQuantity() - 1)
+      window.scrollTo(0, 0)
     }
   }
 
