@@ -395,9 +395,9 @@ export const legalEntityFormSchema = z
 
     // STEP 2
     // Actual address
-    isActualAddressMatchLegal: z
-      .string(requiredOptions)
-      .min(1, { message: requiredMessage }),
+    isActualAddressMatchLegal: z.enum(yesNoArray, {
+      required_error: requiredMessage,
+    }),
     actualCountry: z
       .string(requiredOptions)
       .min(1, { message: requiredMessage })

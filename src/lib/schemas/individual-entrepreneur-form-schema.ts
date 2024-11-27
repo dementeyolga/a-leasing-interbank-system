@@ -88,8 +88,12 @@ export const individualEntrepreneurFormSchema = z
     identityDocumentIssueDate: z.string().optional(),
     identityDocumentValidThrough: z.string().optional(),
     identityDocumentIssuingAuthority: z.string().optional(),
-    isResidentOfBelarus: z.string().optional(),
-    isTaxResidentOfUSA: z.string().optional(),
+    isResidentOfBelarus: z.enum(yesNoArray, {
+      required_error: requiredMessage,
+    }),
+    isTaxResidentOfUSA: z.enum(yesNoArray, {
+      required_error: requiredMessage,
+    }),
 
     // STEP 2
     // Address information
@@ -104,7 +108,9 @@ export const individualEntrepreneurFormSchema = z
     registrationPostalCode: z.string().optional(),
 
     // Residence address
-    isResidenceAddressMatchRegistration: z.string().optional(),
+    isResidenceAddressMatchRegistration: z.enum(yesNoArray, {
+      required_error: requiredMessage,
+    }),
     residenceCountry: z
       .string(requiredOptions)
       .min(1, { message: requiredMessage }),
@@ -148,7 +154,9 @@ export const individualEntrepreneurFormSchema = z
       .min(1, { message: requiredMessage })
       .regex(REGEX_ONLY_DIGITS, { message: wrongFormatMessage }),
     ieOtherActivity: z.string().optional(),
-    isPublicOfficial: z.string().optional(),
+    isPublicOfficial: z.enum(yesNoArray, {
+      required_error: requiredMessage,
+    }),
 
     // Administrative and financial information
     servicingBank: z.enum(servicingBanks, {

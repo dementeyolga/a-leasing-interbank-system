@@ -50,8 +50,8 @@ export default function Step2({
   }, [sameAddress])
 
   useEffect(() => {
-    if (sameAddress === 'да') passLegalValuesToActualAddress()
-  }, [passLegalValuesToActualAddress, sameAddress])
+    if (checkSameAddress()) passLegalValuesToActualAddress()
+  }, [passLegalValuesToActualAddress, checkSameAddress])
 
   return (
     <Fragment>

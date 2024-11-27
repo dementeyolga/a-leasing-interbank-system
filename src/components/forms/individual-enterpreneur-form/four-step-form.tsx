@@ -63,6 +63,7 @@ const steps: {
     name: 'Адрес',
     fields: [
       [
+        'registrationCountry',
         'registrationSettlement',
         'registrationStreetType',
         'registrationStreetName',
