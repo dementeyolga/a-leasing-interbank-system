@@ -6,7 +6,7 @@ export const templateBeneficialOwnerData: LegalEntityFormSchema['beneficialOwner
     beneficialOwnerName: '',
     beneficialOwnerPatronymic: '',
     beneficialOwnerRole: '',
-    beneficialOwnerFraction: '',
+    beneficialOwnerFraction: 0,
     beneficialOwnerCitizenship: '',
     beneficialOwnerBirthdate: '',
     beneficialOwnerBirthPlace: '',
